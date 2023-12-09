@@ -9,4 +9,12 @@
   --color-gray-5: #6e7781;
   --color-gray-6: #57606a;
   --color-gray-7: #24292F;
+
+    /* font-size */
+    --font-xlarge: 3rem;     
+    --font-large: 2.5rem;
+    --font-medium: 1.5rem; 
+    --font-regular: 1.125rem; 
+    --font-small: 1rem;    
+    --font-micro: 0.875rem;
 }

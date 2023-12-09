@@ -4,15 +4,14 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const IMAGES: string[] = ['지진.png', '화산.png', '홍수.png'];
-const SLIDE_INTERVAL: number = 5000; // 이미지 전환 간격 (밀리초)
-const OPACITY_TRANSITION_DURATION: number = 1; // 투명도 전환 기간 (초)
+const SLIDE_INTERVAL: number = 5000;
+const OPACITY_TRANSITION_DURATION: number = 1;
 
 interface ImageSliderProps {
   images: string[];
   currentImageIndex: number;
 }
 
-// 이미지 슬라이더 컴포넌트
 const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentImageIndex }) => {
   const imageStyle: React.CSSProperties = {
     position: 'absolute',
@@ -43,16 +42,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentImageIndex }) 
 };
 
 
-// 홈
+///////////// Home /////////////
 const Home: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   useEffect(() => {
-    // 이미지 슬라이더를 위한 인터벌 설정
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % IMAGES.length);
     }, SLIDE_INTERVAL);
-    // 컴포넌트 언마운트 시 인터벌 제거
     return () => clearInterval(interval);
   }, []);
 
