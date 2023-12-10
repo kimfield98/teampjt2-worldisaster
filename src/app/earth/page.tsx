@@ -23,7 +23,7 @@ const Earth: React.FC<DisasterComponentProps> = ({ dID }) => {
   return (
     <div className="flex">
       <ThinSidebar />
-      <LeftSidebar dID={''} />
+      <LeftSidebar dID={dID} />
       <div className="flex-1 h-screen relative">
         <Navbar />
         <DynamicEarthCanvas />
