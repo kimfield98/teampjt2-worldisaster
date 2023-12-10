@@ -1,6 +1,8 @@
-"use client";
 import React from 'react';
 import dynamic from 'next/dynamic';
+import ThinSidebar from '../components/ThinSidebar';
+import LeftSidebar from '../components/LeftSidebar';
+import Navbar from '../components/Navbar';
 
 const LoadingComponent = () => (
   <div className="flex justify-center items-center h-screen bg-black">
@@ -13,11 +15,17 @@ const DynamicEarthCanvas = dynamic(
   { loading: () => <LoadingComponent /> }
 );
 
-///////////// Earth /////////////
-export default function Earth() {
+const Earth: React.FC = () => {
   return (
-    <div>
-      <DynamicEarthCanvas/>
+    <div className="flex">
+      <ThinSidebar />
+      <LeftSidebar />
+      <div className="flex-1 h-screen relative">
+        <Navbar />
+        <DynamicEarthCanvas />
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default Earth;

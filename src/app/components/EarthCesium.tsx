@@ -129,7 +129,7 @@ const EarthCesium = () => {
       });
 
       viewer.camera.setView({
-        destination: Cartesian3.fromDegrees(127.7703,35.4634, 10000000),
+        destination: Cartesian3.fromDegrees(127.7703,35.4634, 15000000),
         orientation: {
           heading: Math.toRadians(20),
           pitch: Math.toRadians(-40),
@@ -667,7 +667,7 @@ const EarthCesium = () => {
 
   return (
     <div>
-      <div className='h-[100vh]' ref={cesiumContainer}></div>
+      <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}></div>
     </div>
   );
 };
