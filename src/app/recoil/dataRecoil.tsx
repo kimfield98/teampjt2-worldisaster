@@ -106,9 +106,9 @@ export const mailAlarmState = atom<PostAlertInfo>({
   },
 });
 
-export const leftSidebarState = atom<boolean>({
+export const leftSidebarState = atom({
   key: 'leftSidebarState',
-  default: true,
+  default: { isOpen: false, activeIcon: 'none' },
 });
 
 export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {

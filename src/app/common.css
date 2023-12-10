@@ -41,6 +41,9 @@
   box-shadow: 3px 3px 10px var(--color-gray-2);
   cursor: pointer;
 }
+.thinSelectedIcon {
+  background-color: var(--color-gray-3);
+}
 
 /* Navbar */
 .navbar {

@@ -74,6 +74,7 @@ const ChatToggleComponent = () => {
                 <button
                   onClick={(e) => {
                       e.stopPropagation();
+                      setIsChatOpen(false);
                   }}
                   style={closeButtonStyle}
                 >

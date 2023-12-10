@@ -5,19 +5,24 @@ import { useRecoilState } from 'recoil';
 import { leftSidebarState, chatState } from '../recoil/dataRecoil';
 
 const ThinSidebar: React.FC = () => {
-  const [leftSidebar, setLeftSidebar] = useRecoilState(leftSidebarState);
+  const [{ isOpen, activeIcon }, setLeftSidebar] = useRecoilState(leftSidebarState);
   const [isChatOpen, setIsChatOpen] = useRecoilState(chatState);
 
   const handleLogoClick = (): void => {
-    setLeftSidebar(false);
+    setLeftSidebar({ isOpen: false, activeIcon: 'none' });
   };
 
-  const handleIconClick = (): void => {
-    setLeftSidebar(true);
+  const handleIconClick = (iconType: string): void => {
+    setLeftSidebar({ isOpen: true, activeIcon: iconType });
   };
 
   const toggleChat = () => {
-    setIsChatOpen(!isChatOpen); // 채팅 창을 여는 부분
+    setIsChatOpen(!isChatOpen);
+    setLeftSidebar({ isOpen: true, activeIcon: 'chat' });
+  };
+
+  const isSelectedIcon = (iconType: string) => {
+    return activeIcon === iconType ? 'thinSelectedIcon' : '';
   };
 
   return (
@@ -27,16 +32,16 @@ const ThinSidebar: React.FC = () => {
     </div>
 
     <div className='thinIconBox'>
-      <div className='thinIcon'>
-        <img src="/Thin/detail.svg" alt="File" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+      <div className={`thinIcon ${isSelectedIcon('detail')}`} onClick={() => handleIconClick('detail')}>
+        <img src="/Thin/detail.svg" alt="detail" className='w-5 h-5' style={{ fill: '#24292F' }}/>
       </div>
-      <div className='thinIcon' onClick={handleIconClick}>
-        <img src="/Thin/subscribe.svg" alt="Bell" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+      <div className={`thinIcon ${isSelectedIcon('subscribe')}`} onClick={() => handleIconClick('subscribe')}>
+        <img src="/Thin/subscribe.svg" alt="subscribe" className='w-5 h-5' style={{ fill: '#24292F' }}/>
       </div>
-      <div className='thinIcon' onClick={handleIconClick}>
-        <img src="/Thin/support.svg" alt="People" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+      <div className={`thinIcon ${isSelectedIcon('support')}`} onClick={() => handleIconClick('support')}>
+        <img src="/Thin/support.svg" alt="support" className='w-5 h-5' style={{ fill: '#24292F' }}/>
       </div>
-      <div className='thinIcon' onClick={handleIconClick}>
+      <div className={`thinIcon ${isSelectedIcon('upload')}`} onClick={() => handleIconClick('upload')}>
         <img src="/Thin/upload.svg" alt="upload" className='w-5 h-5' style={{ fill: '#24292F' }}/>
       </div>
       <div className='thinIcon' onClick={toggleChat}>
