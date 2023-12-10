@@ -1,37 +1,72 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { usePathname } from "next/navigation";
 import Cookies from 'js-cookie';
 import axios from 'axios'
 import { useRecoilState } from 'recoil';
-import { userLoginState } from '../recoil/dataRecoil';
+import { UserType, userLoginState } from '../recoil/dataRecoil';
 
+interface UserInfo {
+  name: string;
+  email: string;
+  provider: string;
+}
 
 ///////////// Navbar /////////////
 export const Navbar = () => {
-  const [loginState, setLoginState] = useRecoilState(userLoginState);
+  const [userInfo, setuserInfo] = useState<UserInfo[]>([]);
+  const pathname = usePathname();
+  const [loading, setLoading] = useState(false);
+  const [loginState, setLoginState] = useRecoilState<UserType>(userLoginState);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const settingButtonRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  // 토큰이 있으면 로그인 상태로 바꾸는 함수
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const token = Cookies.get('access-token');
-      if (token) {
-        try {
-          const response = await axios.get('https://worldisaster.com/api/auth/', {
+    const token = Cookies.get("access-token");
+    const getuserInfo = async () => {
+      try {
+        const response = await axios.get<UserInfo>(
+          "https://worldisaster.com/api/auth/info",
+          {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          setLoginState({ isLoggedIn: true, userInfo: response.data });
-          console.log('Log: Please provide login information', response);
-        } catch (error) {
-          console.error('Log: Error fetching user info:', error);
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data) {
+          setuserInfo([response.data]);
+        } else {
+          setuserInfo([]);
         }
+      } catch (error) {
+        console.log("Log: Failed to retrieve UserInfo data:", error);
+        setuserInfo([]);
+      }
+    };
+    getuserInfo();
+  }, [pathname]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = Cookies.get("access-token");
+        const response = await axios.get<UserInfo>("https://worldisaster.com/api/auth/info", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        );
+        console.log("Log: Successfully fetched subscription details:", response.data);
+      } catch (error) {
+        console.error("Log: Failed to fetch subscription details.", error);
       }
     };
 
-    fetchUserInfo();
-  }, [setLoginState]);
+    fetchData();
+  }, []);
+
 
   // 로그아웃 클릭 시 get 요청
   const handleLogout = async () => {
@@ -49,6 +84,60 @@ export const Navbar = () => {
     }
   };
 
+  const handleWithdrawal = async () => {
+    const isConfirmed = confirm("Are you sure you want to delete your account? We do more good with you on board.");
+    if (!isConfirmed) {
+      return;
+    }
+
+    const token = Cookies.get("access-token");
+
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        "https://worldisaster.com/api/auth/delete",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Log: Successfully deleted your account:", response.data);
+      // Check if there is a redirectUrl in the response
+      if (response.data.redirectUrl) {
+        window.location.href = response.data.redirectUrl; // Redirect to the specified URL
+      } else {
+        alert('Your account was successfully deleted. We hope to win you back soon.'); // Change confirmation message
+      }
+    } catch (error) {
+      console.error("Log: Failed to delete your account:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 모달을 토글하는 함수
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  // 외부 클릭 감지를 위한 함수
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node) && !settingButtonRef.current?.contains(event.target as Node)) {
+        setIsModalOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [modalRef, settingButtonRef]);
+
   return (
     <div className="navbar">
       <input
@@ -59,21 +148,45 @@ export const Navbar = () => {
       <div className='navIcon'>
         <img src="/Nav/light.svg" alt="Light" />
       </div>
-      <div className='navIcon'>
-        <img src="/Nav/setting.svg" alt="Setting" />
-      </div>
       <div>
         {loginState.isLoggedIn ? (
           <>
-            <span>
+            <div className='navIcon' ref={settingButtonRef} onClick={toggleModal}>
+              <img src="/Nav/setting.svg" alt="Setting" />
+            </div>
+            {isModalOpen && (
+              <div className="navSettingModal" ref={modalRef}>
+                <div className='cardTitle'>👤 Account Details 👤</div>
+                <div className="cardContent">
+                  {userInfo.map((data, index) => (
+                    <div key={index}>
+                      <p>Name: {data.name}</p>
+                      <p>Email: {data.email}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className='cardTitle'>👋 Account Delete 👋</div>
+                <div className="cardContent">
+                  <p>Are you sure you want to</p>
+                  <p>opt-out of WorlDisasters?</p>
+                  <p> There is no going back.</p>
+                  <div className='btnBox'>
+                    <button className="btn" onClick={handleWithdrawal} disabled={loading}>
+                      Yes, I'd like to delete anyways.
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div>
               <a onClick={handleLogout}>Logout</a>
-            </span>
+            </div>
           </>
         ) : (
           <>
-            <span>
+            <div>
               <a href="https://worldisaster.com/api/auth/google">Login</a>
-            </span>
+            </div>
           </>
         )}
       </div>

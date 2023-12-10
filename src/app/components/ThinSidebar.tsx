@@ -18,7 +18,7 @@ const ThinSidebar: React.FC = () => {
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
-    setLeftSidebar({ isOpen: true, activeIcon: 'chat' });
+    setLeftSidebar({ isOpen: false, activeIcon: 'chat' });
   };
 
   const isSelectedIcon = (iconType: string) => {

@@ -80,6 +80,18 @@
 .navIcon {
   cursor: pointer;
 }
+.navSettingModal {
+  position: absolute;
+  top: 80px;
+  right: 100px;
+  padding: 10px 5px;
+  width: 270px;
+  background-color: var(--color-gray-1);
+  border: 1px solid var(--color-gray-3);
+  border-radius: 8px;
+  text-align: center;
+  z-index: 100;
+}
 
 /* LeftSidebar */
 .leftSidebar {
