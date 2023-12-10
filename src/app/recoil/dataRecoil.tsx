@@ -82,6 +82,11 @@ export const userLoginState = atom<UserType>({
   },
 });
 
+export const chatState = atom<boolean>({
+  key: 'chatState',
+  default: false,
+});
+
 export const mailAlarmState = atom<PostAlertInfo>({
   key: 'mailAlarmState',
   default: {

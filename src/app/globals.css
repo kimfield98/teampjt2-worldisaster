@@ -41,6 +41,9 @@
   padding: 10px;
   border: 1px solid var(--color-gray-3);
 }
-.tabContent {
-  
+
+/* Alert */
+.Toastify__toast-container--top-right {
+  top: 3rem;
+  right: 0;
 }

@@ -7,6 +7,8 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo,userLoginState } from '../recoil/dataRecoil';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import AlertModule from './socket/AlertModule';
+import ChatToggleComponent from './socket/ChatToggle';
 
 
 ///////////// interface /////////////
@@ -107,7 +109,7 @@ const EarthCesium = () => {
         baseLayerPicker: false,
         fullscreenButton: false,
         vrButton: false,
-        geocoder: true,
+        geocoder: false,
         homeButton: true,
         infoBox: false,
         sceneModePicker: false,
@@ -666,9 +668,12 @@ const EarthCesium = () => {
   }, [search.get('lon'), search.get('lat'), search.get('height'), search.get('did')]);
 
   return (
-    <div>
-      <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}></div>
-    </div>
+    <>
+      <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}>
+        <AlertModule />
+        <ChatToggleComponent />
+      </div>
+    </>
   );
 };
 
