@@ -1,15 +1,25 @@
 "use client"
 
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { leftSidebarState } from '../recoil/dataRecoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { leftSidebarState, selectedDisasterIdState } from '../recoil/dataRecoil';
 import NationComponent from './card/NationComponent';
 import DisasterComponent from './card/DisasterComponent';
 import Support from './etc/Suppot';
 import Upload from './etc/Upload';
 
-const LeftSidebar: React.FC = () => {
+interface DetailProps {
+  dID: string;
+}
+
+const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
   const [leftSidebar, setLeftSidebar] = useRecoilState(leftSidebarState);
+  const selectedDisasterId = useRecoilValue(selectedDisasterIdState);
+  if (dID === null) return null;
+
+  const handleUploadComplete = (videoUrl: string) => {
+    console.log("Uploaded video URL:", videoUrl);
+  };
 
   return (
     <div className={`leftSidebar ${leftSidebar.isOpen ? 'block' : 'hidden'}`}>
@@ -22,7 +32,7 @@ const LeftSidebar: React.FC = () => {
       {leftSidebar.activeIcon === 'detail' && (
         <div>
           <NationComponent />
-          <DisasterComponent />
+          <DisasterComponent dID={selectedDisasterId} />
         </div>
       )}
       {leftSidebar.activeIcon === 'subscribe' && (
@@ -37,9 +47,7 @@ const LeftSidebar: React.FC = () => {
       )}
       {leftSidebar.activeIcon === 'upload' && (
         <div>
-          <Upload dID={''} onUploadComplete={function (videoUrl: string): void {
-            throw new Error('Function not implemented.');
-          } } />
+          <Upload dID={dID} onUploadComplete={handleUploadComplete} />
         </div>
       )}
     </div>

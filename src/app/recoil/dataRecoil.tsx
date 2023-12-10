@@ -64,6 +64,11 @@ export const dataState = atom<DataType[]>({
   default: [] as DataType[],
 });
 
+export const yearState = atom<number>({
+  key: 'yearState',
+  default: 2023 ,
+});
+
 export const filterState = atom<FilterType>({
   key: 'filterState',
   default: {
@@ -108,7 +113,12 @@ export const mailAlarmState = atom<PostAlertInfo>({
 
 export const leftSidebarState = atom({
   key: 'leftSidebarState',
-  default: { isOpen: false, activeIcon: 'none' },
+  default: { isOpen: true, activeIcon: 'none' },
+});
+
+export const selectedDisasterIdState = atom<string>({
+  key: 'selectedDisasterIdState',
+  default: '',
 });
 
 export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {

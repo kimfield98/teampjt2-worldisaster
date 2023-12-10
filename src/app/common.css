@@ -19,6 +19,10 @@
     --font-small: 1rem;    
     --font-micro: 0.875rem;
 }
+.darkMode {
+  --background-color: #1d1d1f;
+  --text-color: #FFFFFF;
+}
 
 /* ThinSidebar */
 .thinSidebar {
@@ -84,7 +88,7 @@
   padding: 20px;
   width: 500px;
   background-color: var(--color-gray-1);
-  /* border-right: 1px solid var(--color-gray-3); */
+  z-index: 30;
 }
 .leftLogoBox {
   display: flex;

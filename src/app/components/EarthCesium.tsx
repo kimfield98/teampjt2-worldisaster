@@ -1,17 +1,16 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
-import { Viewer,  Math, Cartesian3, Color, IonWorldImageryStyle, createWorldImageryAsync, CustomDataSource, ScreenSpaceEventHandler, defined, ScreenSpaceEventType, Ellipsoid, Entity, JulianDate, ConstantProperty,  HeightReference, DirectionalLight, NearFarScalar } from 'cesium';
+import { Viewer, Math, Cartesian3, Color, IonWorldImageryStyle, createWorldImageryAsync, CustomDataSource, ScreenSpaceEventHandler, defined,  ScreenSpaceEventType, Ellipsoid, Entity, JulianDate,  ConstantProperty, HeightReference, DirectionalLight, NearFarScalar, } from 'cesium';
 import { useRouter, useSearchParams } from 'next/navigation';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo,userLoginState } from '../recoil/dataRecoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, selectedDisasterIdState, userLoginState } from '../recoil/dataRecoil';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
 import ChatToggleComponent from './socket/ChatToggle';
 
-
-///////////// interface /////////////
+//////// interface ////////
 interface disasterInfoHover {
   dId: string;
   dType: string;
@@ -35,8 +34,6 @@ interface AnimationState {
   originalSize: number;
 }
 
-
-///////////// EarthCesium /////////////
 const EarthCesium = () => {
   const cesiumContainer = useRef(null);
   const router = useRouter();
@@ -53,9 +50,10 @@ const EarthCesium = () => {
   const [mailAlarmInfo,setMailAlarmInfo] = useRecoilState(mailAlarmState);
   const [alertData, setAlertData] = useState<PostAlertInfo[]>([]);
   const isLogin= useRecoilValue(userLoginState);
+  const setSelectedDisasterId = useSetRecoilState(selectedDisasterIdState);
+  
 
-
-  function getColorForDisasterType(type: string) {
+  function getColorForDisasterType(type: any) {
     switch (type) {
       case "Tropical Cyclone":
         return "RED";
@@ -131,11 +129,11 @@ const EarthCesium = () => {
       });
 
       viewer.camera.setView({
-        destination: Cartesian3.fromDegrees(127.7703,35.4634, 15000000),
+        destination: Cartesian3.fromDegrees(127.7703,35.4634, 10000000),
         orientation: {
           heading: Math.toRadians(20),
           pitch: Math.toRadians(-40),
-          roll: 0,
+          roll: 0
         }
       });
 
@@ -384,7 +382,7 @@ const EarthCesium = () => {
         tooltipContent.style.display = 'block';
         tooltipContent.style.bottom = `${window.innerHeight - movement.endPosition.y -50}px`;
         tooltipContent.style.left = `${movement.endPosition.x + window.innerWidth/3}px`;
-
+        // 툴팁 위치 조정
         adjustTooltipPosition(movement.endPosition);
       } else {
         tooltipContent.style.display = 'none';
@@ -428,7 +426,6 @@ const EarthCesium = () => {
         tooltip.style.display = 'block';
         tooltip.style.bottom = `${window.innerHeight - movement.endPosition.y -50}px`;
         tooltip.style.left = `${movement.endPosition.x + window.innerWidth/3}px`;
-  
         adjustTooltipPosition(movement.endPosition);
       } else {
         tooltip.style.display = 'none';
@@ -473,9 +470,7 @@ const EarthCesium = () => {
     let lastAddedEntity: Entity | null = null;
 
     handler.setInputAction((movement:any) => {
-
       const cartesian = viewer.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
-      
       if (cartesian) {
         const cartographic = Ellipsoid.WGS84.cartesianToCartographic(cartesian);
         const lon = Math.toDegrees(cartographic.longitude).toFixed(4);
@@ -488,7 +483,7 @@ const EarthCesium = () => {
           viewer.entities.remove(lastAddedEntity);
         }
 
-        lastAddedEntity = viewer.entities.add({
+          lastAddedEntity = viewer.entities.add({
           position: Cartesian3.fromDegrees(Number(lon), Number(lat)),
           point: {
             pixelSize: 10,
@@ -547,8 +542,9 @@ const EarthCesium = () => {
       const pickedObject = viewer.scene.pick(click.position);
       if (defined(pickedObject) && pickedObject.id && pickedObject.id.properties) {
         const properties = pickedObject.id.properties;
-
-        if (properties._type && properties._type._value === "disaster") {     
+        if (properties._type && properties._type._value === "disaster") {
+          const dID = properties._dID?._value;
+          setSelectedDisasterId(dID); 
           const disasterData = {
             dId: properties._dID?._value,
             dType: properties._dType?._value,
@@ -602,7 +598,6 @@ const EarthCesium = () => {
       if (growing) {
         currentSize += 1.5;
         if (currentSize >= maxSize) growing = false;
-      } else {
         currentSize -= 1.5;
         if (currentSize <= originalSize) growing = true;
       }
