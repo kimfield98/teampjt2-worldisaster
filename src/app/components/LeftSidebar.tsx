@@ -1,13 +1,15 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
+import { leftSidebarState } from '../recoil/dataRecoil';
 
 const LeftSidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [leftSidebar, setLeftSidebar] = useRecoilState(leftSidebarState);
 
   return (
-    <div style={{ width: '500px' }} className={`bg-white h-screen transition-transform duration-300 ${isOpen ? 'block' : 'hidden'}`}>
-      <button onClick={() => setIsOpen(false)}>X</button>
+    <div style={{ width: '500px' }} className={`bg-white h-screen transition-transform duration-300 ${leftSidebar ? 'block' : 'hidden'}`}>
+      <button onClick={() => setLeftSidebar(false)}>X</button>
       LeftSidebar Content
     </div>
   );
