@@ -4,3 +4,9 @@
 
 @import './reset.css';
 @import './common.css';
+
+:root {
+
+  background-color: var(--color-gray-1);
+  color: var(--color-black);
+}

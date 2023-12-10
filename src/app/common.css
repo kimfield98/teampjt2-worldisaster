@@ -40,3 +40,35 @@
   box-shadow: 3px 3px 10px var(--color-gray-2);
   cursor: pointer;
 }
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 2rem;
+  z-index: 10;
+  background-color: transparent;
+}
+.navSearchbar {
+  padding: 5px 10px;
+  padding-left: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-2);
+  background-image: url('/Nav/search.svg');
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: 10px center;
+  color: var(--color-gray-7);
+}
+.navSearchbar:focus {
+  outline: none;
+}
+.navIcon {
+  cursor: pointer;
+}
