@@ -7,6 +7,7 @@ import LeftSidebar from '../components/LeftSidebar';
 import Navbar from '../components/Navbar';
 import { useRecoilValue } from 'recoil';
 import { darkModeState } from '../recoil/dataRecoil';
+import RightSidebar from '../components/RightSidebar';
 
 const LoadingComponent = () => (
   <div className="flex justify-center items-center h-screen bg-black">
@@ -31,6 +32,7 @@ const Earth: React.FC = () => {
           <Navbar />
           <DynamicEarthCanvas />
         </div>
+        <RightSidebar />
       </div>
     </>
     

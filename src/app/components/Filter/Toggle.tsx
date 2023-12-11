@@ -24,16 +24,15 @@ export const Toggle = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <Switch isSelected={selectLive} onValueChange={handleLiveToggle} defaultSelected={selectLive} size="lg">
-        <p>
-          {selectLive ? (
-            <p className="text-black"><p>Viewing real-time disasters</p> {'(Click to see archives)'}</p>
-          ) : (
-            <p className="text-black"><p>Viewing historical archives</p> {'(Click to see real-time disasters)'}</p>
-          )}
-        </p>
-      </Switch>
+    <div className="p-5">
+      <Switch isSelected={selectLive} onValueChange={handleLiveToggle} defaultSelected={selectLive} size="lg"></Switch>
+      <div className="mt-3 px-1">
+        {selectLive ? (
+          <p><p>Viewing real-time disasters</p> {'(Click to see archives)'}</p>
+        ) : (
+          <p><p>Viewing historical archives</p> {'(Click to see real-time disasters)'}</p>
+        )}
+      </div>
     </div>
   );
 };

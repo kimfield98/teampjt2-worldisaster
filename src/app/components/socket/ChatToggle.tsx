@@ -3,12 +3,23 @@
 import React, { useEffect } from 'react';
 import ChatModule from './ChatModule';
 import { useRecoilState } from 'recoil';
-import { chatState, leftSidebarState } from '@/app/recoil/dataRecoil';
+import { chatState, leftSidebarState, rightSidebarState } from '@/app/recoil/dataRecoil';
 
 
 const ChatToggleComponent = () => {
     const [isChatOpen, setIsChatOpen] = useRecoilState(chatState);
     const [{ activeIcon }, setLeftSidebar] = useRecoilState(leftSidebarState);
+    const [, setRightSidebar] = useRecoilState(rightSidebarState);
+
+    // 채팅이 활성화될 때 필터를 비활성화
+    useEffect(() => {
+        if (isChatOpen) {
+        setRightSidebar(prevState => ({
+            ...prevState,
+            isOpen: false
+        }));
+        }
+    }, [isChatOpen, setRightSidebar]);
 
     /* 채팅 토글을 열면 스크롤 이동 */
     useEffect(() => {

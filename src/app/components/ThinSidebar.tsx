@@ -33,7 +33,7 @@ const ThinSidebar: React.FC = () => {
         src={isDarkMode ? "/Thin/darklogo.svg" : "/Thin/earth.png"}
         alt="Logo"
         className='w-8 h-8'/>
-    </div>``
+    </div>
 
     <div className='thinIconBox'>
       <div className={`thinIcon ${isSelectedIcon('detail')}`} onClick={() => handleIconClick('detail')}>

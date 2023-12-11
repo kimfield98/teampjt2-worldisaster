@@ -114,3 +114,28 @@
 .leftIcon {
   cursor: pointer;
 }
+
+/* rightSidebar */
+.rightSidebar {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  padding: 20px 0;
+  width: 300px;
+  background-color: var(--color-gray-1);
+  z-index: 30;
+}
+.rightLogoBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rightLogo {
+  margin-left: 20px;
+  color: var(--color-blue);
+  font-size: 21px;
+  font-weight: bold;
+}
+.leftIcon {
+  cursor: pointer;
+}

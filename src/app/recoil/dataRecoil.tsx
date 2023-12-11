@@ -116,6 +116,11 @@ export const leftSidebarState = atom({
   default: { isOpen: true, activeIcon: 'none' },
 });
 
+export const rightSidebarState = atom({
+  key: 'rightSidebarState',
+  default: { isOpen: true, activeIcon: 'none' },
+});
+
 export const selectedDisasterIdState = atom<string>({
   key: 'selectedDisasterIdState',
   default: '',

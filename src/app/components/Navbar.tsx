@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Cookies from 'js-cookie';
 import axios from 'axios'
 import { useRecoilState } from 'recoil';
-import { UserType, userLoginState, darkModeState } from '../recoil/dataRecoil';
+import { UserType, userLoginState, darkModeState, rightSidebarState, chatState } from '../recoil/dataRecoil';
 
 interface UserInfo {
   name: string;
@@ -16,13 +16,14 @@ interface UserInfo {
 ///////////// Navbar /////////////
 export const Navbar = () => {
   const [userInfo, setuserInfo] = useState<UserInfo[]>([]);
-  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const [loginState, setLoginState] = useRecoilState<UserType>(userLoginState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const settingButtonRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
+  const [rightSidebar, setRightSidebarState] = useRecoilState(rightSidebarState);
+  const [chat, setChat] = useRecoilState(chatState);
 
 
   useEffect(() => {
@@ -128,6 +129,19 @@ export const Navbar = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  useEffect(() => {
+    if (rightSidebar.isOpen) {
+      setChat(false);
+    }
+  }, [rightSidebar.isOpen, setChat]);
+
+  const toggleRightSidebar = () => {
+    setRightSidebarState(prevState => ({
+      ...prevState,
+      isOpen: !prevState.isOpen
+    }));
+  };
+
   return (
     <div className="navbar">
       <input
@@ -136,11 +150,16 @@ export const Navbar = () => {
         className='navSearchbar'
       />
       <div className='navIcon' onClick={toggleDarkMode}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-brightness-low-fill" viewBox="0 0 16 16">
-        <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8.5 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 11a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m5-5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m-11 0a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9.743-4.036a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m-7.779 7.779a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m7.072 0a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707M3.757 4.464a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707"/>
-      </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-brightness-low-fill" viewBox="0 0 16 16">
+          <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8.5 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 11a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m5-5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m-11 0a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9.743-4.036a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m-7.779 7.779a.5.5 0 1 1-.707-.707.5.5 0 0 1 .707.707m7.072 0a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707M3.757 4.464a.5.5 0 1 1 .707-.707.5.5 0 0 1-.707.707"/>
+        </svg>
       </div>
-      <div>
+      <div className='navIcon' onClick={toggleRightSidebar}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-filter-right" viewBox="0 0 16 16">
+          <path d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5m0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5"/>
+        </svg>
+      </div>
+      <div className='flex items-center gap-10px'>
         {loginState.isLoggedIn ? (
           <>
             <div className='navIcon' ref={settingButtonRef} onClick={toggleModal}>

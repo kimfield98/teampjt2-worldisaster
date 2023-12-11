@@ -28,6 +28,9 @@
 .darkMode .leftLogo {
   color: var(--color-gray-1);
 }
+.darkMode .rightLogo {
+  color: var(--color-gray-1);
+}
 
 /* card */
 .card {
