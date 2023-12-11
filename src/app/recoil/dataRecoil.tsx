@@ -8,6 +8,7 @@ export interface DataType{
   dSource: string;
   dStatus: string;
   dAlertLevel: string|null;
+  dCountryCode: string;
   dCountry: string;
   dDistrict: string|null;
   dType: string;
