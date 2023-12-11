@@ -18,7 +18,7 @@ export function MailAlertList() {
         const response = await axios('https://worldisaster.com/api/emailAlerts',{
           headers: {Authorization: `Bearer ${token}`}
         })
-        console.log("이용자의 알림정보를 받아옴",response.data);
+        console.log("alert sucess",response.data);
         setAlertData(response.data);
       } catch(error) {
         console.log("error",error);
@@ -35,7 +35,7 @@ export function MailAlertList() {
         headers: {Authorization: `Bearer ${token}`}
       })
       console.log('Alert deleted successfully', response.data);
-      setAlertInfo(prev => ({...prev, updated: new Date()}));
+      setAlertInfo(prev => ({ ...prev, updated: new Date() }));
       alert("삭제되었습니다.")
     } catch(error) {
       alert("삭제에 실패하였습니다.")
