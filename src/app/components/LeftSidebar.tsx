@@ -50,6 +50,13 @@ const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
           <Upload dID={dID} onUploadComplete={handleUploadComplete} />
         </div>
       )}
+      {leftSidebar.activeIcon === 'none' && (
+        <div>
+          <p className='flex flex-col justify-center items-center h-[70vh]'>
+            Click a disaster pin to continue.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
