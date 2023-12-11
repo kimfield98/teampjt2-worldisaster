@@ -156,4 +156,6 @@
   border: 1px solid var(--color-gray-3);
   border-radius: 8px;
   margin: 5px 30px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
