@@ -73,7 +73,7 @@ const Article: React.FC<ArticleProps> = ({ dID }) => {
               <Link className=' text-gray-400 inline' target='_blank' href={article.url} rel="noopener noreferrer">
               {isNaN(parseInt(dID.charAt(0))) ? (
                 <img 
-                  src={article.image || "https://via.placeholder.com/150x100.png?text=NO IMAGE"} 
+                  src={article.image? article.image:"https://via.placeholder.com/150x100.png?text=NOIMAGE"} 
                   alt="article" 
                   className="w-full object-cover"
                 />
