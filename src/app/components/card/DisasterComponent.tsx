@@ -21,9 +21,9 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='cardTitle'>재난 상세 정보</div>
       <div className="tabList">
-        <div className={`tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => selectTab(1)}>상세정보</div>
-        <div className={`tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => selectTab(2)}>기사</div>
-        <div className={`tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => selectTab(3)}>동영상</div>
+      <div className={`tab ${activeTab === 1 ? 'active tabBold' : ''}`} onClick={() => selectTab(1)}>상세정보</div>
+        <div className={`tab ${activeTab === 2 ? 'active tabBold' : ''}`} onClick={() => selectTab(2)}>기사</div>
+        <div className={`tab ${activeTab === 3 ? 'active tabBold' : ''}`} onClick={() => selectTab(3)}>동영상</div>
       </div>
       <div className='tabContentBox'>
         {activeTab === 1 &&

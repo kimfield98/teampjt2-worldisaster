@@ -34,6 +34,11 @@ const Support: React.FC = () => {
   const [currency, setCurrency] = useState<string>("USD");
   const [supportDetail, setSupportDetail] = useState<DataType | null>(null);
 
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  };
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -159,7 +164,7 @@ const Support: React.FC = () => {
                 key={index}
                 value={disaster.dID}
               >
-                {disaster.dTitle}
+                {truncateText(disaster.dTitle, 50)}
               </option>
             ))}
           </select>
