@@ -35,7 +35,7 @@ const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
       {leftSidebar.activeIcon === 'detail' && (
         <div>
           <TenDisaster />
-          <NationComponent dID={selectedDisasterId}/>
+          <NationComponent />
           <DisasterComponent dID={selectedDisasterId} />
         </div>
       )}
