@@ -2,19 +2,20 @@
 
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { leftSidebarState, chatState, darkModeState } from '../recoil/dataRecoil';
+import { leftSidebarState, chatState, darkModeState, userLoginState } from '../recoil/dataRecoil';
 
 const ThinSidebar: React.FC = () => {
   const [{ isOpen, activeIcon }, setLeftSidebar] = useRecoilState(leftSidebarState);
   const [isChatOpen, setIsChatOpen] = useRecoilState(chatState);
   const isDarkMode = useRecoilValue(darkModeState);
+  const userLogin = useRecoilValue(userLoginState);
 
   const handleIconClick = (iconType: string): void => {
+    if (!userLogin.isLoggedIn && iconType !== 'detail') {
+      alert('로그인하세요!');
+      return;
+    }
     setLeftSidebar({ isOpen: true, activeIcon: iconType });
-  };
-
-  const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
   };
 
   const isSelectedIcon = (iconType: string) => {

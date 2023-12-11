@@ -34,6 +34,9 @@
 .darkMode .rightLogo {
   color: var(--color-gray-1);
 }
+.darkMode .navSettingModal {
+  color: var(--color-gray-7);
+}
 
 /* card */
 .card {
