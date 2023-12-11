@@ -25,6 +25,7 @@ import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightS
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
+import { subscribe } from 'diagnostics_channel';
 
 //////// interface ////////
 interface disasterInfoHover {
@@ -586,7 +587,10 @@ const EarthCesium = () => {
 
     // 우클릭 이벤트
     handler.setInputAction((movement:any) => {
-      if (isLogin.isLoggedIn === false) return;
+      if (isLogin.isLoggedIn === false) {
+        alert('로그인하세요!');
+        return
+      };
       // 클릭한 스크린 좌표를 카르테시안 좌표로 변환
       const cartesian = viewer.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
       if (cartesian) {
@@ -601,6 +605,7 @@ const EarthCesium = () => {
         // 여기에 추가적인 로직을 구현할 수 있습니다, 예를 들어, UI 요소에 지역 이름을 표시
         setMailAlarmInfo( {...mailAlarmInfo, alertLongitude:Number(lon), alertLatitude:Number(lat), open:true});
         setShowAlertTab(true);
+        setLeftSidebarOpen({ isOpen: true, activeIcon: 'subscribe' });
 
         // 마지막으로 추가된 엔티티가 존재하면 삭제
         if (lastAddedEntity){

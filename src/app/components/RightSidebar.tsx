@@ -53,8 +53,8 @@ const RightSidebar: React.FC = () => {
         </div>
       )}
       <Toggle />
+      {!filter.selectedLive && <Dragbar />}
       <Tag />
-      <Dragbar />
     </div>
   );
 };
