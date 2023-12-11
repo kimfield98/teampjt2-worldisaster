@@ -7,6 +7,7 @@ import NationComponent from './card/NationComponent';
 import DisasterComponent from './card/DisasterComponent';
 import Support from './etc/Suppot';
 import Upload from './etc/Upload';
+import MailAlertModule from './socket/MailAlertModule';
 
 interface DetailProps {
   dID: string;
@@ -37,7 +38,7 @@ const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
       )}
       {leftSidebar.activeIcon === 'subscribe' && (
         <div>
-          구독 페이지 입니다.
+          <MailAlertModule/>
         </div>
       )}
       {leftSidebar.activeIcon === 'support' && (
