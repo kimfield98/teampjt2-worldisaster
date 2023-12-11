@@ -9,6 +9,7 @@ import Support from './etc/Suppot';
 import Upload from './etc/Upload';
 import MailAlertModule from './socket/MailAlertModule';
 import ChatModule from '../components/socket/ChatModule';
+import TenDisaster from './etc/Tendisaster';
 
 interface DetailProps {
   dID: string;
@@ -33,6 +34,7 @@ const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
       </div>
       {leftSidebar.activeIcon === 'detail' && (
         <div>
+          <TenDisaster />
           <NationComponent dID={selectedDisasterId} />
           <DisasterComponent dID={selectedDisasterId} />
         </div>
