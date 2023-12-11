@@ -21,11 +21,10 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, clickAlertInfo,leftSidebarState } from '../recoil/dataRecoil';
+import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, countryState, leftSidebarState, selectedDisasterIdState} from '../recoil/dataRecoil';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
-// import ChatToggleComponent from './socket/ChatToggle';
 
 //////// interface ////////
 interface disasterInfoHover {
@@ -80,7 +79,8 @@ const EarthCesium = () => {
   const dataFilter = useRecoilValue(filterState);
   const [isUserInput, setIsUserInput] = useState(true);
   const [data, setData] = useRecoilState(dataState);
-  const [dIdValue, setDIdValue] = useState<string>('');
+  const [countryData, setCountryData] = useRecoilState(countryState);
+  const [dIdValue, setDIdValue] = useRecoilState(selectedDisasterIdState);
   const [custom, setCustom] = useState<CustomDataSource | null>(null);
   const [clickedEntity, setClickedEntity] = useState(null);
   const [activeAnimation, setActiveAnimation] = useState<AnimationState | null>(null);
@@ -88,9 +88,8 @@ const EarthCesium = () => {
   const [mailAlarmInfo,setMailAlarmInfo] = useRecoilState(mailAlarmState);
   const [alertData, setAlertData] = useState<PostAlertInfo[]>([]);
   const isLogin= useRecoilValue(userLoginState);
-  const rightSidebarOpen = useRecoilValue(rightSidebarState);
-  const setClickalert = useRecoilState(clickAlertInfo);
-  const leftSidebarOpen = useRecoilValue(leftSidebarState);
+  const [rightSidebarOpen, setRightSidebarOpen] = useRecoilState(rightSidebarState);
+  const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
   
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
@@ -204,10 +203,12 @@ const EarthCesium = () => {
   //데이터 load로직
   const loadData = async () => {
     try {
-      const [oldData, newData] = await Promise.all([
+      const [oldData, newData, cData] = await Promise.all([
         axios.get('https://worldisaster.com/api/oldDisasters'),
         axios.get('https://worldisaster.com/api/newDisasters'),
+        axios.get('https://worldisaster.com/api/country'),
       ]);
+      setCountryData(cData.data)
       setData(oldData.data.concat(newData.data));
       setCustom(new CustomDataSource('Disasters'));
       console.log(`Log: Data load successful.`);
@@ -546,8 +547,8 @@ const EarthCesium = () => {
           tooltipLatLon.innerHTML = `<div style="width: 220px; padding: 5px; textAlign: center;">위도: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, 경도: ${longitude}°</div>`;
           tooltipLatLon.style.display = 'block';
           console.log(rightSidebarOpen)
-          tooltipLatLon.style.left = rightSidebarOpen.isOpen? String(window.innerWidth-tooltipLatLon.offsetWidth-400)+'px':String(window.innerWidth-tooltipLatLon.offsetWidth)+'px' ;
-          tooltipLatLon.style.top = String(window.innerHeight-tooltipLatLon.offsetHeight)+'px';
+          tooltipLatLon.style.left = rightSidebarOpen.isOpen? String(window.innerWidth-tooltipLatLon.offsetWidth-405)+'px':String(window.innerWidth-tooltipLatLon.offsetWidth-5)+'px' ;
+          tooltipLatLon.style.top = String(window.innerHeight-tooltipLatLon.offsetHeight-5)+'px';
         } else {
           tooltipLatLon.style.display = 'none';
           tooltip.style.display = 'none';
@@ -555,6 +556,15 @@ const EarthCesium = () => {
         }
       }
   }, ScreenSpaceEventType.MOUSE_MOVE);
+
+    // 캔버스에 mouseleave 이벤트 핸들러 추가
+    const canvas = viewer.scene.canvas;
+    const hideTooltips = () => {
+      tooltip.style.display = 'none';
+      tooltipContent.style.display = 'none';
+      tooltipLatLon.style.display = 'none';
+    };
+    canvas.addEventListener('mouseleave', hideTooltips);
 
     return () => {
       handler.destroy();
@@ -676,6 +686,7 @@ const EarthCesium = () => {
           };
           const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
           router.push(`/earth?lon=${clickDisasterData.dLongitude}&lat=${clickDisasterData.dLatitude}&height=${camaraHeight}&did=${clickDisasterData.dId}`, undefined);
+          setLeftSidebarOpen({isOpen: true, activeIcon:"detail"});
           setDIdValue(clickDisasterData.dId);
           setIsUserInput(true)
           setClickedEntity(pickedObject.id);
@@ -698,7 +709,7 @@ const EarthCesium = () => {
             edit: true,
           };
           if (clickAlertData.alertLatitude < -65 && clickAlertData.alertLatitude > 70 && clickAlertData.alertLongitude < -180 && clickAlertData.alertLongitude > 180) return;
-          setShowAlertTab(true);
+          setLeftSidebarOpen({isOpen: true, activeIcon:"subscribe"});
           setMailAlarmInfo(clickAlertData)
         }
       }
@@ -774,7 +785,6 @@ const EarthCesium = () => {
     <>
       <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}>
         <AlertModule />
-        {/* <ChatToggleComponent /> */}
       </div>
     </>
   );

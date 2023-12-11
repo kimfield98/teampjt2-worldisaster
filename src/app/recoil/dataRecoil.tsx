@@ -58,12 +58,46 @@ export interface PostAlertInfo {
   edit: boolean;
 }
 
+export interface ContryDataType{
+  objectId: number,
+  cCode: string,
+  cCountry: string,
+  cCountry_rw: string,
+  cCountry_other: string,
+  cContinent: string,
+  cTimeDifference: string,
+  cLocation: string,
+  cGeoCoordinates: string,
+  cSize: string,
+  cClimate: string,
+  cNaturalHazards: string,
+  cEnvironmentalIssues: string,
+  cPopulation: string,
+  cPopulationDistribution: string,
+  cUrbanPopulation: string,
+  cUrbanRate: string,
+  cMajorUrbanPopulation: string,
+  cCountryOfficialName: string,
+  cCapitalName: string,
+  cCapitalCoordinates: string,
+  cGovernmentType: string,
+  cEconomicOverview: string,
+  cGDP: string,
+  cRealGDPPerCapita: string,
+  }
+
 
 //////// atom ////////
 // 국가 데이터 상태 정의
 export const dataState = atom<DataType[]>({
   key: 'dataState',
   default: [] as DataType[],
+});
+
+//나라 데이터 상태 정의
+export const countryState = atom<ContryDataType[]>({
+  key: 'countryState',
+  default: [] as ContryDataType[],
 });
 
 // 국가 년도 상태 정의
