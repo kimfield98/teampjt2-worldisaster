@@ -21,7 +21,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, selectedDisasterIdState, userLoginState, clickAlertInfo } from '../recoil/dataRecoil';
+import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, clickAlertInfo,leftSidebarState } from '../recoil/dataRecoil';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
@@ -88,9 +88,10 @@ const EarthCesium = () => {
   const [mailAlarmInfo,setMailAlarmInfo] = useRecoilState(mailAlarmState);
   const [alertData, setAlertData] = useState<PostAlertInfo[]>([]);
   const isLogin= useRecoilValue(userLoginState);
+  const rightSidebarOpen = useRecoilValue(rightSidebarState);
   const setClickalert = useRecoilState(clickAlertInfo);
-
-
+  const leftSidebarOpen = useRecoilValue(leftSidebarState);
+  
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
     switch (type) {
@@ -472,6 +473,8 @@ const EarthCesium = () => {
               </table>
             </div>`;
           tooltipContent.style.display = 'block';
+          tooltipContent.style.left = leftSidebarOpen.isOpen? '566px':'66px' ;
+          tooltipContent.style.bottom = '0px';
           // 툴팁 위치 조정
         } else {
           tooltipContent.style.display = 'none';
@@ -520,6 +523,8 @@ const EarthCesium = () => {
             </div>`;
             
           tooltip.style.display = 'block';
+          tooltip.style.left = leftSidebarOpen.isOpen? '566px':'66px' ;
+          tooltip.style.bottom = '0px'
           // 툴팁 위치 조정
         } else {
           tooltip.style.display = 'none';
@@ -538,53 +543,23 @@ const EarthCesium = () => {
           const isLatitudeInRange = Number(latitude) >= -65 && Number(latitude) <= 70;
 
           // Update tooltipLatLon with conditional styling
-          tooltipLatLon.innerHTML = `위도: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, 경도: ${longitude}°`;
+          tooltipLatLon.innerHTML = `<div style="width: 220px; padding: 5px; textAlign: center;">위도: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, 경도: ${longitude}°</div>`;
           tooltipLatLon.style.display = 'block';
-          tooltipLatLon.style.left = `500px`;
-          tooltipLatLon.style.top = `200px`;
+          console.log(rightSidebarOpen)
+          tooltipLatLon.style.left = rightSidebarOpen.isOpen? String(window.innerWidth-tooltipLatLon.offsetWidth-400)+'px':String(window.innerWidth-tooltipLatLon.offsetWidth)+'px' ;
+          tooltipLatLon.style.top = String(window.innerHeight-tooltipLatLon.offsetHeight)+'px';
         } else {
           tooltipLatLon.style.display = 'none';
           tooltip.style.display = 'none';
           tooltipContent.style.display = 'none';
         }
       }
-    adjustTooltipPosition(movement.endPosition, tooltip, tooltipContent);
   }, ScreenSpaceEventType.MOUSE_MOVE);
-
-    // 툴팁 위치 조정 함수
-    const adjustTooltipPosition = (position: any, tooltipElement:any, tooltipContentElement:any) => {
-      const adjustPosition = (element:any) => {
-        const elementWidth = element.offsetWidth;
-        const elementHeight = element.offsetHeight;
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-    
-      let left = position.x+ window.innerWidth/3+10;
-      let top =  position.y- elementHeight;
-
-      // 오른쪽 가장자리 처리
-      if (left + elementWidth > windowWidth) {
-        left = windowWidth - elementWidth;
-      }
-
-      // 하단 가장자리 처리
-      if (top + elementHeight > windowHeight) {
-        top = windowHeight - elementHeight;
-      }
-        
-        // 툴팁 위치 설정
-        element.style.left = `${left}px`;
-        element.style.top = `${top}px`;
-      };
-        // 각 툴팁 요소에 대해 위치 조정
-    adjustPosition(tooltipElement);
-    adjustPosition(tooltipContentElement);
-  };
 
     return () => {
       handler.destroy();
     };
-  }, [viewerRef.current]);
+  }, [viewerRef.current,rightSidebarOpen,leftSidebarOpen]);
 
   // 우클릭 이벤트 관리
   useEffect(() => {
