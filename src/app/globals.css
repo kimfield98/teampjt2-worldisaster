@@ -13,14 +13,14 @@
 
 /* card */
 .card {
-  margin: 20px 0;
+  margin: 20px;
   padding: 10px;
   background-color: var(--color-white);
   box-shadow: 3px 3px 10px var(--color-gray-2);
   border-radius: 8px;
 }
 .card2 {
-  margin: 20px 0;
+  margin: 20px;
   padding: 10px;
   background-color: var(--color-white);
   border: 1px solid var(--color-gray-2);
@@ -73,6 +73,7 @@
 
 /* select */
 .select {
+  margin: 0 20px;
   padding: 5px 10px;
   border-radius: 8px;
   border: 1px solid var(--color-gray-2);
@@ -84,6 +85,7 @@
 
 /* input */
 .input {
+  margin: 0 20px;
   padding: 5px 10px;
   border-radius: 8px;
   border: 1px solid var(--color-gray-2);
@@ -91,4 +93,30 @@
 }
 .input:focus {
   outline: none;
+}
+
+/* scroll */
+@layer utilities {
+  .css-invert {
+    @apply invert-[50%] brightness-200;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--color-blue);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-gray-3);
+    border-radius: 50px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-2)
+  }
 }

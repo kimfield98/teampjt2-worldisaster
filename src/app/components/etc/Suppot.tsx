@@ -134,7 +134,7 @@ const Support: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className="custom-scrollbar h-screen overflow-auto">
       <div className="card">
         <div className="cardTitle">Support Page</div>
         <div className="cardContent">
@@ -219,7 +219,7 @@ const Support: React.FC = () => {
         )}
       </div>
     </div>
-    </>
+    </div>
   );
 };
 

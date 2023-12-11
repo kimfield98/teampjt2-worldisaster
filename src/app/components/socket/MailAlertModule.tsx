@@ -95,7 +95,7 @@ export const MailAlertModule = () => {
   return (
     <>
     {alertInfo.open && 
-      <div className="bg-slate-200 rounded-xl p-2 text-light-1 animate-slide-up">
+      <div className="bg-slate-200 rounded-xl p-2 text-light-1 animate-slide-up mx-3">
         <div className=' bg-white text-black rounded-xl p-2'>
             <div className="flex justify-between">
               <div className="text-heading3-bold">Alert</div>
