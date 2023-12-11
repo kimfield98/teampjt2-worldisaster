@@ -1,12 +1,13 @@
 "use client"
 
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { leftSidebarState, chatState } from '../recoil/dataRecoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { leftSidebarState, chatState, darkModeState } from '../recoil/dataRecoil';
 
 const ThinSidebar: React.FC = () => {
   const [{ isOpen, activeIcon }, setLeftSidebar] = useRecoilState(leftSidebarState);
   const [isChatOpen, setIsChatOpen] = useRecoilState(chatState);
+  const isDarkMode = useRecoilValue(darkModeState);
 
   const handleLogoClick = (): void => {
     setLeftSidebar({ isOpen: false, activeIcon: 'none' });
@@ -26,26 +27,39 @@ const ThinSidebar: React.FC = () => {
   };
 
   return (
-  <div className='thinSidebar'>
-    <div onClick={handleLogoClick}>
-      <img src="Thin/earth.png" alt="Logo" className='w-8 h-8'/>
-    </div>
+  <div className={`thinSidebar ${isDarkMode ? 'darkMode' : ''}`}>
+    <div className='thinLogo' onClick={handleLogoClick}>
+      <img
+        src={isDarkMode ? "/Thin/darklogo.svg" : "/Thin/earth.png"}
+        alt="Logo"
+        className='w-8 h-8'/>
+    </div>``
 
     <div className='thinIconBox'>
       <div className={`thinIcon ${isSelectedIcon('detail')}`} onClick={() => handleIconClick('detail')}>
-        <img src="/Thin/detail.svg" alt="detail" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#24292F" viewBox="0 0 16 16">
+          <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+        </svg>
       </div>
       <div className={`thinIcon ${isSelectedIcon('subscribe')}`} onClick={() => handleIconClick('subscribe')}>
-        <img src="/Thin/subscribe.svg" alt="subscribe" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#24292F" viewBox="0 0 16 16">
+          <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+        </svg>
       </div>
       <div className={`thinIcon ${isSelectedIcon('support')}`} onClick={() => handleIconClick('support')}>
-        <img src="/Thin/support.svg" alt="support" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#24292F" viewBox="0 0 16 16">
+          <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+        </svg>
       </div>
       <div className={`thinIcon ${isSelectedIcon('upload')}`} onClick={() => handleIconClick('upload')}>
-        <img src="/Thin/upload.svg" alt="upload" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#24292F" viewBox="0 0 16 16">
+          <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+        </svg>
       </div>
-      <div className='thinIcon' onClick={toggleChat}>
-        <img src="/Thin/chat.svg" alt="Chat" className='w-5 h-5' style={{ fill: '#24292F' }}/>
+      <div className={`thinIcon ${isSelectedIcon('chat')}`} onClick={toggleChat}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#24292F" viewBox="0 0 16 16">
+          <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+        </svg>
       </div>
     </div>
   </div>

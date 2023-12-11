@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Article from '../etc/Article';
 import Video from '../etc/Video';
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from '../../recoil/dataRecoil';
+
 
 interface DisasterComponentProps {
   dID: string;
@@ -8,13 +11,14 @@ interface DisasterComponentProps {
 
 const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   const [activeTab, setActiveTab] = useState(1);
+  const isDarkMode = useRecoilValue(darkModeState);
 
   const selectTab = (tabNumber: number) => {
     setActiveTab(tabNumber);
   };
 
   return (
-    <div className="card">
+    <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='cardTitle'>재난 상세 정보</div>
       <div className="tabList">
         <div className={`tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => selectTab(1)}>상세정보</div>

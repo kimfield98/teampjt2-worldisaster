@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRecoilValue } from 'recoil';
-import { userLoginState } from "../../recoil/dataRecoil";
+import { userLoginState, darkModeState } from "../../recoil/dataRecoil";
 
 interface VideoUploaderProps {
   dID: string;
@@ -14,6 +14,7 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
   const [fileError, setFileError] = useState<string>(""); // 파일 업로드 오류
   const [loading, setLoading] = useState<boolean>(false); // 로딩 상태 
   const { isLoggedIn } = useRecoilValue(userLoginState); // 로그인 상태
+  const isDarkMode = useRecoilValue(darkModeState); // 다크모드
 
   // 파일 드래그 오버 이벤트 핸들러
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -101,7 +102,7 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
             <div onDragOver={handleDragOver} onDrop={handleDrop}>
               {fileName ?
                 (
-                  <div className="card2">
+                  <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
                     Selected file: {fileName}
                     <div onClick={DropCancel}>
                       <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6 text-black hover:text-gray-1' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
@@ -111,9 +112,11 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
                   </div>
                 ) : (
                   fileError ? (
-                    <div className="card2">{fileError}</div>
+                    <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>{fileError}</div>
                   ) : (
-                    <div className="card2">Please drag a file here.</div>
+                    <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
+                      <div className="cardContent">Please drag a file here.</div>
+                    </div>
                   )
                 )
               }

@@ -121,6 +121,11 @@ export const selectedDisasterIdState = atom<string>({
   default: '',
 });
 
+export const darkModeState = atom({
+  key: 'darkModeState',
+  default: false,
+});
+
 export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {
   return <RecoilRoot>{children}</RecoilRoot>;
 }

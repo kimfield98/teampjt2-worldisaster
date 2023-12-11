@@ -94,6 +94,15 @@ export const MailAlertModule = () => {
 
   return (
     <>
+    <div className='card2 flex flex-col items-center'>
+      <p className='cardTitle'>🌐 Explore our interactive globe! 🌐</p>
+      <div className='cardContent flex flex-col items-center'>
+        <p>Just click on any country or region that interests you.</p>
+        <p>A subscription setup window will pop up, </p>
+        <p>allowing you to easily set and save your preferences.</p>
+        <p>Stay connected with our global service.</p>
+      </div>
+    </div>
     {alertInfo.open && 
       <div className="bg-slate-200 rounded-xl p-2 text-light-1 animate-slide-up mx-3">
         <div className=' bg-white text-black rounded-xl p-2'>

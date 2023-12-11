@@ -3,11 +3,12 @@
 import React, { useEffect } from 'react';
 import ChatModule from './ChatModule';
 import { useRecoilState } from 'recoil';
-import { chatState } from '@/app/recoil/dataRecoil';
+import { chatState, leftSidebarState } from '@/app/recoil/dataRecoil';
 
 
 const ChatToggleComponent = () => {
     const [isChatOpen, setIsChatOpen] = useRecoilState(chatState);
+    const [{ activeIcon }, setLeftSidebar] = useRecoilState(leftSidebarState);
 
     /* 채팅 토글을 열면 스크롤 이동 */
     useEffect(() => {
@@ -19,8 +20,11 @@ const ChatToggleComponent = () => {
                     lastMessage.scrollIntoView({ behavior: 'smooth' });
                 }
             }
-        } 
-    }, [isChatOpen]);
+        }
+        if (!isChatOpen && activeIcon === 'chat') {
+            setLeftSidebar(prev => ({ ...prev, activeIcon: '' }));
+        }
+    }, [isChatOpen, activeIcon, setLeftSidebar]);
 
     /* 채팅창 상단바 클릭용 함수 */
     const handleTopBarClick = (e: any) => {

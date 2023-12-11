@@ -19,10 +19,6 @@
     --font-small: 1rem;    
     --font-micro: 0.875rem;
 }
-.darkMode {
-  --background-color: #1d1d1f;
-  --text-color: #FFFFFF;
-}
 
 /* ThinSidebar */
 .thinSidebar {
@@ -31,6 +27,7 @@
   align-items: center;
   gap: 60px;
   padding: 24px 15px;
+  padding-left: 15px;
   background-color: var(--color-gray-1);
 }
 .thinIconBox {
@@ -109,8 +106,9 @@
   margin-bottom: 60px;
 }
 .leftLogo {
+  margin-left: 20px;
   color: var(--color-blue);
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
 }
 .leftIcon {

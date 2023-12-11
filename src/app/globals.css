@@ -6,9 +6,27 @@
 @import './common.css';
 
 :root {
-
   background-color: var(--color-gray-1);
   color: var(--color-black);
+}
+.darkMode {
+  background-color: var(--color-gray-7);
+  color: var(--color-white);
+}
+.darkMode .thinIcon,
+.darkMode .navSettingModal {
+  box-shadow: none;
+}
+.darkMode .card {
+  box-shadow: none !important;
+  color: var(--color-gray-7);
+}
+.darkMode .card2 {
+  box-shadow: none !important;
+  color: var(--color-gray-7);
+}
+.darkMode .leftLogo {
+  color: var(--color-gray-1);
 }
 
 /* card */
