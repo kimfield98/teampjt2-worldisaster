@@ -8,6 +8,7 @@ import DisasterComponent from './card/DisasterComponent';
 import Support from './etc/Suppot';
 import Upload from './etc/Upload';
 import MailAlertModule from './socket/MailAlertModule';
+import ChatModule from '../components/socket/ChatModule';
 
 interface DetailProps {
   dID: string;
@@ -49,6 +50,11 @@ const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
       {leftSidebar.activeIcon === 'upload' && (
         <div>
           <Upload dID={dID} onUploadComplete={handleUploadComplete} />
+        </div>
+      )}
+      {leftSidebar.activeIcon === 'chat' && (
+        <div>
+          <ChatModule />
         </div>
       )}
       {leftSidebar.activeIcon === 'none' && (

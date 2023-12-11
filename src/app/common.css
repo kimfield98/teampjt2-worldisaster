@@ -150,3 +150,10 @@
   margin-right: 15px;
   cursor: pointer;
 }
+
+/* chat */
+.chat {
+  border: 1px solid var(--color-gray-3);
+  border-radius: 8px;
+  margin: 5px 30px;
+}

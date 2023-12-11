@@ -162,24 +162,9 @@ const ChatModule = () => {
   }, [user, message, socketRef]);
 
   /* Component 반환값 CSS 적용 */
-
-  const chatModuleStyle: React.CSSProperties = {
-    display: 'flex', // 전체 모듈을 flex로 지정
-    flexGrow: 1, // 채팅 내역이 다이내믹하게 사이즈가 조정되도록
-    flexDirection: 'column', // 쌓이는 방향은 아래로
-    justifyContent: 'flex-start', // 객체는 위에서부터 쌓이도록
-    backgroundColor: '#181717d9',
-    color: '#f5f5f5',
-    padding: '10px',
-    margin: '0 auto 0 auto',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
-    maxWidth: '400px',
-    maxHeight: '600px',
-    width: '100%',
-    overflow: 'auto'
-  };
-
   const messageListStyle: React.CSSProperties = {
+    margin: '20px 0',
+    color: 'white',
     whiteSpace: 'pre-wrap',
     overflowY: 'scroll', // 공간 초과시 스크롤 적용
     flexGrow: 1, // 채팅 내역이 다이내믹하게 사이즈가 조정되도록
@@ -247,7 +232,7 @@ const ChatModule = () => {
   /* Component 전체 반환값 */
   return (
     <>
-      <div className='chat-module' style={chatModuleStyle}>
+      <div className='chat'>
         <div style={messageListStyle}>
           <MessageList
             toBottomHeight={'100%'}
