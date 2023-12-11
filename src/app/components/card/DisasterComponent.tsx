@@ -32,7 +32,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
           <div className='tabContent'>
             <div className='cardTitle'>재난 상세 정보</div>
             {dID && detailData? (
-              <table>
+            <table>
               <tbody>
                 <tr>
                   <td className="min-w-auto bold text-black mb-2">Country:</td>
