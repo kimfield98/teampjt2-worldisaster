@@ -1,5 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';
 import Link from 'next/link';
 
 interface ArticleProps {
@@ -56,26 +59,45 @@ const Article: React.FC<ArticleProps> = ({ dID }) => {
   }
 
   return (
-    <div>
-      {articles.map((article, index) => (
-        <div key={index}>
-          <div>
-            {isNaN(parseInt(dID.charAt(0))) ? <img src={article.image ? article.image : "https://via.placeholder.com/150x100.png?text=NO IMAGE"} alt="article" /> : null}
-            <div>
-              <div>{article.headline}</div>
+    <Swiper
+    pagination={true}
+    modules={[Pagination]}
+    className="mySwiper"
+    slidesPerView={1}
+  >
+    {articles.map((article, index) => (
+      <SwiperSlide className='border-4 rounded-xl border-black mx-auto my-2 mb-7' key={index}>
+        <div className="p-4 w-[80%] mx-auto bg-gray-200 shadow-lg rounded-lg overflow-hidden">
+          <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+            <div className=' bg-white p-2'>
+              <Link className=' text-gray-400 inline' target='_blank' href={article.url} rel="noopener noreferrer">
+              {isNaN(parseInt(dID.charAt(0))) ? (
+                <img 
+                  src={article.image || "https://via.placeholder.com/150x100.png?text=NO IMAGE"} 
+                  alt="article" 
+                  className="w-full object-cover"
+                />
+              ) : null}
+              </Link>
               <div>
-                <Link target='_blank' href={article.url}>Learn More
-                  <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5l7 7-7 7"></path>
-                  </svg>
-                </Link>
+              <div className="tracking-widest text-xs title-font font-medium mb-1">{article.headline}</div>
+                <div>
+                  <Link className='flex items-center text-gray-400' target='_blank' href={article.url} rel="noopener noreferrer">
+                    Learn More
+                    <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="M12 5l7 7-7 7"></path>
+                    </svg>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      ))}
-    </div>
+      </SwiperSlide>
+    ))}
+    <div className="swiper-pagination"></div>
+    </Swiper>
   );
 };
 

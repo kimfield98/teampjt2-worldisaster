@@ -37,6 +37,7 @@
     "recoil": "^0.7.7",
     "resium": "^1.17.2",
     "socket.io-client": "^4.7.2",
+    "swiper": "^11.0.5",
     "tailwindcss-animate": "^1.0.7",
     "video.js": "^8.6.1"
   },
