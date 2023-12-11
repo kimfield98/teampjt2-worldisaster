@@ -23,52 +23,42 @@ export const Navbar = () => {
   const settingButtonRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
+
   useEffect(() => {
-    const token = Cookies.get("access-token");
-    const getuserInfo = async () => {
-      try {
-        const response = await axios.get<UserInfo>(
-          "https://worldisaster.com/api/auth/info",
-          {
+    const fetchUserInfo = async () => {
+      const token = Cookies.get('access-token');
+      if (token) {
+        try {
+          const response = await axios.get('https://worldisaster.com/api/auth/', {
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.data) {
-          setuserInfo([response.data]);
-        } else {
-          setuserInfo([]);
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          setLoginState({ isLoggedIn: true, userInfo: response.data });
+          console.log('Log: Please provide login information', response);
+        } catch (error) {
+          console.error('Log: Error fetching user info:', error);
         }
-      } catch (error) {
-        console.log("Log: Failed to retrieve UserInfo data:", error);
-        setuserInfo([]);
-      }
-    };
-    getuserInfo();
-  }, [pathname]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = Cookies.get("access-token");
-        const response = await axios.get<UserInfo>("https://worldisaster.com/api/auth/info", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-        );
-        console.log("Log: Successfully fetched subscription details:", response.data);
-      } catch (error) {
-        console.error("Log: Failed to fetch subscription details.", error);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchUserInfo();
+  }, [setLoginState]);
 
 
-  // 로그아웃 클릭 시 get 요청
+  // const handleLogin = async () => {
+  //   try {
+  //     const currentUrl = window.location.href;
+  //     const encodedUrl = encodeURIComponent(currentUrl);
+  //     const response = await axios.get(`https://worldisaster.com/api/auth/google/url?preLoginUrl=${encodedUrl}`);
+  //     const { url } = response.data;
+  //     window.location.href = url; // 받아온 URL로 리다이렉트
+  //   } catch (error) {
+  //     console.error('Log: Error fetching auth URL:', error);
+  //   }
+  // };
+
+
   const handleLogout = async () => {
     const token = Cookies.get('access-token');
     try {
@@ -84,17 +74,15 @@ export const Navbar = () => {
     }
   };
 
+
   const handleWithdrawal = async () => {
     const isConfirmed = confirm("Are you sure you want to delete your account? We do more good with you on board.");
     if (!isConfirmed) {
       return;
     }
-
     const token = Cookies.get("access-token");
-
     try {
       setLoading(true);
-
       const response = await axios.post(
         "https://worldisaster.com/api/auth/delete",
         {},
@@ -104,13 +92,11 @@ export const Navbar = () => {
           },
         }
       );
-
       console.log("Log: Successfully deleted your account:", response.data);
-      // Check if there is a redirectUrl in the response
       if (response.data.redirectUrl) {
-        window.location.href = response.data.redirectUrl; // Redirect to the specified URL
+        window.location.href = response.data.redirectUrl;
       } else {
-        alert('Your account was successfully deleted. We hope to win you back soon.'); // Change confirmation message
+        alert('Your account was successfully deleted. We hope to win you back soon.');
       }
     } catch (error) {
       console.error("Log: Failed to delete your account:", error);
@@ -119,19 +105,18 @@ export const Navbar = () => {
     }
   };
 
-  // 모달을 토글하는 함수
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // 외부 클릭 감지를 위한 함수
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node) && !settingButtonRef.current?.contains(event.target as Node)) {
         setIsModalOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
