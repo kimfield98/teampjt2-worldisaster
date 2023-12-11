@@ -26,10 +26,10 @@ const Earth: React.FC = () => {
   return (
     <>
       <div className={`flex ${isDarkMode ? 'darkMode' : ''}`}>
+        <Navbar />
         <ThinSidebar />
         <LeftSidebar dID={''} />
         <div className="flex-1 h-screen relative">
-          <Navbar />
           <DynamicEarthCanvas />
         </div>
         <RightSidebar />
