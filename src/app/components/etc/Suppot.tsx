@@ -134,7 +134,7 @@ const Support: React.FC = () => {
   }, []);
 
   return (
-    <div className="custom-scrollbar h-screen overflow-auto">
+    <div>
       <div className="card">
         <div className="cardTitle">Support Page</div>
         <div className="cardContent">
@@ -151,7 +151,7 @@ const Support: React.FC = () => {
             id="1"
             value={selecteddID}
             onChange={(event) => setSelecteddID(event.target.value)}
-            className="select"
+            className="select ml-[20px]"
           >
             {selecteddID === "" ? <option>Choose a disaster to donate to.</option> : null}
             {disasters.map((disaster, index) => (
@@ -184,14 +184,14 @@ const Support: React.FC = () => {
             }
           </div>
 
-          <input className="input mr-1" type="text" name="amount" id="amount" placeholder="0.00" onChange={(event) => setAmount(event.target.value)} />
+          <input className="input ml-[20px]" type="text" name="amount" id="amount" placeholder="0.00" onChange={(event) => setAmount(event.target.value)} />
           <select
             aria-label="Choose Currency"
             id="currency"
             name="currency"
             value={currency}
             onChange={(event) => setCurrency(event.target.value)}
-            className="select"
+            className="select ml-[10px]"
           >
             <option>USD</option>
             <option>EUR</option>

@@ -58,7 +58,7 @@
   right: 0;
   padding: 10px 17px;
   z-index: 500;
-  background-color: transparent;
+  background-color: var(--color-gray-1);
 }
 .navLogoBox{
   display: flex;
@@ -77,6 +77,11 @@
 }
 .navSearchbar:focus {
   outline: none;
+}
+@media screen and (max-width: 768px) {
+  .navSearchbar {
+    display: none;
+  }
 }
 .navIcon {
   cursor: pointer;
@@ -127,7 +132,7 @@
   flex-direction: column;
   margin-top: 50px;
   padding: 20px 0;
-  width: 300px;
+  min-width: 300px;
   background-color: var(--color-gray-1);
   z-index: 30;
 }
@@ -142,6 +147,7 @@
   font-size: 21px;
   font-weight: bold;
 }
-.leftIcon {
+.rightIcon {
+  margin-right: 15px;
   cursor: pointer;
 }
