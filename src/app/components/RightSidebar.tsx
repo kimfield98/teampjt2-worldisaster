@@ -1,20 +1,27 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { rightSidebarState, darkModeState, filterState } from '../recoil/dataRecoil';
 import Toggle from './Filter/Toggle';
+import Tag from './Filter/Tag';
+import Dragbar from './Filter/Dragbar';
 
 const RightSidebar: React.FC = () => {
   const [rightSidebar, setrightSidebar] = useRecoilState(rightSidebarState);
   const isDarkMode = useRecoilValue(darkModeState);
   const filter = useRecoilValue(filterState);
+  const [isCardVisible, setIsCardVisible] = useState(false);
   
   const toggleRightSidebar = () => {
     setrightSidebar(prevState => ({
       ...prevState,
       isOpen: !prevState.isOpen
     }));
+  };
+
+  const toggleCardVisibility = () => {
+    setIsCardVisible(prevState => !prevState);
   };
 
   return (
@@ -27,14 +34,27 @@ const RightSidebar: React.FC = () => {
           </svg>
         </div>
       </div>
-      <div>
-      <Toggle />
+      <div className='card2'>
+      <p className='font-bold mb-3'>Find information with our filters! 🔍</p>
+      <p>We offer:</p>
+      <p className='my-1'>
+        <p>1 Ongoing/Past disaster data</p>
+        <p>2 Data by disaster type</p>
+        <p>3 Annual disaster trends</p>
+      </p>
+      <p>
+        <span>Click below for details.</span>
+        <span className='font-bold underline ml-1 cursor-pointer' onClick={toggleCardVisibility}>Button</span>
+      </p>
       </div>
-      {filter.selectedLive ? (
-        <div className='card2'>ongoing</div>
-      ) : (
-        <div className='card2'>past</div>
+      {isCardVisible && (
+        <div className='card2'>
+          여기 핀 정보 보여줄게
+        </div>
       )}
+      <Toggle />
+      <Tag />
+      <Dragbar />
     </div>
   );
 };

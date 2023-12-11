@@ -24,13 +24,13 @@ export const Toggle = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="card2">
       <Switch isSelected={selectLive} onValueChange={handleLiveToggle} defaultSelected={selectLive} size="lg"></Switch>
-      <div className="mt-3 px-1">
+      <div className="mt-2 px-1">
         {selectLive ? (
-          <p><p>Viewing real-time disasters</p> {'(Click to see archives)'}</p>
+          <p><p>Viewing <b>real-time</b> disasters</p> {'(Click to see archives)'}</p>
         ) : (
-          <p><p>Viewing historical archives</p> {'(Click to see real-time disasters)'}</p>
+          <p><p>Viewing historical <b>archives</b></p> {'(Click to see real-time disasters)'}</p>
         )}
       </div>
     </div>

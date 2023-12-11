@@ -16,7 +16,7 @@ export const Dragbar = () => {
   };
 
   return (
-    <div className="max-w-full p-3">
+    <div className="card2">
       <Slider
         label="Slide to see disasters by year."
         size="sm"
@@ -28,7 +28,7 @@ export const Dragbar = () => {
           const year = Array.isArray(newYear) ? newYear[0] : newYear;
           handleYearChange(year);
         }}
-        className="max-w-md"
+        className="px-2"
       />
     </div>
   );
