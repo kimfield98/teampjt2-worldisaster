@@ -25,7 +25,7 @@ import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightS
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
-import ChatToggleComponent from './socket/ChatToggle';
+// import ChatToggleComponent from './socket/ChatToggle';
 
 //////// interface ////////
 interface disasterInfoHover {
@@ -774,7 +774,7 @@ const EarthCesium = () => {
     <>
       <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}>
         <AlertModule />
-        <ChatToggleComponent />
+        {/* <ChatToggleComponent /> */}
       </div>
     </>
   );
