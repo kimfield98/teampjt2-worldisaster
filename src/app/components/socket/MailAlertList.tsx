@@ -44,11 +44,11 @@ export function MailAlertList() {
   };
 
   return (
-    <div className=' border-white border-5 divide-gray-300 w-full rounded-xl mt-2 overflow-hidden'>
+    <div className='border-white border-5 divide-gray-300 w-full rounded-xl mt-2 overflow-hidden'>
     <table className='w-full'>
       <thead className="bg-gray-50">
           <tr>
-              <th className="p-2 text-xs text-gray-500">
+              <th className="pl-2 p-2 text-xs text-gray-500">
                   ID
               </th>
               <th className="p-2 text-xs text-gray-500">

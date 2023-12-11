@@ -103,56 +103,61 @@ export const MailAlertModule = () => {
         <p>Stay connected with our global service.</p>
       </div>
     </div>
-    {alertInfo.open && 
-      <div className="bg-slate-200 rounded-xl p-2 text-light-1 animate-slide-up mx-3">
-        <div className=' bg-white text-black rounded-xl p-2'>
+    <div className=''>
+      {alertInfo.open && 
+        <div className='card2'>
             <div className="flex justify-between">
-              <div className="text-heading3-bold">Alert</div>
-              <div className="text-heading3-bold cursor-pointer" onClick={() => setAlertInfo({...alertInfo, open: false})}>X</div>
+              <div className="cardTitle">Alert</div>
+              <div className="cardTitle cursor-pointer" onClick={() => setAlertInfo({...alertInfo, open: false})}>X</div>
             </div>
-            <div className="mt-2 flex gap-6">
-              <div className="text-heading5-bold">Latitude: {alertInfo.alertLatitude}</div>
-              <div className="text-heading5-bold">Longitude: {alertInfo.alertLongitude}</div>
+            <div className="flex gap-6 ml-3">
+              <div className='flex items-center'><p className='mr-1 font-bold'>Latitude</p><p>{alertInfo.alertLatitude}</p></div>
+              <div className='flex items-center'><p className='mr-1 font-bold'>Longitude</p><p>{alertInfo.alertLongitude}</p></div>
             </div>
-            <div className="mt-2">Location
-              <div className=" flex justify-center gap-6">
-                <div className="text-heading5">{isLoaded ? "Searching...":placeName}</div>
+            <div>
+              <p className='font-bold mt-3 ml-3'>Location</p>
+              <div className="card2">
+                <div>{isLoaded ? "Searching...":placeName}</div>
               </div>
             </div>
-            <div className="mt-2">Radius
-              <div className=" flex justify-center gap-6 flex-col items-center">
+            <div>
+              <p className='font-bold my-3 ml-3'>Radius</p>
+              <div className="flex justify-center gap-6 flex-col items-center">
                 <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange}/>
-                <label className='text-heading5-bold'>{alertrange}km</label>
+                <label>{alertrange}km</label>
               </div>
             </div>
-            <div className="mt-2">Level
+            <div className="mt-2">
+              <p className='font-bold my-3 ml-3'>Level</p>
               <div className="flex justify-center gap-6">
-                <div className='text-heading5'>
-                  <span>Red: </span>
+                <div>
+                  <span className='font-bold'>Red: </span>
                   <button className="levelbtn" onClick={()=>{setAlertLevelRed(!alertLevelRed)}} style={{ backgroundColor: alertLevelRed? '#006FEE' :'#eee', marginRight:alertLevelRed? '6.59px' :'0px'  }}>{alertLevelRed? "ON":"OFF"}</button>
                 </div>
-                <div className='text-heading5'>
-                  <span>Orange: </span>
+                <div>
+                  <span className='font-bold'>Orange: </span>
                   <button className="levelbtn" onClick={()=>{setAlertLevelOrange(!alertLevelOrange)}} style={{ backgroundColor: alertLevelOrange? '#006FEE' :'#eee', marginRight:alertLevelOrange? '6.59px' :'0px'  }}>{alertLevelOrange? "ON":"OFF"}</button>
                 </div>
-                <div className='text-heading5'>
-                  <span>Green: </span>
+                <div>
+                  <span className='font-bold'>Green: </span>
                   <button className="levelbtn" onClick={()=>{setAlertLevelGreen(!alertLevelGreen)}} style={{ backgroundColor: alertLevelGreen? '#006FEE' :'#eee', marginRight:alertLevelGreen? '6.59px' :'0px'  }}>{alertLevelGreen? "ON":"OFF"}</button>
                 </div>
               </div>
             </div>
             <div className="mt-2">
-              <div className="text-heading5-bold">Memo</div>
-              <textarea className="w-full h-full min-h-unit-20 max-h-40 border-1 border-dark-2 rounded-xl p-2 " placeholder="Please enter a memo."></textarea>
+              <div className='font-bold my-3 ml-3'>Memo</div>
+              <textarea className="w-full h-full min-h-unit-20 max-h-40 border-1 border-dark-2 rounded-xl p-2 ml-3" placeholder="Please enter a memo."></textarea>
             </div>
-            <div className="btnBox">
+            <div className="btnBox mb-3">
               <button className="btn" onClick={createHandeler}>
                 Create
               </button>
             </div>
+          <MailAlertList />
         </div>
-        <MailAlertList />
-      </div>}
+      }
+    </div>
+    
     </>
   );
 
