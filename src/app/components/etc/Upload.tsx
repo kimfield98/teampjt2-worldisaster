@@ -99,6 +99,12 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
     <>
       {isLoggedIn ? (
           <div>
+            <div className="card2 flex flex-col items-center justify-center">
+              <p>Become a reporter for worldisaster. 🎥</p>
+              <p>You can capture and upload the local situation.</p>
+              <p>Files are limited to a size of 10MB.</p>
+              <p>Drag or select the file, then press the upload button.</p>
+            </div>
             <div onDragOver={handleDragOver} onDrop={handleDrop}>
               {fileName ?
                 (

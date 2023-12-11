@@ -27,29 +27,30 @@ export default function TenDisaster() {
   };
 
   return (
-    <div className="bg-gray-200 p-4 rounded-lg">
-      <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-800 dark:bg-gray-700">
+    <div className="card">
+      <div className="cardTitle mt-1">실시간 재난 리스트</div>
+      <div className="custom-scrollbar h-screen overflow-auto relative h-[150px]">
+        <table className="w-full text-left">
+          <thead className="uppercase">
             <tr>
-              <th scope="col" className="py-3 px-6">Rank</th>
-              <th scope="col" className="py-3 px-6">country</th>
-              <th scope="col" className="py-3 px-6">Type</th>
-              <th scope="col" className="py-3 px-6">Time</th>
+              <th scope="col" className="py-1 pl-3">Rank</th>
+              <th scope="col" className="py-1">country</th>
+              <th scope="col" className="py-1">Type</th>
+              <th scope="col" className="py-1">Time</th>
             </tr>
           </thead>
           <tbody>
             {sortedDisasters.map((item, index) => (
               <>
                 <tr key={item.dID} onClick={() => handleRowClick(item.dID)} className="cursor-pointer">
-                  <td className="py-4 px-6">{index + 1}</td>
-                  <td className="py-4 px-6">{item.dCountry}</td>
-                  <td className="py-4 px-6">{item.dType}</td>
-                  <td className="py-4 px-6">{formatDateTime(item.dDate)}</td>
+                  <td className="py-1 pl-5">{index + 1}</td>
+                  <td className="py-1">{item.dCountry}</td>
+                  <td className="py-1">{item.dType}</td>
+                  <td className="py-1">{formatDateTime(item.dDate)}</td>
                 </tr>
                 {selectedId === item.dID && (
                   <tr>
-                    <td colSpan={4} className="py-4 px-6 bg-gray-100">
+                    <td colSpan={4} className="p-5 bg-gray-100">
                       {item.dTitle || 'No Title'}
                     </td>
                   </tr>
@@ -60,5 +61,6 @@ export default function TenDisaster() {
         </table>
       </div>
     </div>
+    
   );
 }

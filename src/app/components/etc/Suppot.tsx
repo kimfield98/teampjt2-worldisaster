@@ -207,23 +207,38 @@ const Support: React.FC = () => {
         </div>
       </div>
       <div className="card">
-      <div className="cardTitle">History</div>
-      <div className="card2">
-        {donationHistory.length === 0 ? (
-          <p>No donation records found yet.</p>
-        ) : (
-          donationHistory.map((donation, index) => (
-            <div key={index}>
-              <p>{donation.dTitle}</p>
-              <p>Amount: {donation.amount} {donation.currency}</p>
-              <p>Country: {donation.targetCountry}</p>
-              <p>Disaster Type: {donation.dType}</p>
-              <p>Alert Level: {donation.dAlertLevel}</p>
-            </div>
-          ))
-        )}
+        <div className="cardTitle">History</div>
+        <div className="custom-scrollbar h-screen overflow-auto relative h-[150px]">
+          <table className="w-full text-left">
+            <thead className="uppercase">
+              <tr>
+                <th scope="col" className="py-1 pl-3">Title</th>
+                <th scope="col" className="py-1">Amount</th>
+                <th scope="col" className="py-1">Country</th>
+                <th scope="col" className="py-1">Disaster Type</th>
+                <th scope="col" className="py-1">Alert Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              {donationHistory.length === 0 ? (
+                <tr>
+                  <td className="card2">No donation records found yet.</td>
+                </tr>
+              ) : (
+                donationHistory.map((donation, index) => (
+                  <tr key={index}>
+                    <td className="py-1 pl-5">{donation.dTitle}</td>
+                    <td className="py-1">{donation.amount} {donation.currency}</td>
+                    <td className="py-1">{donation.targetCountry}</td>
+                    <td className="py-1">{donation.dType}</td>
+                    <td className="py-1">{donation.dAlertLevel}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
