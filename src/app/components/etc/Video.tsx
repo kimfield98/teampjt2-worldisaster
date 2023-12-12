@@ -53,7 +53,7 @@ export default function Video() {
   }, [currentVideoUrl]);
 
   return (
-    <div className="mx-60 snap-center w-80 bg-blue-500 flex-shrink-0">
+    <div className=" h-80 bg-blue-500 ">
       <video controls ref={videoRef} className="video-js" />
     </div>
   );
