@@ -79,7 +79,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
         {activeTab === 3 && dID &&
           <div className='tabContent'>
-            <Video dID={dID}/>
+            <Video/>
           </div>
         }
       </div>
