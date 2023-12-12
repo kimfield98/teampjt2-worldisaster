@@ -199,6 +199,11 @@ export const clickAlertInfo = atom({
   }
 })
 
+export const selectedPinState = atom({
+  key: 'selectedPinState', // 고유한 키
+  default: null, // 기본값
+});
+
 export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {
   return <RecoilRoot>{children}</RecoilRoot>;
 }

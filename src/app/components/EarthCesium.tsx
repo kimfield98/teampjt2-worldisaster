@@ -25,11 +25,11 @@ import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightS
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
-import { subscribe } from 'diagnostics_channel';
+import { selectedPinState } from '../recoil/dataRecoil';
 
 //////// interface ////////
 interface disasterInfoHover {
-  dId: string;
+  dID: string;
   dType: string;
   dCountry: string;
   dStatus: string;
@@ -91,6 +91,7 @@ const EarthCesium = () => {
   const isLogin= useRecoilValue(userLoginState);
   const [rightSidebarOpen, setRightSidebarOpen] = useRecoilState(rightSidebarState);
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
+  const setSelectedPinState = useSetRecoilState(selectedPinState);
   
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
@@ -483,7 +484,7 @@ const EarthCesium = () => {
         if(properties._type && properties._type._value === "disaster") {
 
           const tDisasterData: disasterInfoHover = {
-            dId: properties._dID?._value,
+            dID: properties._dID?._value,
             dType: properties._dType?._value,
             dCountry: properties._dCountry?._value,
             dStatus: properties._dStatus?._value,
@@ -674,9 +675,11 @@ const EarthCesium = () => {
       if (defined(pickedObject) && pickedObject.id && pickedObject.id.properties) {
         const properties = pickedObject.id.properties;
         // 'alert' 타입인 경우 처리하지 않음
-        if (properties._type && properties._type._value === "disaster") {     
+        if (properties._type && properties._type._value === "disaster") {   
+          const dID = properties._dID?._value;
+          setSelectedPinState(dID); // 리코일 상태 업데이트  
           const clickDisasterData = {
-            dId: properties._dID?._value,
+            dID: properties._dID?._value,
             dType: properties._dType?._value,
             dCountry: properties._dCountry?._value,
             dStatus: properties._dStatus?._value,
@@ -688,9 +691,10 @@ const EarthCesium = () => {
             objectId: properties._objectId?._value,
           };
           const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
-          router.push(`/earth?lon=${clickDisasterData.dLongitude}&lat=${clickDisasterData.dLatitude}&height=${camaraHeight}&did=${clickDisasterData.dId}`, undefined);
+          
+          router.push(`/earth?lon=${clickDisasterData.dLongitude}&lat=${clickDisasterData.dLatitude}&height=${camaraHeight}&did=${clickDisasterData.dID}`, undefined);
           setLeftSidebarOpen({isOpen: true, activeIcon:"detail"});
-          setDIdValue(clickDisasterData.dId);
+          setDIdValue(clickDisasterData.dID);
           setIsUserInput(true)
           setClickedEntity(pickedObject.id);
         } else if (properties._type && properties._type._value === "alert"){
