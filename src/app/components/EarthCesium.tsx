@@ -42,7 +42,7 @@ interface alertInfoHover {
   alertlevelRed: boolean;
   alertlevelOrange: boolean;
   alertlevelGreen: boolean;
-  createAt: string;
+  createdAt: string;
 }
 
 interface AnimationState {
@@ -356,7 +356,6 @@ const EarthCesium = () => {
 
   useEffect(()=>{
     alertLoadData()
-    console.log(3)
   },[mailAlarmInfo])
 
   useEffect(() => {
@@ -435,7 +434,7 @@ const EarthCesium = () => {
               alertlevelRed: properties._alertLevelRed?._value,
               alertlevelOrange: properties._alertLevelOrange?._value,
               alertlevelGreen: properties._alertLevelGreen?._value,
-              createAt: properties._createdAt?._value,
+              createdAt: properties._createdAt?._value,
             };
             tooltipContent.innerHTML = `
             <div style="
@@ -469,7 +468,7 @@ const EarthCesium = () => {
                   </tr>
                   <tr>
                     <td style="color: #666;">CreateAt:</td>
-                    <td style="color: #000;">${alertrData.createAt.slice(0,10)}</td>
+                    <td style="color: #000;">${alertrData.createdAt.slice(0,10)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -547,7 +546,6 @@ const EarthCesium = () => {
           // Update tooltipLatLon with conditional styling
           tooltipLatLon.innerHTML = `<div style="width: 220px; padding: 5px; textAlign: center;">위도: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, 경도: ${longitude}°</div>`;
           tooltipLatLon.style.display = 'block';
-          console.log(rightSidebarOpen)
           tooltipLatLon.style.left = rightSidebarOpen.isOpen? String(window.innerWidth-tooltipLatLon.offsetWidth-405)+'px':String(window.innerWidth-tooltipLatLon.offsetWidth-5)+'px' ;
           tooltipLatLon.style.top = String(window.innerHeight-tooltipLatLon.offsetHeight-5)+'px';
         } else {
@@ -708,7 +706,7 @@ const EarthCesium = () => {
             alertLongitude: properties.alertLongitude?._value,
             objectId: properties.objectId?._value,
             alertEmail:  properties.alertEmail?._value,
-            createAt: properties.createAt?._value,
+            createdAt: properties.createAt?._value,
             memo: properties.memo?._value,
             open: true,
             edit: true,

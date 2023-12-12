@@ -75,8 +75,9 @@
   border-radius: 8px 8px 0 0;
   cursor: pointer;
 }
-.tabBold {
-  font-weight: bold;
+.tabActive {
+  background-color: var(--color-blue);
+  color: var(--color-gray-1);
 }
 .tabContentBox {
   padding: 10px;

@@ -53,7 +53,7 @@ export interface PostAlertInfo {
   alertlevelRed: boolean;
   alertlevelOrange: boolean;
   alertlevelGreen: boolean;
-  createAt: string;
+  createdAt: string;
   memo: string;
   open: boolean;
   edit: boolean;
@@ -157,7 +157,7 @@ export const mailAlarmState = atom<PostAlertInfo>({
     alertlevelRed: false,
     alertlevelOrange: false,
     alertlevelGreen: false,
-    createAt: "",
+    createdAt: "",
     memo: "",
     open: false,
     edit: false,
