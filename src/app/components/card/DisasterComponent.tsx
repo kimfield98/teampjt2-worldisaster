@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState, dataState } from '../../recoil/dataRecoil';
 import Link from 'next/link';
 import Video from '../etc/Video';
+import Video from '../etc/Video';
 
 
 interface DisasterComponentProps {
@@ -78,7 +79,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
         {activeTab === 3 && dID &&
           <div className='tabContent'>
-            <Video/>
+            <Video dID={dID}/>
           </div>
         }
       </div>
