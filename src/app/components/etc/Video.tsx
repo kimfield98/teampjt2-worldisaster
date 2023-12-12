@@ -29,7 +29,6 @@ export default function Video() {
   const dID = useRecoilValue(selectedPinState);
 
   useEffect(() => {
-    
     //API 호출을 통해 비디오 URL 배열 가져오기
     async function fetchVideoUrls() {
       if (!dID) return;
@@ -63,7 +62,6 @@ export default function Video() {
         console.error("Error fetching video URLs:", error);
       }
     }
-
     fetchVideoUrls();
   }, [dID]); //dID가 변경될때마다 fetchVideoUrls() 실행
 
@@ -93,7 +91,7 @@ export default function Video() {
   }, [currentVideoUrl]);
 
   return (
-    <div>
+    <div className="mx-60 snap-center w-80 bg-blue-500 flex-shrink-0">
       <video controls ref={videoRef} className="video-js" />
     </div>
   );
