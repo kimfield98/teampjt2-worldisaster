@@ -53,7 +53,7 @@ export interface PostAlertInfo {
   alertlevelRed: boolean;
   alertlevelOrange: boolean;
   alertlevelGreen: boolean;
-  createAt: string;
+  createdAt: string;
   memo: string;
   open: boolean;
   edit: boolean;
@@ -157,7 +157,7 @@ export const mailAlarmState = atom<PostAlertInfo>({
     alertlevelRed: false,
     alertlevelOrange: false,
     alertlevelGreen: false,
-    createAt: "",
+    createdAt: "",
     memo: "",
     open: false,
     edit: false,
@@ -198,6 +198,11 @@ export const clickAlertInfo = atom({
     alertLongitude: 0,
   }
 })
+
+export const selectedPinState = atom({
+  key: 'selectedPinState', // 고유한 키
+  default: null, // 기본값
+});
 
 export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {
   return <RecoilRoot>{children}</RecoilRoot>;

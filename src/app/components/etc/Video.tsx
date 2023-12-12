@@ -1,67 +1,60 @@
-import React, { useEffect, useState,useRef, createRef, RefObject } from "react";
-import axios from "axios";
-import videojs from "video.js"
+"use client";
+import { useRef, useEffect, useState } from "react";
+import { usePathname } from 'next/navigation';
+import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import { useRecoilValue } from 'recoil';
+import { selectedPinState } from '../../recoil/dataRecoil';
 
-interface VideoData {
-  video_url: string;
-}
-
-interface VideoPlayerProps {
-  dID: string;
-}
-
-const Video: React.FC<VideoPlayerProps> = ({ dID }) => {
-  const [videoData, setVideoData] = useState<VideoData[]>([]);
-  const [videoRefs, setVideoRefs] = useState<RefObject<HTMLVideoElement>[]>([]);
+export default function Video() {
+  const videoRef = useRef(null);
+  const [videoUrls, setVideoUrl] = useState([]);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const pathname = usePathname().split('/');
+  // const dID = pathname[2] //URL에서 dID 파라미터 추출
+  const dID = useRecoilValue(selectedPinState);
 
   useEffect(() => {
-    const fetchVideos = async () => {
+    //API 호출을 통해 비디오 URL 배열 가져오기
+    async function fetchVideoUrls() {
+      if (!dID) return;
       try {
-        const response = await axios(`https://worldisaster.com/api/upload/${dID}`, { timeout: 5000 });
-        if (response.data.length > 0) {
-          setVideoData(response.data);
+        const response = await fetch(`https://worldisaster.com/api/upload/${dID}`);
+        const data = await response.json();
+    
+        if (data && data.length > 0 && data[0].video_url) {
+          console.log(data[0]);
+          console.log(data[0].video_url);
+          setVideoUrl(data.map((item: { video_url: any; }) => item.video_url));
+          setCurrentVideoUrl(data[0].video_url);
+        } else {
+          // 데이터가 비어있거나 예상된 형식이 아닌 경우 처리
+          console.error("No video data available");
         }
-      } catch (err) {
-        console.error("Error fetching videos:", err);
+      } catch (error) {
+        console.error("Error fetching video URLs:", error);
       }
-    };
-    fetchVideos();
-  }, [dID]);
+    }
+    fetchVideoUrls();
+  }, [dID]); //dID가 변경될때마다 fetchVideoUrls() 실행
 
   useEffect(() => {
-    videoData.forEach((video, index) => {
-      const videoRef = createRef<HTMLVideoElement>();
-      setVideoRefs((prev) => [...prev, videoRef]);
-      // Video.js 초기화 및 설정
-    });
-    // Clean up
-    return () => {
-      videoRefs.forEach((ref) => {
-        if (ref.current && videojs.getPlayers()[ref.current.id]) {
-          videojs.getPlayers()[ref.current.id].dispose();
-        }
+    if(videoRef.current && currentVideoUrl) {
+      videojs(videoRef.current, {
+        sources: [
+          {
+            src: currentVideoUrl,
+            type: "application/x-mpegURL"
+          }
+        ]
       });
-    };
-  }, [videoData]);
+    }
+
+  }, [currentVideoUrl]);
 
   return (
-    <>
-      {videoData.length > 0 && (
-        <div className="flex overflow-x-scroll snap-x snap-mandatory">
-          {videoRefs.map((video, index) => (
-            <div key={index} className="mx-60 snap-center w-80 bg-blue-500 flex-shrink-0">
-              <video
-                ref={video}
-                className="video-js !w-full !h-[500px]"
-                controls
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </>
+    <div className="mx-60 snap-center w-80 bg-blue-500 flex-shrink-0">
+      <video controls ref={videoRef} className="video-js" />
+    </div>
   );
-};
-
-export default Video;
+}
