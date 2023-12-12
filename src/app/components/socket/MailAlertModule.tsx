@@ -145,15 +145,17 @@ export const MailAlertModule = () => {
               </div>
             </div>
             <div className="mt-2">
-              <div className='font-bold my-3 ml-3'>Memo</div>
-              <textarea className="w-full h-full min-h-unit-20 max-h-40 border-1 border-dark-2 rounded-xl p-2 ml-3" placeholder="Please enter a memo."></textarea>
+              <div className='font-bold ml-3'>Memo</div>
+              <textarea className="card2 custom-scrollbar overflow-auto w-[380px] h-[100px]" placeholder="Please enter a memo."></textarea>
             </div>
-            <div className="btnBox mb-3">
+            <div className="btnBox">
               <button className="btn" onClick={createHandeler}>
-                Create
+              Create
               </button>
             </div>
-          <MailAlertList />
+          <div className='mt-5'>
+            <MailAlertList />
+          </div>  
         </div>
       }
     </div>

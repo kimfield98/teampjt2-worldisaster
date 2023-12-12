@@ -34,14 +34,14 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!currentCountry) return <div>No country data found.</div>;
+  if (!currentCountry) return <div className='card2'>No country data found.</div>;
 
   return (
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='cardTitle'>
         Country Information
       </div>
-      <div className='cardContentBox'>
+      <div className='p-3'>
         <table>
           <tbody>
             <tr>
@@ -142,7 +142,7 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             )}
           </tbody>
         </table>
-        <button onClick={() => setShowMore(!showMore)} className="moreButton">
+        <button onClick={() => setShowMore(!showMore)} className="mt-3 underline">
           {showMore ? 'Show Less' : 'Show More'}
         </button>
       </div>

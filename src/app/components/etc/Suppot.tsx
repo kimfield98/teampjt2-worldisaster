@@ -33,6 +33,7 @@ const Support: React.FC = () => {
   const [amount, setAmount] = useState<string>('0');
   const [currency, setCurrency] = useState<string>("USD");
   const [supportDetail, setSupportDetail] = useState<DataType | null>(null);
+  const [selectedDonationId, setSelectedDonationId] = useState<string | null>(null);
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
@@ -138,6 +139,10 @@ const Support: React.FC = () => {
     fetchData();
   }, []);
 
+  const handleDonationClick = (dID: string) => {
+    setSelectedDonationId(selectedDonationId === dID ? null : dID);
+  };
+
   return (
     <div>
       <div className="card">
@@ -206,35 +211,38 @@ const Support: React.FC = () => {
           <button className="btn" onClick={handleButtonClick}>Donate</button>
         </div>
       </div>
+      
       <div className="card">
         <div className="cardTitle">History</div>
-        <div className="custom-scrollbar h-screen overflow-auto relative h-[150px]">
-          <table className="w-full text-left">
+        <div className="custom-scrollbar overflow-auto h-[150px]">
+          <table className="w-full text-left p-5">
             <thead className="uppercase">
               <tr>
-                <th scope="col" className="py-1 pl-3">Title</th>
-                <th scope="col" className="py-1">Amount</th>
-                <th scope="col" className="py-1">Country</th>
-                <th scope="col" className="py-1">Disaster Type</th>
-                <th scope="col" className="py-1">Alert Level</th>
+                <th scope="col" className="py-1 pl-3">👇View Detailed Information</th>
               </tr>
             </thead>
-            <tbody>
-              {donationHistory.length === 0 ? (
-                <tr>
-                  <td className="card2">No donation records found yet.</td>
-                </tr>
-              ) : (
-                donationHistory.map((donation, index) => (
-                  <tr key={index}>
-                    <td className="py-1 pl-5">{donation.dTitle}</td>
-                    <td className="py-1">{donation.amount} {donation.currency}</td>
-                    <td className="py-1">{donation.targetCountry}</td>
-                    <td className="py-1">{donation.dType}</td>
-                    <td className="py-1">{donation.dAlertLevel}</td>
+            <tbody className="p-3">
+              {donationHistory.map((donation, index) => (
+                <>
+                  <tr 
+                    key={index}
+                    onClick={() => handleDonationClick(donation.dID)}
+                    className="cursor-pointer"
+                  >
+                    <td className="card2 py-1 mx-5">{donation.dTitle}</td>
                   </tr>
-                ))
-              )}
+                  {selectedDonationId === donation.dID && (
+                    <tr>
+                      <td colSpan={1} className="p-5 bg-gray-100">
+                        Amount: {donation.amount} {donation.currency} <br />
+                        Country: {donation.targetCountry} <br />
+                        Disaster Type: {donation.dType} <br />
+                        Alert Level: {donation.dAlertLevel}
+                      </td>
+                    </tr>
+                  )}
+                </>
+              ))}
             </tbody>
           </table>
         </div>

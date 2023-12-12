@@ -45,8 +45,8 @@ export function MailAlertList() {
 
   return (
     <div className='border-white border-5 divide-gray-300 w-full rounded-xl mt-2 overflow-hidden'>
-    <table className='w-full'>
-      <thead className="bg-gray-50">
+      <table className='w-full'>
+        <thead className="bg-gray-50">
           <tr>
               <th className="pl-2 p-2 text-xs text-gray-500">
                   ID
@@ -61,36 +61,36 @@ export function MailAlertList() {
                   Delete
               </th>
           </tr>
-      </thead>
-        <tbody className="bg-white divide-y divide-gray-300">  
-          {alertData&& alertData.length > 0 ? alertData.map((data:any,index:number) => (
+        </thead>
+        <tbody>  
+          {alertData && alertData.length > 0 ? alertData.map((data, index) => (
             <tr className="whitespace-nowrap" key={index}>
-              <td className="p-2 text-sm text-gray-500">
-                  {index+1}
+              <td className="p-2 text-sm text-gray-500 pl-3">
+                  {index + 1}
               </td>
-              <td className="p-2">
+              <td className="p-2 pl-3">
                   <div className="text-sm text-gray-900">
                     {data.alertCountryName}
                   </div>
               </td>
-              <td className="p-2 text-sm text-gray-500">
-                    {data.createdAt.slice(0,10)}
+              <td className="p-2 text-sm text-gray-500 pl-3">
+                  {data.createdAt.slice(0,10)}
               </td>
-              <td className="p-2">
-                  <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={()=>{deleteHandeler(data.objectId)}}>
+              <td className="p-2 pl-3">
+                  <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={() => deleteHandeler(data.objectId)}>
                     Delete
                   </button>
               </td>
             </tr>
-          )): 
+          )) : 
             <tr>
-              <td colSpan={4} className=" text-center p-2 text-sm text-gray-500 ">
+              <td colSpan={4} className="text-center p-2 text-sm text-gray-500 pl-3">
                   No Data
               </td>
             </tr>}
         </tbody>
-    </table>
-  </div>
+      </table>
+    </div>
   )
 }
 export default MailAlertList;

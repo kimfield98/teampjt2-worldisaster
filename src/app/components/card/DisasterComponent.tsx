@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Article from '../etc/Article';
-import Video from '../etc/Video';
 import { useRecoilValue } from 'recoil';
 import { darkModeState, dataState } from '../../recoil/dataRecoil';
 import Link from 'next/link';
+import Video from '../etc/Video';
 
 
 interface DisasterComponentProps {
@@ -21,19 +21,19 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
   return (
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
-      <div className='cardTitle'>재난 상세 정보</div>
+      <div className='cardTitle'>Disaster Detail Info</div>
       <div className="tabList">
-        <div className={`tab ${activeTab === 1 ? 'active tabBold' : ''}`} onClick={() => selectTab(1)}>상세정보</div>
-        <div className={`tab ${activeTab === 2 ? 'active tabBold' : ''}`} onClick={() => selectTab(2)}>기사</div>
-        <div className={`tab ${activeTab === 3 ? 'active tabBold' : ''}`} onClick={() => selectTab(3)}>동영상</div>
+        <div className={`tab ${activeTab === 1 ? 'active tabActive' : ''}`} onClick={() => selectTab(1)}>Detail</div>
+        <div className={`tab ${activeTab === 2 ? 'active tabActive' : ''}`} onClick={() => selectTab(2)}>Article</div>
+        <div className={`tab ${activeTab === 3 ? 'active tabActive' : ''}`} onClick={() => selectTab(3)}>Video</div>
       </div>
       <div className='tabContentBox'>
         {activeTab === 1 &&
           <div className='tabContent'>
-            <div className='cardTitle'>재난 상세 정보</div>
+            <div className='cardTitle'>Disaster Detail Information</div>
             {dID && detailData? (
             <table>
-              <tbody>
+              <tbody className='px-3'>
                 <tr>
                   <td className="min-w-auto bold text-black mb-2">Country:</td>
                   <td>{detailData.dCountry}</td>
@@ -66,21 +66,19 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
               </tbody>
             </table>
             ) : (
-              <p className='cardContent'>재난 정보를 불러오는 중...</p>
+              <p className='cardContent'>Click the Pin. Can see More Info</p>
             )}
           </div>
         }
         {activeTab === 2 && dID &&
           <div className='tabContent'>
-            <div className='cardTitle'>기사&뉴스</div>
             <Article dID={dID} />
           </div>
         }
 
         {activeTab === 3 && dID &&
           <div className='tabContent'>
-            <div className='cardTitle'>동영상</div>
-            <Video dID={dID} />
+            <Video dID={dID}/>
           </div>
         }
       </div>
