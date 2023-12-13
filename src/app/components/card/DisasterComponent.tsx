@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Article from '../etc/Article';
 import { useRecoilValue } from 'recoil';
-import { darkModeState, dataState } from '../../recoil/dataRecoil';
-import Link from 'next/link';
+import { darkModeState, dataState, userLoginState } from '../../recoil/dataRecoil';
 import Video from '../etc/Video';
 import Upload from '../etc/Upload';
 import {useRouter} from 'next/navigation';
@@ -15,6 +14,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   const [activeTab, setActiveTab] = useState(1);
   const detailData = useRecoilValue(dataState).find((item) => item.dID === dID);
   const isDarkMode = useRecoilValue(darkModeState);
+  const isLogin = useRecoilValue(userLoginState).isLoggedIn;
   const router = useRouter();
 
   const selectTab = (tabNumber: number) => {
@@ -83,7 +83,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             <Video/>
           </div>
         }
-        {activeTab === 4 && dID &&
+        {isLogin && activeTab === 4 && dID &&
           <div className='tabContent flex items-center justify-center ml-[20px]'>
             <Upload dID={dID}/>
           </div>
