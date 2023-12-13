@@ -14,15 +14,17 @@ const ThinSidebar: React.FC = () => {
     text: string;
   }
 
-  const Tooltip:React.FC<TooltipProps> = ({ children, text }) => (
-    <div className="relative flex items-center z-">
-      <div className="absolute bottom-full mb-2 hidden group-hover:block">
-        <div className="bg-black text-white text-xs rounded py-1 px-3 right-0">
+  const Tooltip: React.FC<TooltipProps> = ({ children, text }) => (
+    <div className="relative flex items-center group">
+      <div className="absolute left-full top-1/2 transform -translate-y-1/2 hidden group-hover:block pl-[8px]" style={{zIndex:1000}}>
+        <div className="bg-gray-400 text-white text-xs rounded py-1 px-3">
           {text}
+          <div className="absolute top-1/2 left-3 transform -translate-y-1/2 -translate-x-full">
+            <svg className="h-2 w-2 text-gray-400" viewBox="0 0 255 255">
+              <polygon className="fill-current" points="0,127.5 127.5,255 127.5,0" />
+            </svg>
+          </div>
         </div>
-        <svg className="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xmlSpace="preserve">
-          <polygon className="fill-current" points="0,0 127.5,127.5 255,0" />
-        </svg>
       </div>
       {children}
     </div>
