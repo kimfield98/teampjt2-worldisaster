@@ -5,10 +5,9 @@ import { userLoginState, darkModeState } from "../../recoil/dataRecoil";
 
 interface VideoUploaderProps {
   dID: string;
-  onUploadComplete: (videoUrl: string) => void;
 }
 
-const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
+const Upload: React.FC<VideoUploaderProps> = ({ dID }) => {
   const [file, setFile] = useState<File | null>(null); // 선택된 파일
   const [fileName, setFileName] = useState<string>(""); // 파일 이름
   const [fileError, setFileError] = useState<string>(""); // 파일 업로드 오류
@@ -99,7 +98,7 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
     <>
       {isLoggedIn ? (
           <div>
-            <div className="card2 flex flex-col items-center justify-center">
+            <div className="card2 flex flex-col items-center justify-center text-center">
               <p>Become a reporter for worldisaster. 🎥</p>
               <p>You can capture and upload the local situation.</p>
               <p>Files are limited to a size of 10MB.</p>

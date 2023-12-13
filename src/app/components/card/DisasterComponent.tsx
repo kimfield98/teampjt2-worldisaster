@@ -4,7 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState, dataState } from '../../recoil/dataRecoil';
 import Link from 'next/link';
 import Video from '../etc/Video';
-
+import Upload from '../etc/Upload';
+import {useRouter} from 'next/navigation';
 
 interface DisasterComponentProps {
   dID: string;
@@ -14,6 +15,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   const [activeTab, setActiveTab] = useState(1);
   const detailData = useRecoilValue(dataState).find((item) => item.dID === dID);
   const isDarkMode = useRecoilValue(darkModeState);
+  const router = useRouter();
 
   const selectTab = (tabNumber: number) => {
     setActiveTab(tabNumber);
@@ -26,6 +28,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
         <div className={`tab ${activeTab === 1 ? 'active tabActive' : ''}`} onClick={() => selectTab(1)}>Detail</div>
         <div className={`tab ${activeTab === 2 ? 'active tabActive' : ''}`} onClick={() => selectTab(2)}>Article</div>
         <div className={`tab ${activeTab === 3 ? 'active tabActive' : ''}`} onClick={() => selectTab(3)}>Video</div>
+        <div className={`tab ${activeTab === 4 ? 'active tabActive' : ''}`} onClick={() => selectTab(4)}>Upload</div>
       </div>
       <div className='tabContentBox'>
         {activeTab === 1 &&
@@ -48,7 +51,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
                 </tr>
                 <tr>
                   <td className="min-w-auto bold text-black mb-2"></td>
-                  <td>{detailData.dUrl==null? null:<Link target='_blank' href={detailData.dUrl} className='hover:text-gray-500 active:text-gray-300'> ...more</Link>}</td>
+                  <td>{detailData.dUrl==null? null:<button onClick={()=>{router.push(detailData.dUrl)}} className='hover:text-gray-500 active:text-gray-300'> ...more</button>}</td>
                 </tr>
                 {detailData.dAlertLevel && 
                 <tr>
@@ -75,10 +78,14 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             <Article dID={dID} />
           </div>
         }
-
         {activeTab === 3 && dID &&
           <div className='tabContent flex items-center justify-center'>
             <Video/>
+          </div>
+        }
+        {activeTab === 4 && dID &&
+          <div className='tabContent flex items-center justify-center ml-[20px]'>
+            <Upload dID={dID}/>
           </div>
         }
       </div>

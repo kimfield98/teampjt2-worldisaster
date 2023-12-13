@@ -6,7 +6,7 @@ import "video.js/dist/video-js.css";
 import { useRecoilValue } from 'recoil';
 import { selectedPinState } from '../../recoil/dataRecoil';
 
-export default function Video() {
+export function Video() {
   const videoRef = useRef(null);
   const [videoUrls, setVideoUrl] = useState([]);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
@@ -53,8 +53,10 @@ export default function Video() {
   }, [currentVideoUrl]);
 
   return (
-    <div className=" bg-blue-500 max-w-[80%] max-h-[600px] overflow-hidden flex items-center justify-center">
+    <div className=" bg-blue-500 max-w-[80%] max-h-[600px] m-auto p-auto overflow-hidden flex items-center justify-center">
       <video controls ref={videoRef} className="video-js object-contain flex items-center justify-center" />
     </div>
   );
 }
+
+export default Video;
