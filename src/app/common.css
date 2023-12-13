@@ -27,13 +27,13 @@
   align-items: center;
   gap: 60px;
   margin-top: 80px;
-  padding: 24px 15px;
+  padding: 10px 15px;
   background-color: var(--color-gray-1);
 }
 .thinIconBox {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 40px;
 }
 .thinIcon {
   padding: 8px;
@@ -84,8 +84,6 @@
 .leftSidebar {
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
-  width: 500px;
   background-color: var(--color-gray-1);
   z-index: 30;
 }
@@ -136,7 +134,7 @@
 .chat {
   border: 1px solid var(--color-gray-3);
   border-radius: 8px;
-  margin: 5px 30px;
+  margin: 5px 30px 5px 0px;
   max-height: 80vh;
   overflow-y: auto;
 }

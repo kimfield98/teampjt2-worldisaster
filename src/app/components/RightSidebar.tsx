@@ -1,6 +1,5 @@
 "use client"
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { rightSidebarState, darkModeState, filterState } from '../recoil/dataRecoil';
 import Toggle from './Filter/Toggle';
@@ -25,7 +24,7 @@ const RightSidebar: React.FC = () => {
   };
 
   return (
-    <div className={`rightSidebar custom-scrollbar h-screen overflow-auto ${rightSidebar.isOpen ? 'block' : 'hidden'} ${isDarkMode ? 'darkMode' : ''}`}>
+    <div className={`rightSidebar pl-[20px] custom-scrollbar h-screen overflow-auto ${rightSidebar.isOpen ? 'block' : 'hidden'} ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='rightLogoBox'>
         <div className='rightLogo'>Filter</div>
         <div className='rightIcon' onClick={toggleRightSidebar}>
@@ -49,7 +48,7 @@ const RightSidebar: React.FC = () => {
       </div>
       {isCardVisible && (
         <div className='card2'>
-          여기 핀 정보 보여줄게
+          
         </div>
       )}
       <Toggle />

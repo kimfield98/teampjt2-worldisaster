@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { mailAlarmState, PostAlertInfo } from '../../recoil/dataRecoil';
+import { mailAlarmState, PostAlertInfo, leftSidebarState } from '../../recoil/dataRecoil';
 import {useRecoilState} from "recoil";
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -15,6 +15,7 @@ export const MailAlertModule = () => {
   const [alertLevelRed, setAlertLevelRed] = useState<boolean>(alertInfo.alertlevelRed); // 알람 레벨RED
   const [alertLevelOrange, setAlertLevelOrange] = useState<boolean>(alertInfo.alertlevelOrange); // 알람 레벨RED
   const [alertLevelGreen, setAlertLevelGreen] = useState<boolean>(alertInfo.alertlevelGreen); // 알람 레벨RED
+  const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
 
   const token = Cookies.get('access-token');
 
@@ -88,6 +89,8 @@ export const MailAlertModule = () => {
       console.log("error",error);
     } finally {
       getLocationName(String(alertInfo.alertLatitude),String(alertInfo.alertLongitude));
+      setLeftSidebarOpen({ isOpen: false, activeIcon: 'none' });
+      setAlertInfo({...alertInfo, open: false});
     }
   };
 
@@ -108,7 +111,6 @@ export const MailAlertModule = () => {
         <div className='card2'>
             <div className="flex justify-between">
               <div className="cardTitle">Alert</div>
-              <div className="cardTitle cursor-pointer" onClick={() => setAlertInfo({...alertInfo, open: false})}>X</div>
             </div>
             <div className="flex gap-6 ml-3">
               <div className='flex items-center'><p className='mr-1 font-bold'>Latitude</p><p>{alertInfo.alertLatitude}</p></div>
@@ -143,10 +145,6 @@ export const MailAlertModule = () => {
                   <button className="levelbtn" onClick={()=>{setAlertLevelGreen(!alertLevelGreen)}} style={{ backgroundColor: alertLevelGreen? '#006FEE' :'#eee', marginRight:alertLevelGreen? '6.59px' :'0px'  }}>{alertLevelGreen? "ON":"OFF"}</button>
                 </div>
               </div>
-            </div>
-            <div className="mt-2">
-              <div className='font-bold ml-3'>Memo</div>
-              <textarea className="card2 custom-scrollbar overflow-auto w-[380px] h-[100px]" placeholder="Please enter a memo."></textarea>
             </div>
             <div className="btnBox">
               <button className="btn" onClick={createHandeler}>

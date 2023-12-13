@@ -17,6 +17,7 @@ import {
   HeightReference,
   DirectionalLight,
   NearFarScalar,
+  VerticalOrigin
 } from 'cesium';
 import { useRouter, useSearchParams } from 'next/navigation';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
@@ -313,18 +314,27 @@ const EarthCesium = () => {
               point: {
                 pixelSize: 10,
                 heightReference: 0,
-                color: Color.fromCssColorString(getColorForDisasterType(item.dType)),
-                scaleByDistance: new NearFarScalar(10e3, 5, 10e6, 1)
+                color: Color.fromCssColorString("#A374DB"),
+                outlineColor: Color.fromCssColorString("#ffffff"),
+                outlineWidth: 1,
+                scaleByDistance: new NearFarScalar(10e3, 1, 10e6, 1)
               },
               properties: {...item, type:'disaster'}
             })) : (
             entityToAdd = new Entity({
-              position: Cartesian3.fromDegrees(Number(item.dLongitude), Number(item.dLatitude)),
-              model: {
-                uri: `/pin.glb`,
-                minimumPixelSize: 1000,
-                maximumScale: 800000,
+              position: Cartesian3.fromDegrees(Number(item.dLongitude), Number(item.dLatitude),12),
+              // model: {
+              //   uri: `/pin.glb`,
+              //   scale: 2,
+              //   minimumPixelSize: 100,
+              //   maximumScale: 1200000,
+              //   heightReference: HeightReference.CLAMP_TO_GROUND,
+              // },
+              billboard:{
+                image: `/pin.png`,
+                scale: 0.1,
                 heightReference: HeightReference.CLAMP_TO_GROUND,
+                verticalOrigin: VerticalOrigin.BOTTOM,
               },
               properties: {...item, type:'disaster'}
             }))
@@ -334,7 +344,9 @@ const EarthCesium = () => {
             point: {
               pixelSize: 10,
               heightReference: 0,
-              color: Color.fromCssColorString(getColorForDisasterType(item.dType)),
+              color: Color.fromCssColorString("#5CFFD1"),
+              outlineColor: Color.fromCssColorString("#ffffff"),
+              outlineWidth: 2,
               scaleByDistance: new NearFarScalar(10e3, 5, 10e6, 1)
             },
             properties: {...item, type:'disaster'}

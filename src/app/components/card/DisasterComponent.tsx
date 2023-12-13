@@ -77,7 +77,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
         }
 
         {activeTab === 3 && dID &&
-          <div className='tabContent'>
+          <div className='tabContent flex items-center justify-center'>
             <Video/>
           </div>
         }

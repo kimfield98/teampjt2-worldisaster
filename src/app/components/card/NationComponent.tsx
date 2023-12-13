@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { darkModeState, countryState, ContryDataType, DataType, dataState } from '../../recoil/dataRecoil';
 
@@ -13,7 +13,7 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   const [currentCountry, setCurrentCountry] = useState<ContryDataType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [showMore, setShowMore] = useState(false);
+  const [expanded, setExpanded] = useState<number>(0); // 0: Collapsed, 1: Partially Expanded, 2: Fully Expanded
 
   useEffect(() => {
     setIsLoading(true);
@@ -36,17 +36,29 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   if (error) return <div>Error: {error}</div>;
   if (!currentCountry) return <div className='card2'>No country data found.</div>;
 
+  const handleExpansion = () => {
+    if (expanded < 2) {
+      setExpanded(expanded + 1);
+    } else {
+      setExpanded(0);
+    }
+  };
+
+  const renderData = (data: string | undefined) => {
+    return data ? data : 'Not Found Data';
+  };
+
   return (
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='cardTitle'>
         Country Information
       </div>
-      <div className='p-3'>
+      <div className='p-3 overflow-auto' style={{ maxHeight: expanded === 1 ? '300px' : expanded === 2 ? 'none' : '500px' }}>
         <table>
           <tbody>
             <tr>
               <td className="min-w-auto bold text-black mb-2">Country:</td>
-              <td>{currentCountry.cCountry}</td>
+              <td>{renderData(currentCountry.cCountry)}</td>
             </tr>
             <tr>
               <td className="min-w-auto bold text-black mb-2">Capital:</td>
@@ -56,7 +68,7 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
               <td className="min-w-auto bold text-black mb-2">Population:</td>
               <td>{currentCountry.cPopulation}</td>
             </tr>
-            {showMore && (
+            {expanded > 0 && (
               <>
                 <tr>
                   <td className="min-w-auto bold text-black mb-2">Geographic Coordinates:</td>
@@ -138,12 +150,16 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
                   <td className="min-w-auto bold text-black mb-2">Other Country Names:</td>
                   <td>{currentCountry.cCountry_other}</td>
                 </tr>
-              </>
+                </>
             )}
           </tbody>
         </table>
-        <button onClick={() => setShowMore(!showMore)} className="mt-3 underline">
-          {showMore ? 'Show Less' : 'Show More'}
+        <button 
+          onClick={handleExpansion}
+          className="inline-flex items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
+          {expanded < 2 ? <>Show More<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></>
+            :<>Show Less<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg></>}
         </button>
       </div>
     </div>
