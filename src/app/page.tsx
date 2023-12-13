@@ -60,8 +60,8 @@ const Home: React.FC = () => {
         <h1 className='text-[1.5rem] w-[100vw] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] sm:break-words xl:text-[4rem] leading-normal font-bold'>Global Disasters Portal</h1>
         <h1 className='text-[1rem] w-[100vw] sm:text-[2rem] md:text-[3rem] lg:text-[3rem] sm:break-words xl:text-[3.5rem] font-medium'>Real-time Alerts & Historical Archives</h1>
         <div className='mt-8'>
-          <Link href='/earth'>
-            <button className='inline-block rounded-full bg-slate-300/50 border-2 border-transparent hover:border-sky-800 text-[1rem] sm:text-[1.5rem] px-[10px] sm:px-[15px] py-[5px] sm:py-[10px] hover:bg-sky-800/50 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer'>Explore</button>
+          <Link href='/earth'> {/* 마우스오버 없을때 버튼 색 변경 */}
+            <button className='inline-block rounded-full bg-sky-800/50 text-white border-2 border-sky-800 text-[1rem] sm:text-[1.5rem] px-[10px] sm:px-[15px] py-[5px] sm:py-[10px] hover:bg-slate-300/50 hover:text-black transition-colors duration-300 ease-in-out cursor-pointer'>Explore</button>
           </Link>
         </div>
       </div>

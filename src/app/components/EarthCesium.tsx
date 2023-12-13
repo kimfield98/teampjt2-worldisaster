@@ -22,7 +22,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, countryState, leftSidebarState, selectedDisasterIdState} from '../recoil/dataRecoil';
+import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, countryState, leftSidebarState, selectedDisasterIdState } from '../recoil/dataRecoil';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
@@ -87,13 +87,13 @@ const EarthCesium = () => {
   const [clickedEntity, setClickedEntity] = useState(null);
   const [activeAnimation, setActiveAnimation] = useState<AnimationState | null>(null);
   const [showAlertTab, setShowAlertTab] = useState<boolean>(false);
-  const [mailAlarmInfo,setMailAlarmInfo] = useRecoilState(mailAlarmState);
+  const [mailAlarmInfo, setMailAlarmInfo] = useRecoilState(mailAlarmState);
   const [alertData, setAlertData] = useState<PostAlertInfo[]>([]);
-  const isLogin= useRecoilValue(userLoginState);
+  const isLogin = useRecoilValue(userLoginState);
   const [rightSidebarOpen, setRightSidebarOpen] = useRecoilState(rightSidebarState);
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
   const setSelectedPinState = useSetRecoilState(selectedPinState);
-  
+
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
     switch (type) {
@@ -173,7 +173,7 @@ const EarthCesium = () => {
 
       // 초기 카메라 위치 설정
       viewer.camera.setView({
-        destination: Cartesian3.fromDegrees(127.7703,35.4634, 10000000), // 예: -117.16, 32.71, 15000
+        destination: Cartesian3.fromDegrees(127.7703, 35.4634, 10000000), // 예: -117.16, 32.71, 15000
         orientation: {
           heading: Math.toRadians(20), // 동쪽
           pitch: Math.toRadians(-40), // 아래쪽으로 30도 기울기
@@ -187,10 +187,10 @@ const EarthCesium = () => {
       // layout 추가
       createWorldImageryAsync({
         style: IonWorldImageryStyle.AERIAL_WITH_LABELS,
-      }).then((imageryProvider:any) => {
+      }).then((imageryProvider: any) => {
         viewer.scene.imageryLayers.addImageryProvider(imageryProvider);
         console.log(`Log: Layout loaded successfully.`)
-      }).catch((err:Error) => {
+      }).catch((err: Error) => {
         console.log(`Log: Failed to load layout: ${err}`);
       });
 
@@ -223,12 +223,12 @@ const EarthCesium = () => {
   const token = Cookies.get('access-token');
 
   const alertLoadData = async () => {
-    if(!isLogin) return;
+    if (!isLogin) return;
     try {
       const response = await axios('https://worldisaster.com/api/emailAlerts/',
-      {
-        headers: {Authorization: `Bearer ${token}`}
-      });
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        });
       setAlertData(response.data);
       console.log("Log: Alert data load success.");
     } catch (err) {
@@ -239,14 +239,14 @@ const EarthCesium = () => {
   }
 
   // 알람핀을 유동
-  const applyAlertData=()=>{
+  const applyAlertData = () => {
     const viewer = viewerRef.current;
     if (!viewer || !custom) return;
-  
+
     // 기존에 존재하는 'alert' 타입의 엔티티들을 찾아서 삭제
     const existingAlertEntities = custom.entities.values.filter(e => e.properties?.type._value !== 'disaster');
     existingAlertEntities.forEach(entity => custom.entities.remove(entity));
-  
+
     // 새로운 'alertData'를 바탕으로 알람 엔티티들을 추가
     alertData.forEach(alert => {
       if (alert.alertLongitude && alert.alertLatitude) {
@@ -258,7 +258,7 @@ const EarthCesium = () => {
             outlineColor: Color.WHITE,
             outlineWidth: 2
           },
-          properties: {...alert, type: 'alert'}
+          properties: { ...alert, type: 'alert' }
         });
 
         const alertEllipseEntity = new Entity({
@@ -310,7 +310,7 @@ const EarthCesium = () => {
         if (item.dStatus === 'ongoing' || item.dStatus === 'real-time') {
           item.dStatus === 'ongoing' ? (
             entityToAdd = new Entity({
-              position: Cartesian3.fromDegrees(Number(item.dLongitude), Number(item.dLatitude),0),
+              position: Cartesian3.fromDegrees(Number(item.dLongitude), Number(item.dLatitude), 0),
               point: {
                 pixelSize: 10,
                 heightReference: 0,
@@ -319,10 +319,10 @@ const EarthCesium = () => {
                 outlineWidth: 1,
                 scaleByDistance: new NearFarScalar(10e3, 1, 10e6, 1)
               },
-              properties: {...item, type:'disaster'}
+              properties: { ...item, type: 'disaster' }
             })) : (
             entityToAdd = new Entity({
-              position: Cartesian3.fromDegrees(Number(item.dLongitude), Number(item.dLatitude),12),
+              position: Cartesian3.fromDegrees(Number(item.dLongitude), Number(item.dLatitude), 12),
               // model: {
               //   uri: `/pin.glb`,
               //   scale: 2,
@@ -330,13 +330,13 @@ const EarthCesium = () => {
               //   maximumScale: 1200000,
               //   heightReference: HeightReference.CLAMP_TO_GROUND,
               // },
-              billboard:{
+              billboard: {
                 image: `/pin.png`,
                 scale: 0.1,
                 heightReference: HeightReference.CLAMP_TO_GROUND,
                 verticalOrigin: VerticalOrigin.BOTTOM,
               },
-              properties: {...item, type:'disaster'}
+              properties: { ...item, type: 'disaster' }
             }))
         } else {
           entityToAdd = new Entity({
@@ -349,7 +349,7 @@ const EarthCesium = () => {
               outlineWidth: 2,
               scaleByDistance: new NearFarScalar(10e3, 5, 10e6, 1)
             },
-            properties: {...item, type:'disaster'}
+            properties: { ...item, type: 'disaster' }
           });
         }
         custom.entities.add(entityToAdd)
@@ -361,15 +361,15 @@ const EarthCesium = () => {
     loadData();
     alertLoadData()
   }, []);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     if (!custom || !viewerRef.current) return;
     alertLoadData()
-  },[mailAlarmInfo])
+  }, [mailAlarmInfo])
 
-  useEffect(()=>{
+  useEffect(() => {
     alertLoadData()
-  },[mailAlarmInfo])
+  }, [mailAlarmInfo])
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
@@ -389,7 +389,7 @@ const EarthCesium = () => {
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
     applyFilters();
-  }, [dataFilter, data])  
+  }, [dataFilter, data])
 
   // 호버 이벤트 관리
   useEffect(() => {
@@ -399,36 +399,36 @@ const EarthCesium = () => {
     }
 
     const tooltip = document.createElement('div') as HTMLDivElement;
-      tooltip.style.display = 'none';
-      tooltip.style.position = 'absolute';
-      tooltip.style.backgroundColor = 'white';
-      tooltip.style.border = '1px solid white';
-      tooltip.style.borderRadius = '10px';
-      tooltip.style.padding = '5px';
-      tooltip.style.color = 'black';
-      document.body.appendChild(tooltip);
+    tooltip.style.display = 'none';
+    tooltip.style.position = 'absolute';
+    tooltip.style.backgroundColor = 'white';
+    tooltip.style.border = '1px solid white';
+    tooltip.style.borderRadius = '10px';
+    tooltip.style.padding = '5px';
+    tooltip.style.color = 'black';
+    document.body.appendChild(tooltip);
 
     const tooltipContent = document.createElement('div') as HTMLDivElement;
-      tooltipContent.style.display = 'none';
-      tooltipContent.style.position = 'absolute';
-      tooltipContent.style.backgroundColor = 'white';
-      tooltipContent.style.border = '1px solid white';
-      tooltipContent.style.borderRadius = '10px';
-      tooltipContent.style.padding = '5px';
-      tooltipContent.style.color = 'black';
-      document.body.appendChild(tooltipContent);
+    tooltipContent.style.display = 'none';
+    tooltipContent.style.position = 'absolute';
+    tooltipContent.style.backgroundColor = 'white';
+    tooltipContent.style.border = '1px solid white';
+    tooltipContent.style.borderRadius = '10px';
+    tooltipContent.style.padding = '5px';
+    tooltipContent.style.color = 'black';
+    document.body.appendChild(tooltipContent);
 
     const tooltipLatLon = document.createElement('div');
-      tooltipLatLon.style.display = 'none';
-      tooltipLatLon.style.position = 'absolute';
-      tooltipLatLon.style.backgroundColor = 'white';
-      tooltipLatLon.style.border = '1px solid white';
-      tooltipLatLon.style.borderRadius = '10px';
-      tooltipLatLon.style.padding = '5px';
-      tooltipLatLon.style.color = 'black';
-      tooltipLatLon.style.left = '10px';
-      tooltipLatLon.style.top = '10px';
-      document.body.appendChild(tooltipLatLon);
+    tooltipLatLon.style.display = 'none';
+    tooltipLatLon.style.position = 'absolute';
+    tooltipLatLon.style.backgroundColor = 'white';
+    tooltipLatLon.style.border = '1px solid white';
+    tooltipLatLon.style.borderRadius = '10px';
+    tooltipLatLon.style.padding = '5px';
+    tooltipLatLon.style.color = 'black';
+    tooltipLatLon.style.left = '10px';
+    tooltipLatLon.style.top = '10px';
+    document.body.appendChild(tooltipLatLon);
 
     // 핸들러 모음
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
@@ -440,16 +440,16 @@ const EarthCesium = () => {
         const properties = pickedObject.id.properties;
 
         // 알림 데이터일 경우랑 재난일 경우 구분하기
-        if (properties._type && properties._type._value === "alert"){
-            const alertrData: alertInfoHover = {
-              alertCountryName: properties._alertCountryName?._value,
-              alertRadius: properties._alertRadius?._value,
-              alertlevelRed: properties._alertLevelRed?._value,
-              alertlevelOrange: properties._alertLevelOrange?._value,
-              alertlevelGreen: properties._alertLevelGreen?._value,
-              createdAt: properties._createdAt?._value,
-            };
-            tooltipContent.innerHTML = `
+        if (properties._type && properties._type._value === "alert") {
+          const alertrData: alertInfoHover = {
+            alertCountryName: properties._alertCountryName?._value,
+            alertRadius: properties._alertRadius?._value,
+            alertlevelRed: properties._alertLevelRed?._value,
+            alertlevelOrange: properties._alertLevelOrange?._value,
+            alertlevelGreen: properties._alertLevelGreen?._value,
+            createdAt: properties._createdAt?._value,
+          };
+          tooltipContent.innerHTML = `
             <div style="
             background-color: rgba(255, 255, 255, 0.9); 
             border-radius: 8px; 
@@ -481,19 +481,19 @@ const EarthCesium = () => {
                   </tr>
                   <tr>
                     <td style="color: #666;">CreateAt:</td>
-                    <td style="color: #000;">${alertrData.createdAt.slice(0,10)}</td>
+                    <td style="color: #000;">${alertrData.createdAt.slice(0, 10)}</td>
                   </tr>
                 </tbody>
               </table>
             </div>`;
           tooltipContent.style.display = 'block';
-          tooltipContent.style.left = leftSidebarOpen.isOpen? '566px':'66px' ;
+          tooltipContent.style.left = leftSidebarOpen.isOpen ? '566px' : '66px';
           tooltipContent.style.bottom = '0px';
           // 툴팁 위치 조정
         } else {
           tooltipContent.style.display = 'none';
         }
-        if(properties._type && properties._type._value === "disaster") {
+        if (properties._type && properties._type._value === "disaster") {
 
           const tDisasterData: disasterInfoHover = {
             dID: properties._dID?._value,
@@ -535,15 +535,15 @@ const EarthCesium = () => {
                 </tbody>
               </table>
             </div>`;
-            
+
           tooltip.style.display = 'block';
-          tooltip.style.left = leftSidebarOpen.isOpen? '566px':'66px' ;
+          tooltip.style.left = leftSidebarOpen.isOpen ? '566px' : '66px';
           tooltip.style.bottom = '0px'
           // 툴팁 위치 조정
         } else {
           tooltip.style.display = 'none';
-        } 
-      }else{
+        }
+      } else {
         tooltip.style.display = 'none';
         tooltipContent.style.display = 'none';
         const ellipsoid = viewer.scene.globe.ellipsoid;
@@ -559,15 +559,15 @@ const EarthCesium = () => {
           // Update tooltipLatLon with conditional styling
           tooltipLatLon.innerHTML = `<div style="width:280px; padding: 5px; textAlign: center;">latitude: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, longitude: ${longitude}°</div>`;
           tooltipLatLon.style.display = 'block';
-          tooltipLatLon.style.left = rightSidebarOpen.isOpen? String(window.innerWidth-tooltipLatLon.offsetWidth-405)+'px':String(window.innerWidth-tooltipLatLon.offsetWidth-5)+'px' ;
-          tooltipLatLon.style.top = String(window.innerHeight-tooltipLatLon.offsetHeight-5)+'px';
+          tooltipLatLon.style.left = rightSidebarOpen.isOpen ? String(window.innerWidth - tooltipLatLon.offsetWidth - 405) + 'px' : String(window.innerWidth - tooltipLatLon.offsetWidth - 5) + 'px';
+          tooltipLatLon.style.top = String(window.innerHeight - tooltipLatLon.offsetHeight - 5) + 'px';
         } else {
           tooltipLatLon.style.display = 'none';
           tooltip.style.display = 'none';
           tooltipContent.style.display = 'none';
         }
       }
-  }, ScreenSpaceEventType.MOUSE_MOVE);
+    }, ScreenSpaceEventType.MOUSE_MOVE);
 
     // 캔버스에 mouseleave 이벤트 핸들러 추가
     const canvas = viewer.scene.canvas;
@@ -581,7 +581,7 @@ const EarthCesium = () => {
     return () => {
       handler.destroy();
     };
-  }, [viewerRef.current,rightSidebarOpen,leftSidebarOpen]);
+  }, [viewerRef.current, rightSidebarOpen, leftSidebarOpen]);
 
   // 우클릭 이벤트 관리
   useEffect(() => {
@@ -589,7 +589,7 @@ const EarthCesium = () => {
     if (!viewer || !viewer.scene || !viewer.camera) {
       return;
     }
-    
+
     // 핸들러 모음
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
 
@@ -597,7 +597,7 @@ const EarthCesium = () => {
     let lastAddedEntity: Entity | null = null;
 
     // 우클릭 이벤트
-    handler.setInputAction((movement:any) => {
+    handler.setInputAction((movement: any) => {
       if (isLogin.isLoggedIn === false) {
         alert('로그인하세요!');
         return
@@ -611,15 +611,16 @@ const EarthCesium = () => {
         const lat = Math.toDegrees(cartographic.latitude).toFixed(4);
         if (Number(lat) < -65 || Number(lat) > 70 || Number(lat) < -180 || Number(lat) > 180) {
           alert("Alerts cannot be set for this area.\nPlease select another area.");
-          return;}
-        
+          return;
+        }
+
         // 여기에 추가적인 로직을 구현할 수 있습니다, 예를 들어, UI 요소에 지역 이름을 표시
-        setMailAlarmInfo( {...mailAlarmInfo, alertLongitude:Number(lon), alertLatitude:Number(lat), open:true});
+        setMailAlarmInfo({ ...mailAlarmInfo, alertLongitude: Number(lon), alertLatitude: Number(lat), open: true });
         setShowAlertTab(true);
         setLeftSidebarOpen({ isOpen: true, activeIcon: 'subscribe' });
 
         // 마지막으로 추가된 엔티티가 존재하면 삭제
-        if (lastAddedEntity){
+        if (lastAddedEntity) {
           viewer.entities.remove(lastAddedEntity);
         }
 
@@ -633,16 +634,16 @@ const EarthCesium = () => {
             outlineWidth: 2
           },
           ellipse: {
-            semiMinorAxis : mailAlarmInfo.alertRadius*1000,
-            semiMajorAxis : mailAlarmInfo.alertRadius*1000,
+            semiMinorAxis: mailAlarmInfo.alertRadius * 1000,
+            semiMajorAxis: mailAlarmInfo.alertRadius * 1000,
             height: 0,
             material: Color.RED.withAlpha(0.2),
-            outline : true,
-            outlineColor : new Color(255, 0, 0, 127),
+            outline: true,
+            outlineColor: new Color(255, 0, 0, 127),
           },
           id: String(mailAlarmInfo.objectId)
         });
-      }  
+      }
     }, ScreenSpaceEventType.RIGHT_CLICK);
 
     return () => {
@@ -650,7 +651,7 @@ const EarthCesium = () => {
     };
   }, [viewerRef.current]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer || !viewer.scene || !viewer.camera) {
       return;
@@ -659,16 +660,16 @@ const EarthCesium = () => {
     const entityId = mailAlarmInfo.objectId;
     const entity = viewer.entities.getById(String(entityId));
 
-    if (entity && entity.ellipse){
-      entity.ellipse.semiMinorAxis = new ConstantProperty(mailAlarmInfo.alertRadius*1000);
-      entity.ellipse.semiMajorAxis = new ConstantProperty(mailAlarmInfo.alertRadius*1000);
+    if (entity && entity.ellipse) {
+      entity.ellipse.semiMinorAxis = new ConstantProperty(mailAlarmInfo.alertRadius * 1000);
+      entity.ellipse.semiMajorAxis = new ConstantProperty(mailAlarmInfo.alertRadius * 1000);
     }
 
-    if (entity && mailAlarmInfo.open==false){
+    if (entity && mailAlarmInfo.open == false) {
       viewer.entities.remove(entity);
     }
 
-  },[mailAlarmInfo])
+  }, [mailAlarmInfo])
 
 
   // 좌클릭 이벤트 관리
@@ -687,7 +688,7 @@ const EarthCesium = () => {
       if (defined(pickedObject) && pickedObject.id && pickedObject.id.properties) {
         const properties = pickedObject.id.properties;
         // 'alert' 타입인 경우 처리하지 않음
-        if (properties._type && properties._type._value === "disaster") {   
+        if (properties._type && properties._type._value === "disaster") {
           const dID = properties._dID?._value;
           setSelectedPinState(dID); // 리코일 상태 업데이트  
           const clickDisasterData = {
@@ -703,13 +704,13 @@ const EarthCesium = () => {
             objectId: properties._objectId?._value,
           };
           const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
-          
+
           router.push(`/earth?lon=${clickDisasterData.dLongitude}&lat=${clickDisasterData.dLatitude}&height=${camaraHeight}&did=${clickDisasterData.dID}`, undefined);
-          setLeftSidebarOpen({isOpen: true, activeIcon:"detail"});
+          setLeftSidebarOpen({ isOpen: true, activeIcon: "detail" });
           setDIdValue(clickDisasterData.dID);
           setIsUserInput(true)
           setClickedEntity(pickedObject.id);
-        } else if (properties._type && properties._type._value === "alert"){
+        } else if (properties._type && properties._type._value === "alert") {
           const properties = pickedObject.id.properties;
           const clickAlertData = {
             alertDistrictName: properties.alertDistrictName?._value,
@@ -721,14 +722,14 @@ const EarthCesium = () => {
             alertLatitude: properties.alertLatitude?._value,
             alertLongitude: properties.alertLongitude?._value,
             objectId: properties.objectId?._value,
-            alertEmail:  properties.alertEmail?._value,
+            alertEmail: properties.alertEmail?._value,
             createdAt: properties.createAt?._value,
             memo: properties.memo?._value,
             open: true,
             edit: true,
           };
           if (clickAlertData.alertLatitude < -65 && clickAlertData.alertLatitude > 70 && clickAlertData.alertLongitude < -180 && clickAlertData.alertLongitude > 180) return;
-          setLeftSidebarOpen({isOpen: true, activeIcon:"subscribe"});
+          setLeftSidebarOpen({ isOpen: true, activeIcon: "subscribe" });
           setMailAlarmInfo(clickAlertData)
         }
       }
@@ -752,7 +753,7 @@ const EarthCesium = () => {
     }
   }, [clickedEntity]);
 
-    // 애니메이션 상태 업데이트
+  // 애니메이션 상태 업데이트
 
   // 카메라 이동마다 이벤트 관리
   useEffect(() => {
@@ -802,7 +803,7 @@ const EarthCesium = () => {
 
   return (
     <>
-      <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}>
+      <div className='h-[100vh] pt-[50px]' ref={cesiumContainer}>
         <FilterStatusDisplay />
         <AlertModule />
       </div>
