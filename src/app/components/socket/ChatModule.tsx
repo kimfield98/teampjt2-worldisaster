@@ -193,7 +193,7 @@ const ChatModule = () => {
   return (
     <>
       <div className='chat'>
-        <div style={messageListStyle}>
+        <div style={messageListStyle} className=' min-h-[90%]'>
           <MessageList
             toBottomHeight={'100%'}
             className='message-list'
