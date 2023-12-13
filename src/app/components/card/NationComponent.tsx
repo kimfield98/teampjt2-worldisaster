@@ -34,7 +34,13 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!currentCountry) return <div className='card2'>No country data found.</div>;
+  if (!currentCountry) {
+    return (<div className='card'>
+      <div className='cardTitle'>Geographical Context</div>
+      <div className='cardContent'>Select a disaster from the world map.</div>
+    </div>
+    )
+  }
 
   const handleExpansion = () => {
     if (expanded < 2) {
@@ -52,119 +58,127 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
       <div className=' flex justify-between items-center'>
         <div className='cardTitle'>
-          Country Information
+          Geographical Context
         </div>
-        <button 
-            onClick={handleExpansion}
-            className="inline-flex items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-          >
-            {expanded < 2 ? <>Show More<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></>
-              :<>Show Less<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg></>}
-        </button>
       </div>
       <div className='p-3 overflow-auto' style={{ maxHeight: expanded === 1 ? '300px' : expanded === 2 ? 'none' : '500px' }}>
         <table>
           <tbody>
-            <tr>
-              <td className="min-w-auto bold text-black mb-2">Country:</td>
-              <td>{renderData(currentCountry.cCountry)}</td>
-            </tr>
-            <tr>
-              <td className="min-w-auto bold text-black mb-2">Capital:</td>
-              <td>{currentCountry.cCapitalName}</td>
-            </tr>
-            <tr>
-              <td className="min-w-auto bold text-black mb-2">Population:</td>
-              <td>{currentCountry.cPopulation}</td>
-            </tr>
+            {currentCountry && currentCountry.cCountry ? (
+              <tr>
+                <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>
+                  {currentCountry.cCountry && (currentCountry.cCountry.toLowerCase().includes('ocean') || currentCountry.cCountry.toLowerCase().includes('sea')) ? 'Location:' : 'Country:'}
+                </td>
+                <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cCountry}</td>
+              </tr>
+            ) : null}
+            {currentCountry && currentCountry.cCapitalName ? (
+              <tr>
+                <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Capital:</td>
+                <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cCapitalName} {' ('} {currentCountry.cCapitalCoordinates} {') '}</td>
+              </tr>
+            ) : null}
+            {currentCountry && currentCountry.cTimeDifference ? (
+              <tr>
+                <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Timezone:</td>
+                <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cTimeDifference}</td>
+              </tr>
+            ) : null}
             {expanded > 0 && (
               <>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Geographic Coordinates:</td>
-                  <td>{currentCountry.cGeoCoordinates}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Climate:</td>
-                  <td>{currentCountry.cClimate}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Natural Hazards:</td>
-                  <td>{currentCountry.cNaturalHazards}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Government Type:</td>
-                  <td>{currentCountry.cGovernmentType}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Economic Overview:</td>
-                  <td>{currentCountry.cEconomicOverview}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">GDP:</td>
-                  <td>{currentCountry.cGDP}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">GDP per Capita:</td>
-                  <td>{currentCountry.cRealGDPPerCapita}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Environmental Issues:</td>
-                  <td>{currentCountry.cEnvironmentalIssues}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Population Distribution:</td>
-                  <td>{currentCountry.cPopulationDistribution}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Urban Population:</td>
-                  <td>{currentCountry.cUrbanPopulation}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Urbanization Rate:</td>
-                  <td>{currentCountry.cUrbanRate}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Major Urban Population:</td>
-                  <td>{currentCountry.cMajorUrbanPopulation}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Official Country Name:</td>
-                  <td>{currentCountry.cCountryOfficialName}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Capital Coordinates:</td>
-                  <td>{currentCountry.cCapitalCoordinates}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Time Difference:</td>
-                  <td>{currentCountry.cTimeDifference}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Location:</td>
-                  <td>{currentCountry.cLocation}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Continent:</td>
-                  <td>{currentCountry.cContinent}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Country Code:</td>
-                  <td>{currentCountry.cCode}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Country Name (Romanized):</td>
-                  <td>{currentCountry.cCountry_rw}</td>
-                </tr>
-                <tr>
-                  <td className="min-w-auto bold text-black mb-2">Other Country Names:</td>
-                  <td>{currentCountry.cCountry_other}</td>
-                </tr>
-                </>
+                {currentCountry && currentCountry.cGovernmentType ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Gov. Type:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cGovernmentType}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cEconomicOverview ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Economy:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cEconomicOverview}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cGDP ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>GDP:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cGDP}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cRealGDPPerCapita ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>GDP per Capita:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cRealGDPPerCapita}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cPopulation ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Population:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cPopulation}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cUrbanPopulation ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Urban Population:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cUrbanPopulation}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cMajorUrbanPopulation ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Major Urban Population:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cMajorUrbanPopulation}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cPopulationDistribution ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Population Distribution:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cPopulationDistribution}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cClimate ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Climate:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }} > {currentCountry.cClimate}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cNaturalHazards ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Natural Hazards:</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cNaturalHazards}</td>
+                  </tr>
+                ) : null}
+                {currentCountry && currentCountry.cEnvironmentalIssues ? (
+                  <tr>
+                    <td className="min-w-auto bold text-black mb-2" style={{ paddingRight: '8px', paddingBottom: '10px' }}>Environment (Issues):</td>
+                    <td style={{ fontStyle: 'italic', paddingBottom: '10px' }}>{currentCountry.cEnvironmentalIssues}</td>
+                  </tr>
+                ) : null}
+              </>
             )}
           </tbody>
         </table>
       </div>
-    </div>
+      <div className="flex justify-center">
+        <button
+          onClick={handleExpansion}
+          className="inline-flex items-center text-white bg-[#023f56] border-0 py-1 px-40 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
+          {expanded < 1 ? (
+            <span onClick={() => setExpanded(1)}>
+              Show More
+            </span>
+          ) : expanded < 2 ? (
+            <span onClick={() => setExpanded(2)}>
+              Extend Fully
+            </span>
+          ) : (
+            <span onClick={() => setExpanded(0)}>
+              Show Less
+            </span>
+          )}
+        </button>
+      </div>
+
+    </div >
   );
 };
 

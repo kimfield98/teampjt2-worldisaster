@@ -433,6 +433,12 @@ const EarthCesium = () => {
     // 핸들러 모음
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
 
+    // 호버 이벤트에 사용되는 첫글자 대문자 함수
+    const capitalizeFirstLetter = (string: string) => {
+      if (!string) return '';
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     // 호버 이벤트
     handler.setInputAction((movement: any) => {
       const pickedObject = viewerRef.current?.scene.pick(movement.endPosition);
@@ -499,10 +505,11 @@ const EarthCesium = () => {
             dID: properties._dID?._value,
             dType: properties._dType?._value,
             dCountry: properties._dCountry?._value,
-            dStatus: properties._dStatus?._value,
+            dStatus: capitalizeFirstLetter(properties._dStatus?._value),
             dDate: properties._dDate?._value,
           };
 
+          // <img src="./Disaster/${tDisasterData.dType}.png" alt="${tDisasterData.dType}" style="width: 36px; height: 36px; margin-bottom: 10px;">
           tooltip.innerHTML = `
           <div style="
           background-color: rgba(255, 255, 255, 0.9); 
@@ -510,26 +517,26 @@ const EarthCesium = () => {
           padding: 10px; 
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
           font-family: Arial, sans-serif;
-          max-width: 200px;
+          max-width: 225px;
           line-height: 1.4;
         ">
-              <img src="./Disaster/${tDisasterData.dType}.png" alt="${tDisasterData.dType}" style="width: 36px; height: 36px; margin-bottom: 10px;">
-              <table>
+              <img src="./Disaster/${tDisasterData.dType}.png" alt="${tDisasterData.dType}" style="width: 24px; height: 24px; position: absolute; top: 10px; right: 10px;">
+              <table style="position: relative; z-index: 2;"> <!-- Ensure table is above the image -->
                 <tbody>
                   <tr>
-                    <td style="color: #666;">Type:</td>
+                    <td style="color: #666; padding-right: 8px;">Type: </td>
                     <td style="color: #000;">${tDisasterData.dType}</td>
                   </tr>
                   <tr>
-                    <td style="color: #666;">Country:</td>
+                    <td style="color: #666; padding-right: 8px;">Country: </td>
                     <td style="color: #000;">${tDisasterData.dCountry}</td>
                   </tr>
                   <tr>
-                    <td style="color: #666;">Date:</td>
+                    <td style="color: #666; padding-right: 8px;">Date: </td>
                     <td style="color: #000;">${tDisasterData.dDate}</td>
                   </tr>
                   <tr>
-                    <td style="color: #666;">Status:</td>
+                    <td style="color: #666; padding-right: 8px;">Status: </td>
                     <td style="color: #000;">${tDisasterData.dStatus}</td>
                   </tr>
                 </tbody>
@@ -557,7 +564,7 @@ const EarthCesium = () => {
           const isLatitudeInRange = Number(latitude) >= -65 && Number(latitude) <= 70;
 
           // Update tooltipLatLon with conditional styling
-          tooltipLatLon.innerHTML = `<div style="width:280px; padding: 5px; textAlign: center;">latitude: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, longitude: ${longitude}°</div>`;
+          tooltipLatLon.innerHTML = `<div style="width:300px; padding: 5px; textAlign: center;">Latitude: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, Longitude: ${longitude}°</div>`;
           tooltipLatLon.style.display = 'block';
           tooltipLatLon.style.left = rightSidebarOpen.isOpen ? String(window.innerWidth - tooltipLatLon.offsetWidth - 405) + 'px' : String(window.innerWidth - tooltipLatLon.offsetWidth - 5) + 'px';
           tooltipLatLon.style.top = String(window.innerHeight - tooltipLatLon.offsetHeight - 5) + 'px';
@@ -599,7 +606,7 @@ const EarthCesium = () => {
     // 우클릭 이벤트
     handler.setInputAction((movement: any) => {
       if (isLogin.isLoggedIn === false) {
-        alert('로그인하세요!');
+        alert('Please log in to use the right-click subscription feature.');
         return
       };
       // 클릭한 스크린 좌표를 카르테시안 좌표로 변환

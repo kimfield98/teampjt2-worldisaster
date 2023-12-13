@@ -133,6 +133,7 @@ const ChatModule = () => {
       }, 0);
     }
   }, [user, message, socketRef]);
+
   /* Component 반환값 CSS 적용 */
   const messageListStyle: React.CSSProperties = {
     margin: '20px 0',
@@ -159,6 +160,7 @@ const ChatModule = () => {
     height: 'auto',
     zIndex: 500, // 맨 위에 두기
   };
+
   /* 채팅 내 팝업 처리 (글자수 초과) */
   const [showPopup, setShowPopup] = React.useState(false);
   const tooManyCharacters = () => {
@@ -189,11 +191,12 @@ const ChatModule = () => {
       },
     ]
   }
+
   /* Component 전체 반환값 */
   return (
     <>
       <div className='chat'>
-        <div style={messageListStyle} className=' min-h-[90%]'>
+        <div style={messageListStyle} className=' min-h-[100%]'>
           <MessageList
             toBottomHeight={'100%'}
             className='message-list'

@@ -21,7 +21,7 @@ export function Video() {
       try {
         const response = await fetch(`https://worldisaster.com/api/upload/${dID}`);
         const data = await response.json();
-    
+
         if (data && data.length > 0 && data[0].video_url) {
           setVideoUrls(data.map((item: { video_url: any; }) => item.video_url));
           setCurrentVideoUrl(data[0].video_url);
@@ -36,7 +36,7 @@ export function Video() {
   }, [dID]); //dID가 변경될때마다 fetchVideoUrls() 실행
 
   useEffect(() => {
-    if(videoRef.current && currentVideoUrl) {
+    if (videoRef.current && currentVideoUrl) {
       videojs(videoRef.current, {
         sources: [
           {
@@ -54,7 +54,7 @@ export function Video() {
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p>Error: {error}</p>
+        <p>{error}</p>
       ) : (
         <video controls ref={videoRef} className="video-js object-contain" />
       )}
