@@ -30,7 +30,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
           <>
             <div className={`tab ${activeTab === 2 ? 'active tabActive' : ''}`} onClick={() => selectTab(2)}>News</div>
             <div className={`tab ${activeTab === 3 ? 'active tabActive' : ''}`} onClick={() => selectTab(3)}>Videos</div>
-            <div className={`tab ${activeTab === 4 ? 'active tabActive' : ''}`} onClick={() => selectTab(4)}>Upload</div>
+            {isLogin && <div className={`tab ${activeTab === 4 ? 'active tabActive' : ''}`} onClick={() => selectTab(4)}>Upload</div>}
           </>)
         }
       </div>
@@ -88,7 +88,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             <Video />
           </div>
         }
-        {isLogin && activeTab === 4 && dID &&
+        { activeTab === 4 && dID &&
           <div className='tabContent flex items-center justify-center ml-[20px]'>
             <Upload dID={dID} />
           </div>
