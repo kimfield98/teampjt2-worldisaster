@@ -61,7 +61,7 @@ const FilterStatusDisplay = () => {
     } else if (dataFilter.selectedYear) {
       return `아카이브 - ${dataFilter.selectedYear}`;
     } else {
-      return "No active filters";
+      return null;
     }
   };
   return (
@@ -557,7 +557,7 @@ const EarthCesium = () => {
           const isLatitudeInRange = Number(latitude) >= -65 && Number(latitude) <= 70;
 
           // Update tooltipLatLon with conditional styling
-          tooltipLatLon.innerHTML = `<div style="width: 220px; padding: 5px; textAlign: center;">위도: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, 경도: ${longitude}°</div>`;
+          tooltipLatLon.innerHTML = `<div style="width:280px; padding: 5px; textAlign: center;">latitude: <span style="color: ${isLatitudeInRange ? 'black' : 'red'};">${latitude}°</span>, longitude: ${longitude}°</div>`;
           tooltipLatLon.style.display = 'block';
           tooltipLatLon.style.left = rightSidebarOpen.isOpen? String(window.innerWidth-tooltipLatLon.offsetWidth-405)+'px':String(window.innerWidth-tooltipLatLon.offsetWidth-5)+'px' ;
           tooltipLatLon.style.top = String(window.innerHeight-tooltipLatLon.offsetHeight-5)+'px';
@@ -803,6 +803,7 @@ const EarthCesium = () => {
   return (
     <>
       <div className='h-[100vh] pt-[60px]' ref={cesiumContainer}>
+        <FilterStatusDisplay />
         <AlertModule />
       </div>
     </>

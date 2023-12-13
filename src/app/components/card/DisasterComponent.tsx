@@ -38,8 +38,8 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             <table>
               <tbody className='px-3'>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Country:</td>
-                  <td>{detailData.dCountry}</td>
+                  <td className="min-w-auto bold text-black mb-2">Type:</td>
+                  <td>{detailData.dType}</td>
                 </tr>
                 <tr>
                   <td className="min-w-auto bold text-black mb-2">Date:</td>

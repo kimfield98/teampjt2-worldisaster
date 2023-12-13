@@ -50,8 +50,17 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
   return (
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
-      <div className='cardTitle'>
-        Country Information
+      <div className=' flex justify-between items-center'>
+        <div className='cardTitle'>
+          Country Information
+        </div>
+        <button 
+            onClick={handleExpansion}
+            className="inline-flex items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+          >
+            {expanded < 2 ? <>Show More<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></>
+              :<>Show Less<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg></>}
+        </button>
       </div>
       <div className='p-3 overflow-auto' style={{ maxHeight: expanded === 1 ? '300px' : expanded === 2 ? 'none' : '500px' }}>
         <table>
@@ -154,13 +163,6 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             )}
           </tbody>
         </table>
-        <button 
-          onClick={handleExpansion}
-          className="inline-flex items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-        >
-          {expanded < 2 ? <>Show More<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></>
-            :<>Show Less<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg></>}
-        </button>
       </div>
     </div>
   );

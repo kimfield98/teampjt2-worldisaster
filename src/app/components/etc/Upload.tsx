@@ -106,19 +106,21 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID }) => {
           {fileName ?
             (
               <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
-                Selected file: {fileName}
-                <div onClick={DropCancel}>
-                  <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6 text-black hover:text-gray-1' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
-                  </svg>
+                <div className="flex justify-between items-center">
+                  <span>Selected file: {fileName}</span>
+                  <div onClick={DropCancel}>
+                    <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6 text-black hover:text-gray-1' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
+                    </svg>
+                  </div>
                 </div>
               </div>
             ) : (
               fileError ? (
-                <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>{fileError}</div>
+                <div className={`card2 ${isDarkMode ? 'darkMode' : ''} flex justify-center items-center text-red-400`}>{fileError}</div>
               ) : (
-                <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
-                  <div className="cardContent">Please drag a file here.</div>
+                <div className={`card2 ${isDarkMode ? 'darkMode' : ''} flex justify-center items-center`}>
+                  <div className="cardContent ">Please drag a file here.</div>
                 </div>
               )
             )
