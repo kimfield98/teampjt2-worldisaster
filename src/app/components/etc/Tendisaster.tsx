@@ -74,7 +74,7 @@ export default function TenDisaster() {
             <th scope="col" className="py-3 px-2 border-b border-gray-300 w-8">Rank</th>
             <th scope="col" className="py-3 px-2 border-b border-gray-300 w-40 ellipsis">Country</th>
             <th scope="col" className="py-3 px-2 border-b border-gray-300 ellipsis">Type</th>
-            <th scope="col" className="py-3 px-2 border-b border-gray-300 flex-grow ellipsis">Time</th>
+            <th scope="col" className="py-3 px-2 border-b border-gray-300 min-w-[8rem] flex-grow ellipsis">Time</th>
           </tr>
         </thead>
           <tbody>
@@ -113,22 +113,22 @@ export default function TenDisaster() {
       <ReactPaginate
         previousLabel={'<'}
         nextLabel={'>'}
-        breakLabel={"..."}
+        breakLabel={'...'}
         pageCount={totalPages}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={2}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={3}
         onPageChange={handlePageClick}
         containerClassName={"pagination flex justify-center mt-4 items-center"}
-        activeClassName={"active bg-gray-300 text-white rounded-full px-4 py-2"}
+        activeClassName={"active bg-gray-300 rounded-full"}
         disabledClassName={"disabled text-gray-500"}
-        previousClassName={"previous mx-1"}
-        nextClassName={"next mx-1"}
-        breakClassName={"break mx-1"}
-        pageClassName={"page mx-1"}
-        pageLinkClassName={"page-link border border-gray-300 rounded-full hover:bg-gray-200 hover:px-2 hover:py-2"}
-        previousLinkClassName={"previous-link px-1 py-2 border border-gray-300 rounded-full hover:bg-gray-200"}
-        nextLinkClassName={"next-link px-3 py-2 border border-gray-300 rounded-full hover:bg-gray-200"}
-        breakLinkClassName={"break-link px-3 py-2"}
+        previousClassName={"mx-1 w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 hover:bg-gray-200"}
+        nextClassName={"mx-1 w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 hover:bg-gray-200"}
+        breakClassName={"mx-1"}
+        pageClassName={"page m-1"}
+        pageLinkClassName={"w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 hover:bg-gray-200"}
+        previousLinkClassName={"w-full h-full flex justify-center items-center"}
+        nextLinkClassName={"w-full h-full flex justify-center items-center"}
+        breakLinkClassName={"px-3 py-2"}
       />
     </div>
   );

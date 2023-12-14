@@ -70,7 +70,8 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
                           (GDACS)
                         </button>
                       }
-                    </td>                  </tr>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             ) : (
@@ -89,7 +90,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
           </div>
         }
         { activeTab === 4 && dID &&
-          <div className='tabContent flex items-center justify-center ml-[20px]'>
+          <div className='tabContent flex items-center justify-center '>
             <Upload dID={dID} />
           </div>
         }

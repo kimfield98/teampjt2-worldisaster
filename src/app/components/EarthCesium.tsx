@@ -57,15 +57,15 @@ const FilterStatusDisplay = () => {
 
   const getFilterStatusText = () => {
     if (dataFilter.selectedLive) {
-      return "실시간";
+      return "Live";
     } else if (dataFilter.selectedYear) {
-      return `아카이브 - ${dataFilter.selectedYear}`;
+      return `Archive - ${dataFilter.selectedYear}`;
     } else {
       return null;
     }
   };
   return (
-    <div className="absolute top-10 left-[66%] rounded-2xl bg-gray-300 transform -translate-x-1/2 mt-4 text-center text-lg font-semibold z-10 p-2">
+    <div className="absolute top-10 left-[49%] rounded-2xl bg-gray-300 transform -translate-x-1/2 mt-4 text-center text-lg font-semibold z-10 p-2">
       <div className="bg-white p-3 rounded-xl shadow-sm">
         <span className="text-black">{getFilterStatusText()}</span>
       </div>
@@ -84,7 +84,7 @@ const EarthCesium = () => {
   const [countryData, setCountryData] = useRecoilState(countryState);
   const [dIdValue, setDIdValue] = useRecoilState(selectedDisasterIdState);
   const [custom, setCustom] = useState<CustomDataSource | null>(null);
-  const [clickedEntity, setClickedEntity] = useState(null);
+  const [clickedEntity, setClickedEntity] = useState<Entity>();
   const [activeAnimation, setActiveAnimation] = useState<AnimationState | null>(null);
   const [showAlertTab, setShowAlertTab] = useState<boolean>(false);
   const [mailAlarmInfo, setMailAlarmInfo] = useRecoilState(mailAlarmState);
@@ -93,6 +93,7 @@ const EarthCesium = () => {
   const [rightSidebarOpen, setRightSidebarOpen] = useRecoilState(rightSidebarState);
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
   const setSelectedPinState = useSetRecoilState(selectedPinState);
+  const [selectedEntity, setSelectedEntity] = useState<Entity|null>(null);
 
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
@@ -317,7 +318,7 @@ const EarthCesium = () => {
                 color: Color.fromCssColorString("#A374DB"),
                 outlineColor: Color.fromCssColorString("#ffffff"),
                 outlineWidth: 1,
-                scaleByDistance: new NearFarScalar(10e3, 1, 10e6, 1)
+                scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
               },
               properties: { ...item, type: 'disaster' }
             })) : (
@@ -347,7 +348,7 @@ const EarthCesium = () => {
               color: Color.fromCssColorString("#5CFFD1"),
               outlineColor: Color.fromCssColorString("#ffffff"),
               outlineWidth: 2,
-              scaleByDistance: new NearFarScalar(10e3, 5, 10e6, 1)
+              scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
             },
             properties: { ...item, type: 'disaster' }
           });
@@ -357,19 +358,30 @@ const EarthCesium = () => {
     });
   }
 
+  
   useEffect(() => {
     loadData();
-    alertLoadData()
   }, []);
+
+  useEffect(()=>{
+    alertLoadData()
+  },[])
+  
+  useEffect(() => {
+    if(alertData.length ==0 ) return;
+    applyAlertData();
+
+  }, [alertData]); // alertData가 변경될 때마다 핀 추가
+
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
     alertLoadData()
-  }, [mailAlarmInfo])
+  }, [mailAlarmInfo,dataFilter])
 
   useEffect(() => {
     alertLoadData()
-  }, [mailAlarmInfo])
+  }, [mailAlarmInfo,dataFilter])
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
@@ -390,6 +402,7 @@ const EarthCesium = () => {
     if (!custom || !viewerRef.current) return;
     applyFilters();
   }, [dataFilter, data])
+
 
   // 호버 이벤트 관리
   useEffect(() => {
@@ -638,7 +651,8 @@ const EarthCesium = () => {
             pixelSize: 10,
             color: Color.RED,
             outlineColor: Color.WHITE,
-            outlineWidth: 2
+            outlineWidth: 2,
+            heightReference: 2,
           },
           ellipse: {
             semiMinorAxis: mailAlarmInfo.alertRadius * 1000,
@@ -678,6 +692,83 @@ const EarthCesium = () => {
 
   }, [mailAlarmInfo])
 
+  // 엔티티의 색상을 변경하는 함수
+  const changeEntityColor = (entity:Entity) => {
+    if (entity.point) {
+      entity.point.outlineColor = new ConstantProperty(Color.YELLOW); // 색 변경
+      entity.point.outlineWidth = new ConstantProperty(5);
+    } else if (entity.ellipse) {
+      entity.ellipse.outlineColor = new ConstantProperty(Color.YELLOW); // 색 변경
+      entity.ellipse.outlineWidth = new ConstantProperty(5);
+    }
+  };
+
+  // 엔티티의 색상을 원래대로 복원하는 함수
+  const resetEntityColor = (entity:Entity) => {
+    if (entity.point) {
+      entity.point.outlineColor = new ConstantProperty(Color.WHITE); // 원래 색상으로 복원
+      entity.point.outlineWidth = new ConstantProperty(1);
+    } else if (entity.ellipse) {
+      entity.ellipse.outlineColor = undefined; // 원래 색상으로 복원
+      entity.ellipse.outlineWidth = undefined;
+    }
+  };
+
+  const handleLeftClick = (entity:Entity) =>{
+    if (!entity || !entity.properties) return;
+
+      // 이전 선택된 엔티티가 있으면 색상을 원래대로 복원
+    if (selectedEntity && selectedEntity !== entity) {
+      resetEntityColor(selectedEntity);
+    }
+
+    changeEntityColor(entity);
+    setSelectedEntity(entity);
+
+    
+
+    const properties = entity.properties;
+    if (properties._type && properties._type._value === "disaster") {
+      const clickDisasterData = {
+        dID: properties._dID?._value,
+        dType: properties._dType?._value,
+        dCountry: properties._dCountry?._value,
+        dStatus: properties._dStatus?._value,
+        dDate: properties._dDate?._value,
+        dCountryLatitude: properties._dCountryLatitude?._value,
+        dCountryLongitude: properties._dCountryLongitude?._value,
+        dLatitude: properties._dLatitude?._value,
+        dLongitude: properties._dLongitude?._value,
+        objectId: properties._objectId?._value,
+      };
+      
+      setSelectedPinState(clickDisasterData.dID);
+      setDIdValue(clickDisasterData.dID);
+      setLeftSidebarOpen({ isOpen: true, activeIcon: "detail" });
+      setIsUserInput(true);
+      setClickedEntity(entity);
+    } else if (properties._type && properties._type._value === "alert") {
+      const clickAlertData = {
+        alertDistrictName: properties.alertDistrictName?._value,
+        alertCountryName: properties._alertCountryName?._value,
+        alertRadius: properties.alertRadius?._value,
+        alertlevelRed: properties.alertLevelRed?._value,
+        alertlevelOrange: properties.alertLevelOrange?._value,
+        alertlevelGreen: properties.alertLevelGreen?._value,
+        alertLatitude: properties.alertLatitude?._value,
+        alertLongitude: properties.alertLongitude?._value,
+        objectId: properties.objectId?._value,
+        alertEmail: properties.alertEmail?._value,
+        createdAt: properties.createAt?._value,
+        memo: properties.memo?._value,
+        open: true,
+        edit: true,
+        delete: false,
+      };
+      setLeftSidebarOpen({ isOpen: true, activeIcon: "subscribe" });
+      setMailAlarmInfo(clickAlertData);
+    }
+  };
 
   // 좌클릭 이벤트 관리
   useEffect(() => {
@@ -693,52 +784,13 @@ const EarthCesium = () => {
     handler.setInputAction((click: any) => {
       const pickedObject = viewer.scene.pick(click.position);
       if (defined(pickedObject) && pickedObject.id && pickedObject.id.properties) {
-        const properties = pickedObject.id.properties;
-        // 'alert' 타입인 경우 처리하지 않음
-        if (properties._type && properties._type._value === "disaster") {
-          const dID = properties._dID?._value;
-          setSelectedPinState(dID); // 리코일 상태 업데이트  
-          const clickDisasterData = {
-            dID: properties._dID?._value,
-            dType: properties._dType?._value,
-            dCountry: properties._dCountry?._value,
-            dStatus: properties._dStatus?._value,
-            dDate: properties._dDate?._value,
-            dCountryLatitude: properties._dCountryLatitude?._value,
-            dCountryLongitude: properties._dCountryLongitude?._value,
-            dLatitude: properties._dLatitude?._value,
-            dLongitude: properties._dLongitude?._value,
-            objectId: properties._objectId?._value,
-          };
-          const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
-
-          router.push(`/earth?lon=${clickDisasterData.dLongitude}&lat=${clickDisasterData.dLatitude}&height=${camaraHeight}&did=${clickDisasterData.dID}`, undefined);
-          setLeftSidebarOpen({ isOpen: true, activeIcon: "detail" });
-          setDIdValue(clickDisasterData.dID);
-          setIsUserInput(true)
-          setClickedEntity(pickedObject.id);
-        } else if (properties._type && properties._type._value === "alert") {
-          const properties = pickedObject.id.properties;
-          const clickAlertData = {
-            alertDistrictName: properties.alertDistrictName?._value,
-            alertCountryName: properties._alertCountryName?._value,
-            alertRadius: properties.alertRadius?._value,
-            alertlevelRed: properties.alertLevelRed?._value,
-            alertlevelOrange: properties.alertLevelOrange?._value,
-            alertlevelGreen: properties.alertLevelGreen?._value,
-            alertLatitude: properties.alertLatitude?._value,
-            alertLongitude: properties.alertLongitude?._value,
-            objectId: properties.objectId?._value,
-            alertEmail: properties.alertEmail?._value,
-            createdAt: properties.createAt?._value,
-            memo: properties.memo?._value,
-            open: true,
-            edit: true,
-          };
-          if (clickAlertData.alertLatitude < -65 && clickAlertData.alertLatitude > 70 && clickAlertData.alertLongitude < -180 && clickAlertData.alertLongitude > 180) return;
-          setLeftSidebarOpen({ isOpen: true, activeIcon: "subscribe" });
-          setMailAlarmInfo(clickAlertData)
-        }
+        if (pickedObject.id.properties._type && pickedObject.id.properties._type._value === "disaster"){
+        const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
+        router.push(`/earth?lon=${pickedObject.id.properties.dLongitude?._value}&lat=${pickedObject.id.properties._dLatitude?._value}&height=${camaraHeight}&did=${pickedObject.id.properties._dID?._value}`, undefined);
+      } else {
+        const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
+        router.push(`/earth?lon=${pickedObject.id.properties.alertLongitude?._value}&lat=${pickedObject.id.properties.alertLatitude?._value}&height=${camaraHeight}`, undefined);
+      }
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
 
@@ -800,13 +852,28 @@ const EarthCesium = () => {
         destination: Cartesian3.fromDegrees(lon ? Number(lon) : 0, lat ? Number(lat) : 0, zoomHeight ? Number(zoomHeight) : 10e5),
         duration: 1,
         complete: () => {
-          if (detail) {
+          if (detail && custom) {
             setDIdValue(detail);
+            // dID를 사용하여 Entity 찾기
+            const entity = custom.entities.values.find(e => e.properties && e.properties._dID && e.properties._dID._value === detail);
+            if (entity) {
+              handleLeftClick(entity);
+            }
+          }else {
+            const entity = custom?.entities.values.find(e => 
+              e.properties && 
+              e.properties._alertLatitude && 
+              e.properties._alertLatitude._value === Number(lat) &&
+              e.properties._alertLongitude && 
+              e.properties._alertLongitude._value === Number(lon)
+            );
+            if (entity)
+            handleLeftClick(entity);
           }
         }
       });
     }
-  }, [search.get('lon'), search.get('lat'), search.get('height'), search.get('did')]);
+  }, [viewerRef.current, search.get('lon'), search.get('lat'), search.get('height'), search.get('did')]);
 
   return (
     <>

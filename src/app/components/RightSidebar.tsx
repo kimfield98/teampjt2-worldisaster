@@ -85,12 +85,17 @@ const RightSidebar: React.FC = () => {
             <Pin color="#5CFFD1" description="Archive Pin: Displays past events." />
           <div className="Notification">
             <div className=' font-bold'>Notification</div>
-              <div className="relative flex items-center ">
-                <div className="min-w-11 w-11 min-h-8 h-8 mx-2 bg-[#FF0000] rounded-full opacity-20"></div>
-                <div className="min-w-4 w-4 min-h-4 h-4 mx-4 bg-[#FF0000] rounded-full border-2 border-white absolute"></div>
-                <span className="text-sm">Shows subscriber-set notification location and range.</span>
-              </div>
+            <div className="relative flex items-center ">
+              <div className="min-w-11 w-11 min-h-8 h-8 mx-2 bg-[#FF0000] rounded-full opacity-20"></div>
+              <div className="min-w-4 w-4 min-h-4 h-4 mx-4 bg-[#FF0000] rounded-full border-2 border-white absolute"></div>
+              <span className="text-sm">Shows subscriber-set notification location and range.</span>
+            </div>
           </div>
+          <div className=' font-bold'>Selected</div>
+            <div className="flex items-center space-x-2 px-2">
+              <div className="w-4 m-2 h-4 rounded-full bg-white border-4 border-black ring-2 ring-yellow-500"></div>
+              <span className="text-sm">Selected Point</span>
+            </div>
         </div>
       )}
       <Toggle />

@@ -7,6 +7,7 @@ import axios from 'axios';
 import MailAlertList from './MailAlertList';
 
 export const MailAlertModule = () => {
+  const [inputKey, setInputKey] = useState(Date.now());
   const [alertInfo, setAlertInfo] = useRecoilState(mailAlarmState);
   const [placeName, setPlaceName] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -16,6 +17,7 @@ export const MailAlertModule = () => {
   const [alertLevelOrange, setAlertLevelOrange] = useState<boolean>(alertInfo.alertlevelOrange); // 알람 레벨RED
   const [alertLevelGreen, setAlertLevelGreen] = useState<boolean>(alertInfo.alertlevelGreen); // 알람 레벨RED
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
+
 
   const token = Cookies.get('access-token');
 
@@ -66,8 +68,33 @@ export const MailAlertModule = () => {
     setAlertInfo({ ...alertInfo, alertRadius: Number(e.target.value) });
   }
 
+  useEffect(() => {
+    const initializeScreen = () => {
+        // 필요한 초기화 작업을 여기에 구현합니다.
+        // 예를 들어, 입력 필드 초기화, 상태 초기화 등
+        setPlaceName('');
+        setAlertRange(100); // 기본 반경 값으로 초기화
+        setAlertLevelRed(false);
+        setAlertLevelOrange(false);
+        setAlertLevelGreen(false);
+        setInputKey(Date.now());      
+    }
+    
+    // 위도 또는 경도가 변경될 때마다 화면 초기화 실행
+    initializeScreen();
+
+    if (alertInfo.edit){
+      setPlaceName(`${alertInfo.alertDistrictName},${alertInfo.alertCountryName}`)
+      setAlertRange(alertInfo.alertRadius)
+      setAlertLevelRed(alertInfo.alertlevelRed)
+      setAlertLevelOrange(alertInfo.alertlevelOrange)
+      setAlertLevelGreen(alertInfo.alertlevelGreen)
+    }
+  
+  }, [alertInfo.alertLatitude, alertInfo.alertLongitude]);  
+
   const createHandeler = async () => {
-    if (!confirm("알림을 생성하겠습니까?"))
+    if (!confirm("Create alert?"))
       return;
     try {
       const postData = {
@@ -90,11 +117,10 @@ export const MailAlertModule = () => {
       console.log("error", error);
     } finally {
       getLocationName(String(alertInfo.alertLatitude), String(alertInfo.alertLongitude));
-      setLeftSidebarOpen({ isOpen: false, activeIcon: 'none' });
-      setAlertInfo({ ...alertInfo, open: false });
+      setLeftSidebarOpen({ isOpen: true, activeIcon: 'none' });
+      setAlertInfo({ ...alertInfo, delete: true});
     }
   };
-
 
   return (
     <>
@@ -126,7 +152,7 @@ export const MailAlertModule = () => {
             <div>
               <p className='font-bold my-3 ml-3'>Select an alert radius.</p>
               <div className="flex justify-center gap-6 flex-col items-center">
-                <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} />
+                {alertInfo.edit? <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} value={alertInfo.alertRadius} disabled={true}/>:<input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} disabled={false}/>}
                 <label>{alertrange}km</label>
               </div>
             </div>
@@ -148,7 +174,7 @@ export const MailAlertModule = () => {
               </div>
             </div>
             <div className="btnBox">
-              <button className="btn" onClick={createHandeler}>
+              <button className="btn disabled:hidden" onClick={createHandeler} disabled={alertInfo.edit? true:false}>
                 Create
               </button>
             </div>

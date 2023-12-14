@@ -57,6 +57,7 @@ export interface PostAlertInfo {
   memo: string;
   open: boolean;
   edit: boolean;
+  delete: boolean;
 }
 
 export interface ContryDataType {
@@ -161,6 +162,7 @@ export const mailAlarmState = atom<PostAlertInfo>({
     memo: "",
     open: false,
     edit: false,
+    delete: false,
   },
 });
 
