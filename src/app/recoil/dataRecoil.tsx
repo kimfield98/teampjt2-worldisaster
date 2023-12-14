@@ -3,28 +3,28 @@
 import { RecoilRoot, atom } from "recoil";
 
 //////// interface ////////
-export interface DataType{
+export interface DataType {
   dID: string;
   dSource: string;
   dStatus: string;
-  dAlertLevel: string|null;
+  dAlertLevel: string | null;
   dCountryCode: string;
   dCountry: string;
-  dDistrict: string|null;
+  dDistrict: string | null;
   dType: string;
   dDate: string;
   dLatitude: number;
   dLongitude: number;
-  dTitle: string|null;
+  dTitle: string | null;
   dDescription: string;
   dUrl: string;
 }
 
-export interface FilterType{
-    selectedCountry: string,
-    selectedDisaster: string[],
-    selectedYear: number,
-    selectedLive: boolean;
+export interface FilterType {
+  selectedCountry: string,
+  selectedDisaster: string[],
+  selectedYear: number,
+  selectedLive: boolean;
 }
 
 export interface UserType {
@@ -57,9 +57,10 @@ export interface PostAlertInfo {
   memo: string;
   open: boolean;
   edit: boolean;
+  delete: boolean;
 }
 
-export interface ContryDataType{
+export interface ContryDataType {
   objectId: number,
   cCode: string,
   cCountry: string,
@@ -85,7 +86,7 @@ export interface ContryDataType{
   cEconomicOverview: string,
   cGDP: string,
   cRealGDPPerCapita: string,
-  }
+}
 
 
 //////// atom ////////
@@ -104,7 +105,7 @@ export const countryState = atom<ContryDataType[]>({
 // 국가 년도 상태 정의
 export const yearState = atom<number>({
   key: 'yearState',
-  default: 2023 ,
+  default: 2023,
 });
 
 // 필터 상태 정의
@@ -122,7 +123,7 @@ export const filterState = atom<FilterType>({
 export const userLoginState = atom<UserType>({
   key: 'userLoginState',
   default: {
-    isLoggedIn: false,
+    isLoggedIn: false, // 디버깅 중이라 true, 원래는 false
     userInfo: null,
   },
 });
@@ -149,7 +150,7 @@ export const mailAlarmState = atom<PostAlertInfo>({
   default: {
     objectId: '',
     alertEmail: '',
-    alertDistrictName: '' ,
+    alertDistrictName: '',
     alertCountryName: '',
     alertLatitude: 0,
     alertLongitude: 0,
@@ -161,6 +162,7 @@ export const mailAlarmState = atom<PostAlertInfo>({
     memo: "",
     open: false,
     edit: false,
+    delete: false,
   },
 });
 
@@ -188,7 +190,7 @@ export const darkModeState = atom({
 export const clickAlertInfo = atom({
   key: 'clickAlertInfo',
   default: {
-    alertDistrictName: '' ,
+    alertDistrictName: '',
     alertCountryName: '',
     alertRadius: 0,
     alertlevelRed: false,

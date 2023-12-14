@@ -7,6 +7,7 @@ import axios from 'axios';
 import MailAlertList from './MailAlertList';
 
 export const MailAlertModule = () => {
+  const [inputKey, setInputKey] = useState(Date.now());
   const [alertInfo, setAlertInfo] = useRecoilState(mailAlarmState);
   const [placeName, setPlaceName] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -16,6 +17,7 @@ export const MailAlertModule = () => {
   const [alertLevelOrange, setAlertLevelOrange] = useState<boolean>(alertInfo.alertlevelOrange); // 알람 레벨RED
   const [alertLevelGreen, setAlertLevelGreen] = useState<boolean>(alertInfo.alertlevelGreen); // 알람 레벨RED
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
+
 
   const token = Cookies.get('access-token');
 
@@ -66,6 +68,31 @@ export const MailAlertModule = () => {
     setAlertInfo({ ...alertInfo, alertRadius: Number(e.target.value) });
   }
 
+  useEffect(() => {
+    const initializeScreen = () => {
+        // 필요한 초기화 작업을 여기에 구현합니다.
+        // 예를 들어, 입력 필드 초기화, 상태 초기화 등
+        setPlaceName('');
+        setAlertRange(100); // 기본 반경 값으로 초기화
+        setAlertLevelRed(false);
+        setAlertLevelOrange(false);
+        setAlertLevelGreen(false);
+        setInputKey(Date.now());      
+    }
+    
+    // 위도 또는 경도가 변경될 때마다 화면 초기화 실행
+    initializeScreen();
+
+    if (alertInfo.edit){
+      setPlaceName(`${alertInfo.alertDistrictName},${alertInfo.alertCountryName}`)
+      setAlertRange(alertInfo.alertRadius)
+      setAlertLevelRed(alertInfo.alertlevelRed)
+      setAlertLevelOrange(alertInfo.alertlevelOrange)
+      setAlertLevelGreen(alertInfo.alertlevelGreen)
+    }
+  
+  }, [alertInfo.alertLatitude, alertInfo.alertLongitude]);  
+
   const createHandeler = async () => {
     if (!confirm("Would you like to create a new alert subscription?"))
       return;
@@ -90,64 +117,64 @@ export const MailAlertModule = () => {
       console.log("error", error);
     } finally {
       getLocationName(String(alertInfo.alertLatitude), String(alertInfo.alertLongitude));
-      setLeftSidebarOpen({ isOpen: false, activeIcon: 'none' });
-      setAlertInfo({ ...alertInfo, open: false });
+      setLeftSidebarOpen({ isOpen: true, activeIcon: 'none' });
+      setAlertInfo({ ...alertInfo, delete: true});
     }
   };
-
 
   return (
     <>
       <div className='card2 flex flex-col items-center'>
-        <p className='cardTitle'>🌐 Explore our interactive globe! 🌐</p>
+        <p className='cardTitle'>🌐 Customized Alerts Subscription 🌐</p>
         <div className='cardContent flex flex-col items-center'>
-          <p>Just right-click on any country or region that interests you.</p>
-          <p>A subscription setup window will pop up, allowing you to easily set and save your preferences.</p>
-          <p>Stay alerted about disasters that take place in the areas of your choosing.</p>
+          <p>Take a look at the interactive globe on the right.</p>
+          <p>Feel free to browse to a custom location.</p>
+          <p>A simple right-click will get you started on your journey.</p>
         </div>
       </div>
       <div className=''>
         {alertInfo.open &&
           <div className='card2'>
             <div className="flex justify-between">
-              <div className="cardTitle">Alert Subscription</div>
+              <div className="cardTitle">New Subscription</div>
             </div>
             <div>
-              <p className='font-bold mt-3 ml-3'>Location</p>
-              <div className="card2">
+              <p className='font-bold mt-3 ml-3'>You have selected:</p>
+              <div className="card2" style={{ marginLeft: '10px' }}>
                 <div>{isLoaded ? "Searching..." : placeName}</div>
               </div>
+              <div className="flex gap-1 ml-3">
+                <div className='flex items-center' style={{ marginLeft: '10px', marginRight: '0px' }}><p className='mr-1'>... of Latitude</p><p>{alertInfo.alertLatitude}</p></div>
+                <div className='flex items-center'><p className='mr-1'>and Longitude</p><p>{alertInfo.alertLongitude}</p></div>
+              </div>
             </div>
-            <div className="flex gap-6 ml-3">
-              <div className='flex items-center'><p className='mr-1 font-bold'>Latitude</p><p>{alertInfo.alertLatitude}</p></div>
-              <div className='flex items-center'><p className='mr-1 font-bold'>Longitude</p><p>{alertInfo.alertLongitude}</p></div>
-            </div>
+            <br />
             <div>
-              <p className='font-bold my-3 ml-3'>Radius</p>
+              <p className='font-bold my-3 ml-3'>Select an alert radius.</p>
               <div className="flex justify-center gap-6 flex-col items-center">
-                <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} />
+                {alertInfo.edit? <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} value={alertInfo.alertRadius} disabled={true}/>:<input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} disabled={false}/>}
                 <label>{alertrange}km</label>
               </div>
             </div>
             <div className="mt-2">
-              <p className='font-bold my-3 ml-3'>Level</p>
+              <p className='font-bold my-3 ml-3'>Choose one or more alert levels.</p>
               <div className="flex justify-center gap-6">
                 <div>
                   <span className='font-bold'>Red: </span>
-                  <button className="levelbtn" onClick={() => { setAlertLevelRed(!alertLevelRed) }} style={{ backgroundColor: alertLevelRed ? '#006FEE' : '#eee', marginRight: alertLevelRed ? '6.59px' : '0px' }}>{alertLevelRed ? "ON" : "OFF"}</button>
+                  <button className="levelbtn" onClick={() => { setAlertLevelRed(!alertLevelRed) }} style={{ backgroundColor: alertLevelRed ? '#ff0000' : '#eee', marginRight: alertLevelRed ? '6.59px' : '0px' }}>{alertLevelRed ? "ON" : "OFF"}</button>
                 </div>
                 <div>
                   <span className='font-bold'>Orange: </span>
-                  <button className="levelbtn" onClick={() => { setAlertLevelOrange(!alertLevelOrange) }} style={{ backgroundColor: alertLevelOrange ? '#006FEE' : '#eee', marginRight: alertLevelOrange ? '6.59px' : '0px' }}>{alertLevelOrange ? "ON" : "OFF"}</button>
+                  <button className="levelbtn" onClick={() => { setAlertLevelOrange(!alertLevelOrange) }} style={{ backgroundColor: alertLevelOrange ? '#ff8f46' : '#eee', marginRight: alertLevelOrange ? '6.59px' : '0px' }}>{alertLevelOrange ? "ON" : "OFF"}</button>
                 </div>
                 <div>
                   <span className='font-bold'>Green: </span>
-                  <button className="levelbtn" onClick={() => { setAlertLevelGreen(!alertLevelGreen) }} style={{ backgroundColor: alertLevelGreen ? '#006FEE' : '#eee', marginRight: alertLevelGreen ? '6.59px' : '0px' }}>{alertLevelGreen ? "ON" : "OFF"}</button>
+                  <button className="levelbtn" onClick={() => { setAlertLevelGreen(!alertLevelGreen) }} style={{ backgroundColor: alertLevelGreen ? '#35d100' : '#eee', marginRight: alertLevelGreen ? '6.59px' : '0px' }}>{alertLevelGreen ? "ON" : "OFF"}</button>
                 </div>
               </div>
             </div>
             <div className="btnBox">
-              <button className="btn" onClick={createHandeler}>
+              <button className="btn disabled:hidden" onClick={createHandeler} disabled={alertInfo.edit? true:false}>
                 Create
               </button>
             </div>

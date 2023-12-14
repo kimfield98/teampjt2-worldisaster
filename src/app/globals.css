@@ -9,56 +9,67 @@
   background-color: var(--color-gray-1);
   color: var(--color-black);
 }
+
 .darkMode {
   background-color: var(--color-gray-7);
   color: var(--color-white);
 }
+
 .darkMode .navbar {
   background-color: var(--color-gray-7);
 }
+
 .darkMode .thinIcon,
 .darkMode .navSettingModal {
   box-shadow: none;
 }
+
 .darkMode .card {
   box-shadow: none !important;
   color: var(--color-gray-7);
 }
+
 .darkMode .card2 {
   box-shadow: none !important;
   color: var(--color-gray-7);
 }
+
 .darkMode .leftLogo {
   color: var(--color-gray-1);
 }
+
 .darkMode .rightLogo {
   color: var(--color-gray-1);
 }
+
 .darkMode .navSettingModal {
   color: var(--color-gray-7);
 }
 
 /* card */
 .card {
-  margin: 20px 20px 20px 0;
+  margin: 10px 20px 20px 20px;
   padding: 10px;
   background-color: var(--color-white);
   box-shadow: 3px 3px 10px var(--color-gray-2);
-  border-radius: 8px;
+  border-radius: 4px;
 }
+
 .card2 {
-  margin: 20px 20px 20px 0;
+  margin: 10px 20px 20px 20px;
   padding: 10px;
   background-color: var(--color-white);
   border: 1px solid var(--color-gray-2);
-  border-radius: 8px;
+  border-radius: 4px;
 }
+
 .cardTitle {
   margin-bottom: 20px;
   padding: 0 5px;
   font-size: large;
   font-weight: bold;
 }
+
 .cardContent {
   padding: 0 5px;
 }
@@ -67,18 +78,22 @@
 .tabList {
   display: flex;
 }
+
 .tab {
-  margin-right:1px;
-  padding: 5px;
+  /* font-size: 12px; */
+  margin-right: 3px;
+  padding: 5px 12px 5px 12px;
   border: 1px solid var(--color-gray-3);
   border-bottom: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: 4px 4px 0 0;
   cursor: pointer;
 }
+
 .tabActive {
   background-color: var(--color-blue);
   color: var(--color-gray-1);
 }
+
 .tabContentBox {
   padding: 10px;
   border: 1px solid var(--color-gray-3);
@@ -86,8 +101,9 @@
 
 .btnBox {
   margin: 20px auto 10px;
-  width: fit-content; 
+  width: fit-content;
 }
+
 .btn {
   display: flex;
   align-items: center;
@@ -98,6 +114,7 @@
   border: none;
   border-radius: 8px;
 }
+
 .btn:hover {
   transform: scale(1.1);
 }
@@ -113,6 +130,7 @@
   border: 1px solid var(--color-gray-2);
   color: var(--color-gray-7);
 }
+
 .select:focus {
   outline: none;
 }
@@ -124,6 +142,7 @@
   border: 1px solid var(--color-gray-2);
   color: var(--color-gray-7);
 }
+
 .input:focus {
   outline: none;
 }

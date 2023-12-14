@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRecoilValue } from 'recoil';
-import { userLoginState, darkModeState } from "../../recoil/dataRecoil";
+import { darkModeState } from "../../recoil/dataRecoil";
 
 interface VideoUploaderProps {
   dID: string;
-  onUploadComplete: (videoUrl: string) => void;
 }
 
-const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
+const Upload: React.FC<VideoUploaderProps> = ({ dID }) => {
   const [file, setFile] = useState<File | null>(null); // 선택된 파일
   const [fileName, setFileName] = useState<string>(""); // 파일 이름
   const [fileError, setFileError] = useState<string>(""); // 파일 업로드 오류
-  const [loading, setLoading] = useState<boolean>(false); // 로딩 상태 
-  const { isLoggedIn } = useRecoilValue(userLoginState); // 로그인 상태
+  const [loading, setLoading] = useState<boolean>(false); // 로딩 상태
   const isDarkMode = useRecoilValue(darkModeState); // 다크모드
 
   // 파일 드래그 오버 이벤트 핸들러
@@ -97,47 +95,41 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID, onUploadComplete }) => {
 
   return (
     <>
-      {isLoggedIn ? (
-        <div>
-          <div className="card2 flex flex-col items-center justify-center">
-            <p>As a non-profit platform, we rely on help from individuals around the world to provide more context about each disaster.</p>
-            <p>Please feel free to capture and share any local footage. Become a reporter for worldisaster.  🎥</p>
-            <p>Files are limited to a size of 10MB in order to keep our services low-cost.</p>
-            <p>If you feel that your footage needs to exceed this limit, please contact us directly at worldisaster1@gmail.com</p>
-          </div>
-          <div onDragOver={handleDragOver} onDrop={handleDrop}>
-            {fileName ?
-              (
-                <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
-                  Selected file: {fileName}
+      <div>
+        <div className="card2 flex flex-col items-center justify-center text-center">
+          <p>Become a reporter for worldisaster. 🎥</p>
+          <p>You can capture and upload the local situation.</p>
+          <p>Files are limited to a size of 10MB.</p>
+          <p>Drag or select the file, then press the upload button.</p>
+        </div>
+        <div onDragOver={handleDragOver} onDrop={handleDrop}>
+          {fileName ?
+            (
+              <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
+                <div className="flex justify-between items-center">
+                  <span>Selected file: {fileName}</span>
                   <div onClick={DropCancel}>
                     <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6 text-black hover:text-gray-1' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
                     </svg>
                   </div>
                 </div>
+              </div>
+            ) : (
+              fileError ? (
+                <div className={`card2 ${isDarkMode ? 'darkMode' : ''} flex justify-center items-center text-red-400`}>{fileError}</div>
               ) : (
-                fileError ? (
-                  <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>{fileError}</div>
-                ) : (
-                  <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
-                    <div className="cardContent">Please drag a file here.</div>
-                  </div>
-                )
+                <div className={`card2 ${isDarkMode ? 'darkMode' : ''} flex justify-center items-center`}>
+                  <div className="cardContent ">Please drag a file here.</div>
+                </div>
               )
-            }
-          </div>
-          <div className="btnBox">
-            <button className="btn" onClick={uploadVideo}>Upload</button>
-          </div>
+            )
+          }
         </div>
-      ) : (
-        <div className="card2">
-          <div className="cardContent">
-            Please log-in to upload videos.
-          </div>
+        <div className="btnBox">
+          <button className="btn" onClick={uploadVideo}>Upload</button>
         </div>
-      )}
+      </div>
     </>
   );
 };

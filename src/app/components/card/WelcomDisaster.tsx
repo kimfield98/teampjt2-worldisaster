@@ -25,27 +25,30 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ title, children }) => {
 const Welcome = () => {
   return (
     <div className="font-sans bg-gray-200 text-gray-800 p-5">
-      <p className=" text-large text-center text-gray-700 mb-2 font-bold font-serif">🌐 Welcome to WorlDisaster 🌐</p>
-      <div className="mb-2 p-4">
-        <p>Welcome to Worldisaster, a platform dedicated to global disaster awareness and response. Our goal is to provide you with real-time updates, historical data, and interactive tools to understand and respond to various disasters around the globe. Join our community and subscribe to specific geographies around the world!</p>
+      <p className=" text-large text-center text-gray-700 mb-2 font-bold font-serif">🌐 Welcome to Worldisaster! 🌐</p>
+      <div className="mb-2 p-4" style={{ fontSize: '0.9rem' }}>
+        <p>Our mission at WorlDisaster is to elevate global awareness and readiness in the face of catastrophes that may affect us and the ones we love.</p>
+        <br />
+        <p>We strive to provide you with up-to-the-minute alerts, comprehensive updates, and a wealth of historical data, complemented by interactive resources designed to deepen your understanding. </p>
+        <br />
+        <p>Join us today, and step into a collective effort to forge a proactive stance against the unpredictable —making a tangible impact, together.</p>
       </div>
-      <FeatureSection title="Explore the Disaster Archive">
-        Delve into historical disasters using our interactive globe. Filter by year to discover disasters from specific periods.
+      <FeatureSection title="Explore Ongoing & Historical Disasters">
+        Delve into historical disasters and track current events in real-time with our interactive globe.
+        Toggle between different periods and stay updated with live updates.
+        Click the top-right button of this screen for more details.
       </FeatureSection>
-      <FeatureSection title="Real-Time Disaster Tracking">
-        Stay updated with current disasters. Effortlessly switch between the historical archive and live updates using our toggle feature.
+      <FeatureSection title="In-Depth Disaster Insights">
+        Click on disaster markers to access detailed information,
+        including affected countries, related articles, and videos for a holistic understanding.
       </FeatureSection>
-      <FeatureSection title="Personalized Alerts for Users">
-        After registration, you can create customized alerts for specific geographies. Set up real-time notifications with a simple right-click on the area of your interest.
+      <FeatureSection title="Set Custom Alerts and Track Updates">
+        Customize alerts for specific regions and set up real-time notifications.
+        Monitor disaster developments with a simple right-click on areas of interest on the globe.
       </FeatureSection>
-      <FeatureSection title="Interactive Disaster Points">
-        Click on disaster markers for in-depth information about affected countries and details about the disasters. Access related articles and videos for a comprehensive understanding.
-      </FeatureSection>
-      <FeatureSection title="Community Engagement">
-        Connect and share insights with our global chat feature, fostering a community of informed and active users.
-      </FeatureSection>
-      <FeatureSection title="Support and Donate">
-        Contribute to disaster-stricken areas through our platform. Every act of support makes a difference.
+      <FeatureSection title="Community and Support">
+        Engage with a global community through our chat feature
+        and contribute to relief efforts directly through the platform.
       </FeatureSection>
     </div>
   );

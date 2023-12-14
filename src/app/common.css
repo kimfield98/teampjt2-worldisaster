@@ -11,13 +11,13 @@
   --color-gray-7: #24292F;
   --color-blue: #023F56;
 
-    /* font-size */
-    --font-xlarge: 3rem;     
-    --font-large: 2.5rem;
-    --font-medium: 1.5rem; 
-    --font-regular: 1.125rem; 
-    --font-small: 1rem;    
-    --font-micro: 0.875rem;
+  /* font-size */
+  --font-xlarge: 3rem;
+  --font-large: 2.5rem;
+  --font-medium: 1.5rem;
+  --font-regular: 1.125rem;
+  --font-small: 1rem;
+  --font-micro: 0.875rem;
 }
 
 /* ThinSidebar */
@@ -26,15 +26,22 @@
   flex-direction: column;
   align-items: center;
   gap: 60px;
-  margin-top: 80px;
-  padding: 10px 15px;
+  margin-top: 50px;
+  padding: 40px 15px;
+  /* 라이트모드 색상 변경 */
   background-color: var(--color-gray-1);
+  border-right: 1px solid #B0C4DE;
+  box-shadow: 3px 0px 6px rgba(0, 0, 0, 0.1);
 }
+
+
 .thinIconBox {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  /* 아이콘간 거리 조정 */
+  gap: 35px;
 }
+
 .thinIcon {
   padding: 8px;
   background-color: var(--color-white);
@@ -42,6 +49,7 @@
   box-shadow: 3px 3px 10px var(--color-gray-2);
   cursor: pointer;
 }
+
 .thinSelectedIcon {
   background-color: var(--color-gray-3);
 }
@@ -56,17 +64,22 @@
   top: 0;
   left: 0;
   right: 0;
-  padding: 10px 17px;
+  padding: 5px 17px;
   z-index: 500;
   background-color: var(--color-gray-1);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #B0C4DE;
 }
-.navLogoBox{
+
+.navLogoBox {
   display: flex;
   align-items: center;
 }
+
 .navIcon {
   cursor: pointer;
 }
+
 .navSettingModal {
   position: absolute;
   top: 80px;
@@ -84,21 +97,24 @@
 .leftSidebar {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-gray-1);
+  background-color: var(--color-white);
   z-index: 30;
 }
+
 .leftLogoBox {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 60px;
 }
+
 .leftLogo {
   margin-left: 20px;
   color: var(--color-blue);
   font-size: 28px;
   font-weight: bold;
 }
+
 .leftIcon {
   margin-left: 450px;
   margin-top: 40px;
@@ -114,17 +130,20 @@
   background-color: var(--color-gray-1);
   z-index: 30;
 }
+
 .rightLogoBox {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .rightLogo {
   margin-left: 20px;
   color: var(--color-blue);
   font-size: 21px;
   font-weight: bold;
 }
+
 .rightIcon {
   margin-right: 15px;
   cursor: pointer;
@@ -133,8 +152,14 @@
 /* chat */
 .chat {
   border: 1px solid var(--color-gray-3);
-  border-radius: 8px;
-  margin: 5px 30px 5px 0px;
-  max-height: 80vh;
+  border-radius: 4px;
+  margin: 10px 20px 20px 20px;
+  max-height: 85vh;
   overflow-y: auto;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

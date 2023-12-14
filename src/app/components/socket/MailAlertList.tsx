@@ -27,18 +27,18 @@ export function MailAlertList() {
     getAlertData();
   }, [alertInfo]);
 
-  const deleteHandeler = async (objectId: string) => {
+  const deleteHandeler = async (objectId:string, countryName: string) => {
     if (!confirm("Would you like to remove a subscription?"))
-      return;
+    return;
     try {
       const response = await axios.delete(`https://worldisaster.com/api/emailAlerts/${objectId}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       console.log('Alert deleted successfully', response.data);
       setAlertInfo(prev => ({ ...prev, updated: new Date() }));
-      alert("Successfully unsubscribed.")
+      alert(`You no longer receive alerts from ${countryName}.`);
     } catch (error) {
-      alert("Failed to remove a subscription.")
+      alert("Something went wrong. Please contact our administrators.")
       console.log("error", error);
     }
   };
@@ -77,7 +77,7 @@ export function MailAlertList() {
                 {data.createdAt.slice(0, 10)}
               </td>
               <td className="p-2 pl-3">
-                <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={() => deleteHandeler(data.objectId)}>
+                <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={() => deleteHandeler(data.objectId, data.alertCountryName)}>
                   Delete
                 </button>
               </td>

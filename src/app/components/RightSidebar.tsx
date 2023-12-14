@@ -6,6 +6,7 @@ import Toggle from './Filter/Toggle';
 import Tag from './Filter/Tag';
 import Dragbar from './Filter/Dragbar';
 
+
 const RightSidebar: React.FC = () => {
   const [rightSidebar, setrightSidebar] = useRecoilState(rightSidebarState);
   const isDarkMode = useRecoilValue(darkModeState);
@@ -77,11 +78,11 @@ const RightSidebar: React.FC = () => {
       </div>
       {isCardVisible && (
         <div className='card2'>
-            <div className=' font-bold'>Real-time Pin</div>
+          <div className=' font-bold'>Real-time Pin</div>
             <Pin color="#A374DB" description="Indicates events currently in progress." />
             <Pin imageSrc="/pin.png" description="Provides real-time information." />
           <div className=' font-bold'>Archive</div>
-            <Pin color="#ff7b00" description="Archive Pin: Displays past events." />
+            <Pin color="#5CFFD1" description="Archive Pin: Displays past events." />
           <div className="Notification">
             <div className=' font-bold'>Notification</div>
             <div className="relative flex items-center ">

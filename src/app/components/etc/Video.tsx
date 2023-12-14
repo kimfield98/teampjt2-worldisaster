@@ -6,12 +6,12 @@ import "video.js/dist/video-js.css";
 import { useRecoilValue } from 'recoil';
 import { selectedPinState } from '../../recoil/dataRecoil';
 
-export default function Video() {
+export function Video() {
   const videoRef = useRef(null);
-  const [videoUrls, setVideoUrl] = useState([]);
+  const [videoUrls, setVideoUrls] = useState([]);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
-  const pathname = usePathname().split('/');
-  // const dID = pathname[2] //URL에서 dID 파라미터 추출
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const dID = useRecoilValue(selectedPinState);
 
   useEffect(() => {
@@ -21,15 +21,12 @@ export default function Video() {
       try {
         const response = await fetch(`https://worldisaster.com/api/upload/${dID}`);
         const data = await response.json();
-    
+
         if (data && data.length > 0 && data[0].video_url) {
-          console.log(data[0]);
-          console.log(data[0].video_url);
-          setVideoUrl(data.map((item: { video_url: any; }) => item.video_url));
+          setVideoUrls(data.map((item: { video_url: any; }) => item.video_url));
           setCurrentVideoUrl(data[0].video_url);
         } else {
-          // 데이터가 비어있거나 예상된 형식이 아닌 경우 처리
-          console.error("No video data available");
+          setError("No approved videos available");
         }
       } catch (error) {
         console.error("Error fetching video URLs:", error);
@@ -39,7 +36,7 @@ export default function Video() {
   }, [dID]); //dID가 변경될때마다 fetchVideoUrls() 실행
 
   useEffect(() => {
-    if(videoRef.current && currentVideoUrl) {
+    if (videoRef.current && currentVideoUrl) {
       videojs(videoRef.current, {
         sources: [
           {
@@ -53,8 +50,16 @@ export default function Video() {
   }, [currentVideoUrl]);
 
   return (
-    <div className=" bg-blue-500 max-w-[80%] max-h-[600px] overflow-hidden flex items-center justify-center">
-      <video controls ref={videoRef} className="video-js object-contain flex items-center justify-center" />
+    <div className="bg-blue-500 max-w-[80%] max-h-[600px] m-auto p-auto overflow-hidden flex items-center justify-center">
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <video controls ref={videoRef} className="video-js object-contain" />
+      )}
     </div>
   );
 }
+
+export default Video;
