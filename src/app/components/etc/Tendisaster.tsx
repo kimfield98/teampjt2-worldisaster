@@ -69,14 +69,14 @@ export default function TenDisaster() {
       </div>
       <div className="relative">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-300 text-center">
-            <tr>
-              <th scope="col" className="py-3 px-2 border-b border-gray-300 w-8">Rank</th>
-              <th scope="col" className="py-3 px-2 border-b border-gray-300 w-15">Country</th>
-              <th scope="col" className="py-3 px-2 border-b border-gray-300 w-14">Type</th>
-              <th scope="col" className="py-3 px-2 border-b border-gray-300 flex-grow">Time</th>
-            </tr>
-          </thead>
+        <thead className="bg-gray-300 text-center">
+          <tr>
+            <th scope="col" className="py-3 px-2 border-b border-gray-300 w-8">Rank</th>
+            <th scope="col" className="py-3 px-2 border-b border-gray-300 w-40 ellipsis">Country</th>
+            <th scope="col" className="py-3 px-2 border-b border-gray-300 ellipsis">Type</th>
+            <th scope="col" className="py-3 px-2 border-b border-gray-300 min-w-[8rem] flex-grow ellipsis">Time</th>
+          </tr>
+        </thead>
           <tbody>
             {sortedDisasters.map((item, index) => (
               <>
@@ -86,7 +86,7 @@ export default function TenDisaster() {
                   className={`cursor-pointer ${item.dStatus === 'real-time' ? 'text-blue-600 font-semibold' : 'text-gray-700'} hover:bg-gray-200 transition duration-150 ease-in-out border-b border-gray-300`}
                 >
                   <td className="py-2 px-2 text-center">{getRank(index)}</td>
-                  <td className="py-2 px-2 text-center">{item.dCountry}</td>
+                  <td className="py-2 px-2 text-center ">{item.dCountry}</td>
                   <td className="py-2 px-2 text-center">{item.dType}</td>
                   <td className="py-2 px-2 text-center">{formatDateTime(item.dDate)}</td>
                 </tr>
@@ -96,7 +96,7 @@ export default function TenDisaster() {
                       <div className="flex justify-between items-center">
                         <span>{item.dTitle || 'No Title'}</span>
                         <button 
-                          className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                          className="inline-flex text-white bg-sky-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
                           onClick={() => handleDetailView(item)}
                         >
                           View Details
@@ -113,22 +113,22 @@ export default function TenDisaster() {
       <ReactPaginate
         previousLabel={'<'}
         nextLabel={'>'}
-        breakLabel={"..."}
+        breakLabel={'...'}
         pageCount={totalPages}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={2}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={3}
         onPageChange={handlePageClick}
         containerClassName={"pagination flex justify-center mt-4 items-center"}
-        activeClassName={"active bg-indigo-500 text-white px-3 py-2 rounded-full mx-1"}
+        activeClassName={"active bg-gray-300 rounded-full"}
         disabledClassName={"disabled text-gray-500"}
-        previousClassName={"previous mx-1"}
-        nextClassName={"next mx-1"}
-        breakClassName={"break mx-1"}
-        pageClassName={"page mx-1"}
-        pageLinkClassName={"page-link border border-gray-300 rounded-full hover:bg-gray-200"}
-        previousLinkClassName={"previous-link px-1 py-2 border border-gray-300 rounded-full hover:bg-gray-200"}
-        nextLinkClassName={"next-link px-3 py-2 border border-gray-300 rounded-full hover:bg-gray-200"}
-        breakLinkClassName={"break-link px-3 py-2"}
+        previousClassName={"mx-1 w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 hover:bg-gray-200"}
+        nextClassName={"mx-1 w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 hover:bg-gray-200"}
+        breakClassName={"mx-1"}
+        pageClassName={"page m-1"}
+        pageLinkClassName={"w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 hover:bg-gray-200"}
+        previousLinkClassName={"w-full h-full flex justify-center items-center"}
+        nextLinkClassName={"w-full h-full flex justify-center items-center"}
+        breakLinkClassName={"px-3 py-2"}
       />
     </div>
   );

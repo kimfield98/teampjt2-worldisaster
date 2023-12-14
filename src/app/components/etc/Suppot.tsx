@@ -38,7 +38,7 @@ const Support: React.FC = () => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
   };
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,12 +146,12 @@ const Support: React.FC = () => {
   return (
     <div>
       <div className="card">
-        <div className="cardTitle">Support Page</div>
+        <div className="cardTitle">Donations</div>
         <div className="cardContent">
-          <p className="mb-3">Explore disaster information and lend a helping hand.💌</p>
-          <p>1️⃣ Select the type of disaster you want to help with,</p>
-          <p>2️⃣ enter the currency and amount, and click the button.</p>
-          <p>3️⃣ You will be redirected to the PayPal payment page.</p>
+          <p className="mb-3">Our team of expects have enabled a donation feature on specific disasters that need a helping hand. Please follow these steps to support those in need:</p>
+          <p>(1) Select a disaster that you want to donate to.</p>
+          <p>(2) Enter the currency and amount. Even the smallest donation helps.</p>
+          <p>(3) Upon clicking 'Donate', You will be redirected to Paypal to complete the transaction.</p>
         </div>
       </div>
       <div className="card">
@@ -163,7 +163,7 @@ const Support: React.FC = () => {
             onChange={(event) => setSelecteddID(event.target.value)}
             className="select ml-[20px]"
           >
-            {selecteddID === "" ? <option>Choose a disaster to donate to.</option> : null}
+            {selecteddID === "" ? <option>Select a disaster to donate to.</option> : null}
             {disasters.map((disaster, index) => (
               <option
                 key={index}
@@ -178,7 +178,7 @@ const Support: React.FC = () => {
             {!supportDetail ?
               <div className="card2">
                 <div className="cardContent">
-                  Select a disaster to donate to.
+                  Select a disaster to donate to (Details shown here)
                 </div>
               </div>
               :
@@ -211,20 +211,20 @@ const Support: React.FC = () => {
           <button className="btn" onClick={handleButtonClick}>Donate</button>
         </div>
       </div>
-      
+
       <div className="card">
         <div className="cardTitle">History</div>
         <div className="custom-scrollbar overflow-auto h-[150px]">
           <table className="w-full text-left p-5">
             <thead className="uppercase">
               <tr>
-                <th scope="col" className="py-1 pl-3">👇View Detailed Information</th>
+                <th scope="col" className="py-1 pl-3">Thank you for your help!</th>
               </tr>
             </thead>
             <tbody className="p-3">
               {donationHistory.map((donation, index) => (
                 <>
-                  <tr 
+                  <tr
                     key={index}
                     onClick={() => handleDonationClick(donation.dID)}
                     className="cursor-pointer"

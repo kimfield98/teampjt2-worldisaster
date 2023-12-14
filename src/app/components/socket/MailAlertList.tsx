@@ -15,31 +15,31 @@ export function MailAlertList() {
     const token = Cookies.get('access-token');
     const getAlertData = async () => {
       try {
-        const response = await axios('https://worldisaster.com/api/emailAlerts',{
-          headers: {Authorization: `Bearer ${token}`}
+        const response = await axios('https://worldisaster.com/api/emailAlerts', {
+          headers: { Authorization: `Bearer ${token}` }
         })
-        console.log("alert sucess",response.data);
+        console.log("alert sucess", response.data);
         setAlertData(response.data);
-      } catch(error) {
-        console.log("error",error);
+      } catch (error) {
+        console.log("error", error);
       }
     }
     getAlertData();
-  },[alertInfo]);
+  }, [alertInfo]);
 
-  const deleteHandeler = async (objectId:string) => {
-    if (!confirm("알림을 삭제하시겠습니까?"))
-    return;
+  const deleteHandeler = async (objectId: string) => {
+    if (!confirm("Would you like to remove a subscription?"))
+      return;
     try {
-      const response = await axios.delete(`https://worldisaster.com/api/emailAlerts/${objectId}`,{
-        headers: {Authorization: `Bearer ${token}`}
+      const response = await axios.delete(`https://worldisaster.com/api/emailAlerts/${objectId}`, {
+        headers: { Authorization: `Bearer ${token}` }
       })
       console.log('Alert deleted successfully', response.data);
       setAlertInfo(prev => ({ ...prev, updated: new Date() }));
-      alert("삭제되었습니다.")
-    } catch(error) {
-      alert("삭제에 실패하였습니다.")
-      console.log("error",error);
+      alert("Successfully unsubscribed.")
+    } catch (error) {
+      alert("Failed to remove a subscription.")
+      console.log("error", error);
     }
   };
 
@@ -48,44 +48,44 @@ export function MailAlertList() {
       <table className='w-full'>
         <thead className="bg-gray-50">
           <tr>
-              <th className="pl-2 p-2 text-xs text-gray-500">
-                  ID
-              </th>
-              <th className="p-2 text-xs text-gray-500">
-                  Country
-              </th>
-              <th className="p-2 text-xs text-gray-500">
-                  create at
-              </th>
-              <th className="p-2 text-xs text-gray-500">
-                  Delete
-              </th>
+            <th className="pl-2 p-2 text-xs text-gray-500">
+              ID
+            </th>
+            <th className="p-2 text-xs text-gray-500">
+              Country
+            </th>
+            <th className="p-2 text-xs text-gray-500">
+              create at
+            </th>
+            <th className="p-2 text-xs text-gray-500">
+              Delete
+            </th>
           </tr>
         </thead>
-        <tbody>  
+        <tbody>
           {alertData && alertData.length > 0 ? alertData.map((data, index) => (
             <tr className="whitespace-nowrap" key={index}>
               <td className="p-2 text-sm text-gray-500 pl-3">
-                  {index + 1}
+                {index + 1}
               </td>
               <td className="p-2 pl-3">
-                  <div className="text-sm text-gray-900">
-                    {data.alertCountryName}
-                  </div>
+                <div className="text-sm text-gray-900">
+                  {data.alertCountryName}
+                </div>
               </td>
               <td className="p-2 text-sm text-gray-500 pl-3">
-                  {data.createdAt.slice(0,10)}
+                {data.createdAt.slice(0, 10)}
               </td>
               <td className="p-2 pl-3">
-                  <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={() => deleteHandeler(data.objectId)}>
-                    Delete
-                  </button>
+                <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={() => deleteHandeler(data.objectId)}>
+                  Delete
+                </button>
               </td>
             </tr>
-          )) : 
+          )) :
             <tr>
               <td colSpan={4} className="text-center p-2 text-sm text-gray-500 pl-3">
-                  No Data
+                No Data
               </td>
             </tr>}
         </tbody>

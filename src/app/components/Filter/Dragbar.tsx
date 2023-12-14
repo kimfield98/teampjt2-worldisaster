@@ -18,7 +18,7 @@ export const Dragbar = () => {
   return (
     <div className="card2">
       <Slider
-        label="Slide to see disasters by year."
+        label="Slide to review disasters by year."
         size="sm"
         maxValue={2023}
         minValue={2000}

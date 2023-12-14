@@ -10,7 +10,7 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ title, children }) => {
 
   return (
     <div className="mb-4 bg-white p-4 rounded-md shadow-md">
-      <button 
+      <button
         className="flex items-center font-semibold text-lg w-full text-left focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -25,9 +25,9 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ title, children }) => {
 const Welcome = () => {
   return (
     <div className="font-sans bg-gray-200 text-gray-800 p-5">
-      <p className=" text-large text-center text-gray-700 mb-2 font-bold font-serif">🌐 Welcome to Worldisaster 🌐</p>
+      <p className=" text-large text-center text-gray-700 mb-2 font-bold font-serif">🌐 Welcome to WorlDisaster 🌐</p>
       <div className="mb-2 p-4">
-        <p>Welcome to Worldisaster, a comprehensive platform dedicated to global disaster awareness and response. Our goal is to provide you with real-time updates, historical data, and interactive tools to understand and respond to various disasters around the globe. Join our community and make a difference today!</p>
+        <p>Welcome to Worldisaster, a platform dedicated to global disaster awareness and response. Our goal is to provide you with real-time updates, historical data, and interactive tools to understand and respond to various disasters around the globe. Join our community and subscribe to specific geographies around the world!</p>
       </div>
       <FeatureSection title="Explore the Disaster Archive">
         Delve into historical disasters using our interactive globe. Filter by year to discover disasters from specific periods.
@@ -36,7 +36,7 @@ const Welcome = () => {
         Stay updated with current disasters. Effortlessly switch between the historical archive and live updates using our toggle feature.
       </FeatureSection>
       <FeatureSection title="Personalized Alerts for Users">
-        As a registered user, customize alerts for specific areas. Set up real-time notifications with a simple right-click on your area of interest.
+        After registration, you can create customized alerts for specific geographies. Set up real-time notifications with a simple right-click on the area of your interest.
       </FeatureSection>
       <FeatureSection title="Interactive Disaster Points">
         Click on disaster markers for in-depth information about affected countries and details about the disasters. Access related articles and videos for a comprehensive understanding.

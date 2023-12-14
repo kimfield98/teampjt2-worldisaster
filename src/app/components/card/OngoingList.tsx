@@ -8,7 +8,7 @@ const OngoingList: React.FC = () => {
 
   return (
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
-      <div className='cardTitle'>Ongoing Disasters List</div>
+      <div className='cardTitle'>Ongoing Disasters</div>
       <TenDisaster />
     </div>
   );

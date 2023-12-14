@@ -57,109 +57,109 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
         <table>
           <tbody>
             <tr>
-              <td className="min-w-auto bold text-black mb-2">Country:</td>
+              <td className="min-w-auto bold text-black mb-2">Country:  </td>
               <td>{renderData(currentCountry.cCountry)}</td>
             </tr>
             <tr>
-              <td className="min-w-auto bold text-black mb-2">Capital:</td>
+              <td className="min-w-auto bold text-black mb-2">Capital:  </td>
               <td>{currentCountry.cCapitalName}</td>
             </tr>
             <tr>
-              <td className="min-w-auto bold text-black mb-2">Population:</td>
+              <td className="min-w-auto bold text-black mb-2">Population:  </td>
               <td>{currentCountry.cPopulation}</td>
             </tr>
             {expanded > 0 && (
               <>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Geographic Coordinates:</td>
+                  <td className="min-w-auto bold text-black mb-2">Coordinates:  </td>
                   <td>{currentCountry.cGeoCoordinates}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Climate:</td>
+                  <td className="min-w-auto bold text-black mb-2">Climate:  </td>
                   <td>{currentCountry.cClimate}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Natural Hazards:</td>
+                  <td className="min-w-auto bold text-black mb-2">Natural Hazards:  </td>
                   <td>{currentCountry.cNaturalHazards}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Government Type:</td>
+                  <td className="min-w-auto bold text-black mb-2">Government:  </td>
                   <td>{currentCountry.cGovernmentType}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Economic Overview:</td>
+                  <td className="min-w-auto bold text-black mb-2">Economy:  </td>
                   <td>{currentCountry.cEconomicOverview}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">GDP:</td>
+                  <td className="min-w-auto bold text-black mb-2">GDP:  </td>
                   <td>{currentCountry.cGDP}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">GDP per Capita:</td>
+                  <td className="min-w-auto bold text-black mb-2">GDP per Capita:  </td>
                   <td>{currentCountry.cRealGDPPerCapita}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Environmental Issues:</td>
+                  <td className="min-w-auto bold text-black mb-2">Environmental Issues:  </td>
                   <td>{currentCountry.cEnvironmentalIssues}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Population Distribution:</td>
+                  <td className="min-w-auto bold text-black mb-2">Population Distribution:  </td>
                   <td>{currentCountry.cPopulationDistribution}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Urban Population:</td>
+                  <td className="min-w-auto bold text-black mb-2">Urban Population:  </td>
                   <td>{currentCountry.cUrbanPopulation}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Urbanization Rate:</td>
+                  <td className="min-w-auto bold text-black mb-2">Urbanization Rate:  </td>
                   <td>{currentCountry.cUrbanRate}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Major Urban Population:</td>
+                  <td className="min-w-auto bold text-black mb-2">Major Urban Population:  </td>
                   <td>{currentCountry.cMajorUrbanPopulation}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Official Country Name:</td>
+                  <td className="min-w-auto bold text-black mb-2">Official Country Name:  </td>
                   <td>{currentCountry.cCountryOfficialName}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Capital Coordinates:</td>
+                  <td className="min-w-auto bold text-black mb-2">Capital Coordinates:  </td>
                   <td>{currentCountry.cCapitalCoordinates}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Time Difference:</td>
+                  <td className="min-w-auto bold text-black mb-2">Time Difference:  </td>
                   <td>{currentCountry.cTimeDifference}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Location:</td>
+                  <td className="min-w-auto bold text-black mb-2">Location:  </td>
                   <td>{currentCountry.cLocation}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Continent:</td>
+                  <td className="min-w-auto bold text-black mb-2">Continent:  </td>
                   <td>{currentCountry.cContinent}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Country Code:</td>
+                  <td className="min-w-auto bold text-black mb-2">Country Code:  </td>
                   <td>{currentCountry.cCode}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Country Name (Romanized):</td>
+                  <td className="min-w-auto bold text-black mb-2">Country Name (Romanized):  </td>
                   <td>{currentCountry.cCountry_rw}</td>
                 </tr>
                 <tr>
-                  <td className="min-w-auto bold text-black mb-2">Other Country Names:</td>
+                  <td className="min-w-auto bold text-black mb-2">Other Country Names:  </td>
                   <td>{currentCountry.cCountry_other}</td>
                 </tr>
-                </>
+              </>
             )}
           </tbody>
         </table>
-        <button 
+        <button
           onClick={handleExpansion}
           className="inline-flex items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
         >
           {expanded < 2 ? <>Show More<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></>
-            :<>Show Less<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg></>}
+            : <>Show Less<svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg></>}
         </button>
       </div>
     </div>
