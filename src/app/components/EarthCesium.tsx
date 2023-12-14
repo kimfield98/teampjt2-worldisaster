@@ -345,7 +345,7 @@ const EarthCesium = () => {
             point: {
               pixelSize: 10,
               heightReference: 0,
-              color: Color.fromCssColorString("#5CFFD1"),
+              color: Color.fromCssColorString("#ff7b00"),
               outlineColor: Color.fromCssColorString("#ffffff"),
               outlineWidth: 2,
               scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
