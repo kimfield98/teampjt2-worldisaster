@@ -57,17 +57,27 @@ const FilterStatusDisplay = () => {
 
   const getFilterStatusText = () => {
     if (dataFilter.selectedLive) {
-      return "Live";
+      return (
+        <>
+        <div style={{backgroundColor: '#66ff00'}} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full `}></div>
+        <div>Live</div>
+        </>
+      );
     } else if (dataFilter.selectedYear) {
-      return `Archive - ${dataFilter.selectedYear}`;
+      return (
+        <>
+        <div style={{backgroundColor: '#ff3300'}} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full`}></div>
+        <div>Archive-{dataFilter.selectedYear}</div>
+        </>
+      );
     } else {
       return null;
     }
   };
   return (
-    <div className="absolute top-10 left-[49%] rounded-2xl bg-gray-300 transform -translate-x-1/2 mt-4 text-center text-lg font-semibold z-10 p-2">
-      <div className="bg-white p-3 rounded-xl shadow-sm">
-        <span className="text-black">{getFilterStatusText()}</span>
+    <div className="absolute top-10 left-[100px] w-[200px]  rounded-2xl transform -translate-x-1/2 mt-4 text-center text-lg font-semibold z-10 p-2">
+      <div className=" p-3 rounded-xl shadow-sm">
+        <span className="text-white flex items-center">{getFilterStatusText()}</span>
       </div>
     </div>
   );

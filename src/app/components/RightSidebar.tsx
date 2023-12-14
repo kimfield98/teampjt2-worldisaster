@@ -64,40 +64,25 @@ const RightSidebar: React.FC = () => {
         </div>
       </div>
       <div className='card2'>
-      <p className='font-bold mb-3'>Find information with our filters! 🔍</p>
-      <p>We offer:</p>
-      <p className='my-1'>
-        <p>1 Ongoing/Past disaster data</p>
-        <p>2 Data by disaster type</p>
-        <p>3 Annual disaster trends</p>
-      </p>
-      <p>
-        <span>Click below for details.</span>
-        <span className='font-bold underline ml-1 cursor-pointer' onClick={toggleCardVisibility}>Button</span>
-      </p>
-      </div>
-      {isCardVisible && (
-        <div className='card2'>
-          <div className=' font-bold'>Real-time Pin</div>
-            <Pin color="#A374DB" description="Indicates events currently in progress." />
-            <Pin imageSrc="/pin.png" description="Provides real-time information." />
-          <div className=' font-bold'>Archive</div>
-            <Pin color="#5CFFD1" description="Archive Pin: Displays past events." />
-          <div className="Notification">
-            <div className=' font-bold'>Notification</div>
-            <div className="relative flex items-center ">
-              <div className="min-w-11 w-11 min-h-8 h-8 mx-2 bg-[#FF0000] rounded-full opacity-20"></div>
-              <div className="min-w-4 w-4 min-h-4 h-4 mx-4 bg-[#FF0000] rounded-full border-2 border-white absolute"></div>
-              <span className="text-sm">Shows subscriber-set notification location and range.</span>
-            </div>
+        <div className=' font-bold'>Real-time Pin</div>
+          <Pin color="#A374DB" description="Indicates events currently in progress." />
+          <Pin imageSrc="/pin.png" description="Provides real-time information." />
+        <div className=' font-bold'>Archive</div>
+          <Pin color="#5CFFD1" description="Archive Pin: Displays past events." />
+        <div className="Notification">
+          <div className=' font-bold'>Notification</div>
+          <div className="relative flex items-center ">
+            <div className="min-w-11 w-11 min-h-8 h-8 mx-2 bg-[#FF0000] rounded-full opacity-20"></div>
+            <div className="min-w-4 w-4 min-h-4 h-4 mx-4 bg-[#FF0000] rounded-full border-2 border-white absolute"></div>
+            <span className="text-sm">Shows subscriber-set notification location and range.</span>
           </div>
-          <div className=' font-bold'>Selected</div>
-            <div className="flex items-center space-x-2 px-2">
-              <div className="w-4 m-2 h-4 rounded-full bg-white border-4 border-black ring-2 ring-yellow-500"></div>
-              <span className="text-sm">Selected Point</span>
-            </div>
         </div>
-      )}
+        <div className=' font-bold'>Selected</div>
+          <div className="flex items-center space-x-2 px-2">
+            <div className="w-4 m-2 h-4 rounded-full bg-white border-4 border-black ring-2 ring-yellow-500"></div>
+            <span className="text-sm">Selected Point</span>
+          </div>
+      </div>
       <Toggle />
       {!filter.selectedLive && <Dragbar />}
       <Tag />
