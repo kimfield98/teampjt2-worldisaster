@@ -28,9 +28,9 @@ export const Toggle = () => {
       <Switch isSelected={selectLive} onValueChange={handleLiveToggle} defaultSelected={selectLive} size="lg"></Switch>
       <div className="mt-2 px-1">
         {selectLive ? (
-          <p><p>Viewing <b>real-time</b> disasters</p> {'(Click toggle to see archives)'}</p>
+          <p>Viewing <b>real-time</b> disasters {'(Click toggle to see archives)'}</p>
         ) : (
-          <p><p>Viewing historical <b>archives</b></p> {'(Click toggle to see real-time disasters)'}</p>
+          <p>Viewing historical <b>archives</b> {'(Click toggle to see real-time disasters)'}</p>
         )}
       </div>
     </div>

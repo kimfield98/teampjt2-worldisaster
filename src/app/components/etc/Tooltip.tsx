@@ -3,7 +3,7 @@ import React from "react";
 interface TooltipProps {
   children: React.ReactNode;
   text: string;
-  type: "left-side" | "bottom";
+  type: "left-side" | "bottom16";
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({ children, text, type }) => {
@@ -22,14 +22,14 @@ export const Tooltip: React.FC<TooltipProps> = ({ children, text, type }) => {
             </div>
           </div>
         );
-      case "bottom":
+      case "bottom16":
         return (
-          <div className="absolute -left-1 -bottom-4 transform -translate-x-full hidden group-hover:block pb-[8px]" style={{ zIndex: 1000 }}>
-            <div className="bg-black text-white text-xs rounded py-1 px-3">
-                {text}
-                <div className="absolute bottom-7 left-[3.6rem] transform translate-y-full">
-                <svg className="h-2 w-2 text-black" viewBox="0 0 255 255">
-                  <polygon className="fill-current" points="255,127.5 127.5,0 127.5,255" />
+          <div className="absolute -left-8 -bottom-16 transform translate-y-full hidden group-hover:block pb-[8px]" style={{ zIndex: 1000 }}>
+            <div className="bg-gray-500 text-white text-xs rounded py-1 px-3">
+              {text}
+              <div className="absolute top-full left-1/2 transform -translate-x -translate-y-[45px]">
+                <svg className="h-2 w-2 text-gray-500" viewBox="0 0 255 255">
+                  <polygon className="fill-current" points="0,127.5 127.5,255 127.5,0" />
                 </svg>
               </div>
             </div>

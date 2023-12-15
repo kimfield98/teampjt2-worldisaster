@@ -20,11 +20,18 @@ export default function TenDisaster() {
   const router = useRouter();
 
   useEffect(() => {
-    const filtered = disasterInfo.filter(item => item.dStatus === 'ongoing' || item.dStatus === 'real-time');
+    const sorted = disasterInfo
+      .filter(item => item.dStatus === 'ongoing' || item.dStatus === 'real-time')
+      .sort((a, b) => {
+        const dateA = new Date(a.dDate);
+        const dateB = new Date(b.dDate);
+        return dateB.getTime() - dateA.getTime();
+      });
+
     const startIndex = currentPage * itemsPerPage;
-    const selectedDisasters = filtered.slice(startIndex, startIndex + itemsPerPage);
+    const selectedDisasters = sorted.slice(startIndex, startIndex + itemsPerPage);
     setSortedDisasters(selectedDisasters);
-  }, [disasterInfo, currentPage]);
+  }, [disasterInfo, currentPage, itemsPerPage]);
 
   const handleDetailView = (item: DataType) => {
     router.push(`/earth?lat=${item.dLatitude}&lon=${item.dLongitude}&height=1000000&did=${item.dID}`);

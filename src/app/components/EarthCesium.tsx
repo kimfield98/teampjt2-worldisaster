@@ -244,8 +244,6 @@ const EarthCesium = () => {
       console.log("Log: Alert data load success.");
     } catch (err) {
       console.log('Log: Alert data load failed.', err);
-    } finally {
-      applyAlertData();
     }
   }
 
@@ -325,7 +323,7 @@ const EarthCesium = () => {
               point: {
                 pixelSize: 10,
                 heightReference: 0,
-                color: Color.fromCssColorString("#A374DB"),
+                color: Color.fromCssColorString("#ff7b00"),
                 outlineColor: Color.fromCssColorString("#ffffff"),
                 outlineWidth: 1,
                 scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
@@ -355,7 +353,7 @@ const EarthCesium = () => {
             point: {
               pixelSize: 10,
               heightReference: 0,
-              color: Color.fromCssColorString("#ff7b00"),
+              color: Color.fromCssColorString("#A374DB"),
               outlineColor: Color.fromCssColorString("#ffffff"),
               outlineWidth: 2,
               scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
@@ -378,11 +376,8 @@ const EarthCesium = () => {
   },[])
   
   useEffect(() => {
-    if(alertData.length ==0 ) return;
     applyAlertData();
-
   }, [alertData]); // alertData가 변경될 때마다 핀 추가
-
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
@@ -673,7 +668,7 @@ const EarthCesium = () => {
             outline: true,
             outlineColor: new Color(255, 0, 0, 127),
           },
-          id: String(mailAlarmInfo.objectId)
+          id: "SelectAlertPoint"
         });
       }
     }, ScreenSpaceEventType.RIGHT_CLICK);
@@ -707,10 +702,7 @@ const EarthCesium = () => {
   const changeEntityColor = (entity:Entity) => {
     if (entity.point) {
       entity.point.outlineColor = new ConstantProperty(Color.YELLOW); // 색 변경
-      entity.point.outlineWidth = new ConstantProperty(5);
-    } else if (entity.ellipse) {
-      entity.ellipse.outlineColor = new ConstantProperty(Color.YELLOW); // 색 변경
-      entity.ellipse.outlineWidth = new ConstantProperty(5);
+      entity.point.outlineWidth = new ConstantProperty(3);
     }
   };
 
@@ -719,9 +711,6 @@ const EarthCesium = () => {
     if (entity.point) {
       entity.point.outlineColor = new ConstantProperty(Color.WHITE); // 원래 색상으로 복원
       entity.point.outlineWidth = new ConstantProperty(1);
-    } else if (entity.ellipse) {
-      entity.ellipse.outlineColor = undefined; // 원래 색상으로 복원
-      entity.ellipse.outlineWidth = undefined;
     }
   };
 
@@ -752,7 +741,6 @@ const EarthCesium = () => {
         dLongitude: properties._dLongitude?._value,
         objectId: properties._objectId?._value,
       };
-      
       setSelectedPinState(clickDisasterData.dID);
       setDIdValue(clickDisasterData.dID);
       setLeftSidebarOpen({ isOpen: true, activeIcon: "detail" });

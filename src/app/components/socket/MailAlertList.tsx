@@ -35,7 +35,13 @@ export function MailAlertList() {
         headers: { Authorization: `Bearer ${token}` }
       })
       console.log('Alert deleted successfully', response.data);
-      setAlertInfo(prev => ({ ...prev, updated: new Date() }));
+      // alertInfo에서 해당 경고를 제거
+      setAlertInfo(prev => ({
+        ...prev,
+        updated: new Date(),
+      }));
+    // alertData 상태도 업데이트
+    setAlertData(prev => prev.filter(alert => alert.objectId !== objectId));
       alert(`You no longer receive alerts from ${countryName}.`);
     } catch (error) {
       alert("Something went wrong. Please contact our administrators.")

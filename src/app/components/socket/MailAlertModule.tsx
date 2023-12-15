@@ -17,6 +17,7 @@ export const MailAlertModule = () => {
   const [alertLevelOrange, setAlertLevelOrange] = useState<boolean>(alertInfo.alertlevelOrange); // 알람 레벨RED
   const [alertLevelGreen, setAlertLevelGreen] = useState<boolean>(alertInfo.alertlevelGreen); // 알람 레벨RED
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
+  const [countryName, setCountryName] = useState<string>('');
 
 
   const token = Cookies.get('access-token');
@@ -33,9 +34,14 @@ export const MailAlertModule = () => {
       const data = await response.data;
       if (data.address) {
         const address = data.address;
-        const city = address.city || address.town || address.village || '';
-        const country = address.country || '';
-        return `${city}, ${country}`;
+        const city = address.city || address.town || address.village || ' ';
+        const country = address.country || ' ';
+        setCountryName(country)
+        if (city!==" ") {
+          return `${city}, ${country}`;
+        } else {
+          return `${country}`
+        }
       }
       // 독도의 대략적인 위도와 경도 범위 확인
       const isDokdo = (Number(latitude) >= 37.23 && Number(latitude) <= 37.25) && (Number(longitude) >= 131.86 && Number(longitude) <= 131.88);
@@ -98,7 +104,7 @@ export const MailAlertModule = () => {
       return;
     try {
       const postData = {
-        alertCountryName: String(placeName.split(',')[1]),
+        alertCountryName: countryName,
         alertDistrictName: String(placeName.split(',')[0]),
         alertLatitude: alertInfo.alertLatitude,
         alertLongitude: alertInfo.alertLongitude,
@@ -117,7 +123,6 @@ export const MailAlertModule = () => {
       console.log("error", error);
     } finally {
       getLocationName(String(alertInfo.alertLatitude), String(alertInfo.alertLongitude));
-      setLeftSidebarOpen({ isOpen: true, activeIcon: 'none' });
       setAlertInfo({ ...alertInfo, delete: true});
     }
   };
