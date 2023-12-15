@@ -35,7 +35,7 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!currentCountry) {
-    return (<div className='card'>
+    return (<div className='card2'>
       <div className='cardTitle'>Geographical Context</div>
       <div style={{ margin: '20px' }}>
         <p>Please select a disaster from the world map.</p>
