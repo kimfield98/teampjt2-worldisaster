@@ -127,9 +127,7 @@ export function MailAlertList() {
             <th className="p-2 text-xs text-gray-500">
               Date Created
             </th>
-            <th className="p-2 text-xs text-gray-500">
-              Delete
-            </th>
+            <th className="p-2 text-xs text-gray-500"></th>
           </tr>
         </thead>
         <tbody>
