@@ -57,7 +57,7 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   };
 
   return (
-    <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
+    <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='cardTitle'>
         Geographical Context
       </div>
