@@ -136,19 +136,28 @@ const ChatModule = () => {
 
   /* Component 반환값 CSS 적용 */
   const messageListStyle: React.CSSProperties = {
+    flexGrow: 1,
     margin: '20px 0',
-    color: 'white',
   };
+
   const chatInputStyle: React.CSSProperties = {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
     backgroundColor: '#262626',
     borderTop: '1px solid gray',
   };
+
   const loginMessageStyle: React.CSSProperties = {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
     textAlign: 'center',
     color: '#7EA2BD',
     margin: '20px 0',
     padding: '10px 0px 0px 0px',
   };
+
   const popupStyle: React.CSSProperties = {
     color: '#1C1C1C',
     position: 'absolute',
@@ -195,17 +204,26 @@ const ChatModule = () => {
   /* Component 전체 반환값 */
   return (
     <>
+      <div className='cardTitle' style={{ margin: '10px 10px 10px 15px', padding: '10px' }}>
+        WorlDisasters Global Chat
+      </div>
       <div className='chat'>
-        <div style={messageListStyle} className=' min-h-[100%]'>
-          <MessageList
-            toBottomHeight={'100%'}
-            className='message-list'
-            referance={messageListRef}
-            dataSource={messageListArray}
-            lockable={true}
-            messageBoxStyles={{ backgroundColor: '#333333' }} // Darker boxes for each message
-            notchStyle={{ fill: '#333333' }}
-          />
+        <div style={messageListStyle} className='min-h-[100%]'>
+          {messageListArray.length > 0 ? (
+            <MessageList
+              toBottomHeight={'100%'}
+              className='message-list'
+              referance={messageListRef}
+              dataSource={messageListArray}
+              lockable={true}
+              messageBoxStyles={{ backgroundColor: '#333333' }} // Darker boxes for each message
+              notchStyle={{ fill: '#333333' }}
+            />
+          ) : (
+            <div style={{ marginLeft: "20px" }}>
+              <p>No chats in the last 12 hours.</p>
+            </div>
+          )}
         </div>
         {user ? (
           <div style={chatInputStyle}>

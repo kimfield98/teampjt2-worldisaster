@@ -29,7 +29,7 @@ const RightSidebar: React.FC = () => {
       } else if (color) {
         // color가 있을 때의 원 스타일
         return (
-          <div style={{backgroundColor: `${color}`}} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full border-2 border-white`}></div>
+          <div style={{backgroundColor: `${color}`}} className={`min-w-4 w-4 min-h-4 h-4 mx-2 my-1 rounded-full border-2 border-white`}></div>
         );
       }
     };
@@ -64,24 +64,10 @@ const RightSidebar: React.FC = () => {
         </div>
       </div>
       <div className='card2'>
-        <div className=' font-bold'>Real-time Pin</div>
-          <Pin color="#A374DB" description="Indicates events currently in progress." />
-          <Pin imageSrc="/pin.png" description="Provides real-time information." />
-        <div className=' font-bold'>Archive</div>
-          <Pin color="#5CFFD1" description="Archive Pin: Displays past events." />
-        <div className="Notification">
-          <div className=' font-bold'>Notification</div>
-          <div className="relative flex items-center ">
-            <div className="min-w-11 w-11 min-h-8 h-8 mx-2 bg-[#FF0000] rounded-full opacity-20"></div>
-            <div className="min-w-4 w-4 min-h-4 h-4 mx-4 bg-[#FF0000] rounded-full border-2 border-white absolute"></div>
-            <span className="text-sm">Shows subscriber-set notification location and range.</span>
-          </div>
-        </div>
-        <div className=' font-bold'>Selected</div>
-          <div className="flex items-center space-x-2 px-2">
-            <div className="w-4 m-2 h-4 rounded-full bg-white border-4 border-black ring-2 ring-yellow-500"></div>
-            <span className="text-sm">Selected Point</span>
-          </div>
+          <Pin imageSrc="/pin.png" description="Real-time Events (~24H)." />
+          <Pin color="#FFA500" description="On-going Events (~7D)." />
+          <Pin color="#A0A0B0" description="Archived Events (Ended)" />
+          <Pin color="#FF0000" description="Alert Areas (Custom Setup)" />
       </div>
       <Toggle />
       {!filter.selectedLive && <Dragbar />}

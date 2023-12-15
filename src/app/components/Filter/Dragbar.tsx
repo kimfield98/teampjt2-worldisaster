@@ -22,7 +22,7 @@ export const Dragbar = () => {
         size="sm"
         maxValue={2023}
         minValue={2000}
-        getValue={(year) => `${year} / 2023`}
+        getValue={(year) => `Y${year}`}
         value={selectedYear}
         onChange={(newYear) => {
           const year = Array.isArray(newYear) ? newYear[0] : newYear;

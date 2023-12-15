@@ -46,6 +46,10 @@
   color: var(--color-gray-7);
 }
 
+.darkMode .chat {
+  color: white;
+}
+
 /* card */
 .card {
   margin: 10px 20px 20px 20px;
@@ -68,6 +72,8 @@
   padding: 0 5px;
   font-size: large;
   font-weight: bold;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+  /* border-bottom: 1px solid var(--color-gray-3); */
 }
 
 .cardContent {

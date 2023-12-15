@@ -27,6 +27,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
 import { selectedPinState } from '../recoil/dataRecoil';
+import { any } from 'video.js/dist/types/utils/events';
 
 //////// interface ////////
 interface disasterInfoHover {
@@ -59,15 +60,15 @@ const FilterStatusDisplay = () => {
     if (dataFilter.selectedLive) {
       return (
         <>
-        <div style={{backgroundColor: '#66ff00'}} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full `}></div>
-        <div>Live</div>
+          <div style={{ backgroundColor: '#66ff00' }} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full `}></div>
+          <div>Live</div>
         </>
       );
     } else if (dataFilter.selectedYear) {
       return (
         <>
-        <div style={{backgroundColor: '#ff3300'}} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full`}></div>
-        <div>Archive-{dataFilter.selectedYear}</div>
+          <div style={{ backgroundColor: '#ff3300' }} className={`min-w-4 w-4 min-h-4 h-4 mx-2 rounded-full`}></div>
+          <div>Archive-{dataFilter.selectedYear}</div>
         </>
       );
     } else {
@@ -103,7 +104,7 @@ const EarthCesium = () => {
   const [rightSidebarOpen, setRightSidebarOpen] = useRecoilState(rightSidebarState);
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
   const setSelectedPinState = useSetRecoilState(selectedPinState);
-  const [selectedEntity, setSelectedEntity] = useState<Entity|null>(null);
+  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
 
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
@@ -325,10 +326,10 @@ const EarthCesium = () => {
               point: {
                 pixelSize: 10,
                 heightReference: 0,
-                color: Color.fromCssColorString("#A374DB"),
+                color: Color.fromCssColorString("#FFA500"),
                 outlineColor: Color.fromCssColorString("#ffffff"),
                 outlineWidth: 1,
-                scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
+                scaleByDistance: new NearFarScalar(1e5, 2, 1e8, 0.01)
               },
               properties: { ...item, type: 'disaster' }
             })) : (
@@ -355,10 +356,10 @@ const EarthCesium = () => {
             point: {
               pixelSize: 10,
               heightReference: 0,
-              color: Color.fromCssColorString("#ff7b00"),
+              color: Color.fromCssColorString("#A0A0B0"),
               outlineColor: Color.fromCssColorString("#ffffff"),
               outlineWidth: 2,
-              scaleByDistance: new NearFarScalar(1e5, 2 , 1e8, 0.01)
+              scaleByDistance: new NearFarScalar(1e5, 2, 1e8, 0.01)
             },
             properties: { ...item, type: 'disaster' }
           });
@@ -368,17 +369,17 @@ const EarthCesium = () => {
     });
   }
 
-  
+
   useEffect(() => {
     loadData();
   }, []);
 
-  useEffect(()=>{
-    alertLoadData()
-  },[])
-  
   useEffect(() => {
-    if(alertData.length ==0 ) return;
+    alertLoadData()
+  }, [])
+
+  useEffect(() => {
+    if (alertData.length == 0) return;
     applyAlertData();
 
   }, [alertData]); // alertData가 변경될 때마다 핀 추가
@@ -387,11 +388,11 @@ const EarthCesium = () => {
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
     alertLoadData()
-  }, [mailAlarmInfo,dataFilter])
+  }, [mailAlarmInfo, dataFilter])
 
   useEffect(() => {
     alertLoadData()
-  }, [mailAlarmInfo,dataFilter])
+  }, [mailAlarmInfo, dataFilter])
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
@@ -498,7 +499,7 @@ const EarthCesium = () => {
                     <td style="color: #000;">${alertrData.alertRadius} km</td>
                   </tr>
                   <tr>
-                    <td style="color: #666;">AlertLevel :</td>
+                    <td style="color: #666;">Alert Level :</td>
                     <td style="color: #000;">
                     <div style="display: flex; align-items: center; justify-content: center;">
                       <span style="margin: 10px; height: 10px; width: 10px; background-color: ${alertrData.alertlevelRed ? "red" : "gray"}; border-radius: 50%;"></span>
@@ -506,10 +507,6 @@ const EarthCesium = () => {
                       <span style="margin: 10px; height: 10px; width: 10px; background-color: ${alertrData.alertlevelGreen ? "green" : "gray"}; border-radius: 50%;"></span>
                     </div>
                     </td>
-                  </tr>
-                  <tr>
-                    <td style="color: #666;">CreateAt:</td>
-                    <td style="color: #000;">${alertrData.createdAt.slice(0, 10)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -640,7 +637,7 @@ const EarthCesium = () => {
         const cartographic = Ellipsoid.WGS84.cartesianToCartographic(cartesian);
         const lon = Math.toDegrees(cartographic.longitude).toFixed(4);
         const lat = Math.toDegrees(cartographic.latitude).toFixed(4);
-        if (Number(lat) < -65 || Number(lat) > 70 || Number(lat) < -180 || Number(lat) > 180) {
+        if (Number(lat) < -65 || Number(lat) > 70 || Number(lon) < -180 || Number(lon) > 180) {
           alert("Alerts cannot be set for this area.\nPlease select another area.");
           return;
         }
@@ -704,7 +701,7 @@ const EarthCesium = () => {
   }, [mailAlarmInfo])
 
   // 엔티티의 색상을 변경하는 함수
-  const changeEntityColor = (entity:Entity) => {
+  const changeEntityColor = (entity: Entity) => {
     if (entity.point) {
       entity.point.outlineColor = new ConstantProperty(Color.YELLOW); // 색 변경
       entity.point.outlineWidth = new ConstantProperty(5);
@@ -715,7 +712,7 @@ const EarthCesium = () => {
   };
 
   // 엔티티의 색상을 원래대로 복원하는 함수
-  const resetEntityColor = (entity:Entity) => {
+  const resetEntityColor = (entity: Entity) => {
     if (entity.point) {
       entity.point.outlineColor = new ConstantProperty(Color.WHITE); // 원래 색상으로 복원
       entity.point.outlineWidth = new ConstantProperty(1);
@@ -725,10 +722,10 @@ const EarthCesium = () => {
     }
   };
 
-  const handleLeftClick = (entity:Entity) =>{
+  const handleLeftClick = (entity: Entity) => {
     if (!entity || !entity.properties) return;
 
-      // 이전 선택된 엔티티가 있으면 색상을 원래대로 복원
+    // 이전 선택된 엔티티가 있으면 색상을 원래대로 복원
     if (selectedEntity && selectedEntity !== entity) {
       resetEntityColor(selectedEntity);
     }
@@ -736,7 +733,7 @@ const EarthCesium = () => {
     changeEntityColor(entity);
     setSelectedEntity(entity);
 
-    
+
 
     const properties = entity.properties;
     if (properties._type && properties._type._value === "disaster") {
@@ -752,7 +749,7 @@ const EarthCesium = () => {
         dLongitude: properties._dLongitude?._value,
         objectId: properties._objectId?._value,
       };
-      
+
       setSelectedPinState(clickDisasterData.dID);
       setDIdValue(clickDisasterData.dID);
       setLeftSidebarOpen({ isOpen: true, activeIcon: "detail" });
@@ -795,13 +792,13 @@ const EarthCesium = () => {
     handler.setInputAction((click: any) => {
       const pickedObject = viewer.scene.pick(click.position);
       if (defined(pickedObject) && pickedObject.id && pickedObject.id.properties) {
-        if (pickedObject.id.properties._type && pickedObject.id.properties._type._value === "disaster"){
-        const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
-        router.push(`/earth?lon=${pickedObject.id.properties.dLongitude?._value}&lat=${pickedObject.id.properties._dLatitude?._value}&height=${camaraHeight}&did=${pickedObject.id.properties._dID?._value}`, undefined);
-      } else {
-        const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
-        router.push(`/earth?lon=${pickedObject.id.properties.alertLongitude?._value}&lat=${pickedObject.id.properties.alertLatitude?._value}&height=${camaraHeight}`, undefined);
-      }
+        if (pickedObject.id.properties._type && pickedObject.id.properties._type._value === "disaster") {
+          const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
+          router.push(`/earth?lon=${pickedObject.id.properties.dLongitude?._value}&lat=${pickedObject.id.properties._dLatitude?._value}&height=${camaraHeight}&did=${pickedObject.id.properties._dID?._value}`, undefined);
+        } else {
+          const camaraHeight = Ellipsoid.WGS84.cartesianToCartographic(viewer.camera.position).height;
+          router.push(`/earth?lon=${pickedObject.id.properties.alertLongitude?._value}&lat=${pickedObject.id.properties.alertLatitude?._value}&height=${camaraHeight}`, undefined);
+        }
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
 
@@ -870,16 +867,16 @@ const EarthCesium = () => {
             if (entity) {
               handleLeftClick(entity);
             }
-          }else {
-            const entity = custom?.entities.values.find(e => 
-              e.properties && 
-              e.properties._alertLatitude && 
+          } else {
+            const entity = custom?.entities.values.find(e =>
+              e.properties &&
+              e.properties._alertLatitude &&
               e.properties._alertLatitude._value === Number(lat) &&
-              e.properties._alertLongitude && 
+              e.properties._alertLongitude &&
               e.properties._alertLongitude._value === Number(lon)
             );
             if (entity)
-            handleLeftClick(entity);
+              handleLeftClick(entity);
           }
         }
       });

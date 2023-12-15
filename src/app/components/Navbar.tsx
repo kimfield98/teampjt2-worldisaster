@@ -14,9 +14,11 @@ interface UserInfo {
   provider: string;
 }
 
+type UserInfoState = UserInfo | null;
+
 ///////////// Navbar /////////////
 export const Navbar = () => {
-  const [userInfo, setuserInfo] = useState<UserInfo[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfoState>(null);
   const [loading, setLoading] = useState(false);
   const [loginState, setLoginState] = useRecoilState<UserType>(userLoginState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -37,6 +39,7 @@ export const Navbar = () => {
               'Authorization': `Bearer ${token}`
             }
           });
+          setUserInfo(response.data);
           setLoginState({ isLoggedIn: true, userInfo: response.data });
           console.log('Log: Please provide login information', response);
         } catch (error) {
@@ -47,7 +50,6 @@ export const Navbar = () => {
 
     fetchUserInfo();
   }, [setLoginState]);
-
 
   // const handleLogin = async () => {
   //   try {
@@ -60,7 +62,6 @@ export const Navbar = () => {
   //     console.error('Log: Error fetching auth URL:', error);
   //   }
   // };
-
 
   const handleLogout = async () => {
     const token = Cookies.get('access-token');
@@ -170,23 +171,28 @@ export const Navbar = () => {
               </div>
               {isModalOpen && (
                 <div className="navSettingModal" ref={modalRef}>
-                  <div className='cardTitle'>👤 Account Details 👤</div>
+                  <div className='cardTitle'>Account Details</div>
                   <div className="cardContent">
-                    {userInfo.map((data, index) => (
-                      <div key={index}>
-                        <p>Name: {data.name}</p>
-                        <p>Email: {data.email}</p>
-                      </div>
-                    ))}
+                    <p>
+                      Hey {userInfo?.name}, thank you for using WorlDisasters.
+                      <br />
+                      <br />
+                      As we are in the <b>beta stages</b> of our service, we do not offer much on the user settings end of things.
+                      We hope to provide more features in the future.
+                    </p>
+                    <br />
                   </div>
-                  <div className='cardTitle'>👋 Account Delete 👋</div>
+                  <div className='cardTitle'>Account Delete</div>
                   <div className="cardContent">
-                    <p>Are you sure you want to</p>
-                    <p>opt-out of WorlDisasters?</p>
-                    <p> There is no going back.</p>
+                    <p>
+                      We do, however, offer an opt-out option for your persual. Your email address is: {userInfo?.email}.
+                      <br />
+                      <br />
+                      Would you like to opt-out? We would be sad to see you go. Please note that this will purge all your alert subscriptions, and that this action cannot be undone.
+                    </p>
                     <div className='btnBox'>
                       <button className="btn" onClick={handleWithdrawal} disabled={loading}>
-                        Yes, I'd like to delete anyways.
+                        Yes, I'd like to opt-out anyways.
                       </button>
                     </div>
                   </div>
@@ -207,7 +213,7 @@ export const Navbar = () => {
         <Tooltip type="bottom" text='Filter'>
           <div className='navIcon hidden md:block' onClick={toggleRightSidebar}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-filter-right" viewBox="0 0 16 16">
-              <path d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5m0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5"/>
+              <path d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5m0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5" />
             </svg>
           </div>
         </Tooltip>

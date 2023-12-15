@@ -19,12 +19,31 @@ export default function TenDisaster() {
   const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
 
+  // useEffect(() => {
+  //   const filtered = disasterInfo.filter(item => item.dStatus === 'ongoing' || item.dStatus === 'real-time');
+  //   const startIndex = currentPage * itemsPerPage;
+  //   const selectedDisasters = filtered.slice(startIndex, startIndex + itemsPerPage);
+  //   setSortedDisasters(selectedDisasters);
+  // }, [disasterInfo, currentPage]);
+
   useEffect(() => {
-    const filtered = disasterInfo.filter(item => item.dStatus === 'ongoing' || item.dStatus === 'real-time');
+    const filtered = disasterInfo.filter(item =>
+      item.dStatus === 'ongoing' || item.dStatus === 'real-time'
+    );
+
+    // 날짜 순서대로 정리
+    const sortedByTime = filtered.sort((a, b) => {
+      const dateA = new Date(a.dDate);
+      const dateB = new Date(b.dDate);
+      return dateB.getTime() - dateA.getTime();
+    });
+
     const startIndex = currentPage * itemsPerPage;
-    const selectedDisasters = filtered.slice(startIndex, startIndex + itemsPerPage);
+    const selectedDisasters = sortedByTime.slice(startIndex, startIndex + itemsPerPage);
+
     setSortedDisasters(selectedDisasters);
-  }, [disasterInfo, currentPage]);
+  }, [disasterInfo, currentPage, itemsPerPage]);
+
 
   const handleDetailView = (item: DataType) => {
     router.push(`/earth?lat=${item.dLatitude}&lon=${item.dLongitude}&height=1000000&did=${item.dID}`);
@@ -45,7 +64,7 @@ export default function TenDisaster() {
   };
 
   // 각 페이지의 항목에 대한 전체 순위를 계산
-  const getRank = (index:number) => {
+  const getRank = (index: number) => {
     return currentPage * itemsPerPage + index + 1;
   };
 
@@ -54,49 +73,50 @@ export default function TenDisaster() {
   return (
     <div className="card2 custom-scrollbar overflow-auto">
       <div className="cardTitle mt-1 flex justify-between items-center">
-        <span>Ongoing Disaster List</span>
-        <div>
-          <label htmlFor="itemsPerPage" className="mr-2 text-sm font-medium text-gray-700">Items per page</label>
-          <input 
-            type="number" 
-            id="itemsPerPage"
-            min="1" 
-            value={itemsPerPage} 
-            onChange={handleItemsPerPageChange} 
-            className="w-16 text-center border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
+        <span>List of On-going Disasters (Worldwide)</span>
+      </div>
+      <div className="flex justify-end w-full" style={{ marginBottom: "10px" }}>
+        <label htmlFor="itemsPerPage" className="mr-2 text-xs font-medium text-gray-700">Items per page</label>
+        <input
+          type="number"
+          id="itemsPerPage"
+          min="1"
+          value={itemsPerPage}
+          onChange={handleItemsPerPageChange}
+          className="w-16 text-center border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        />
       </div>
       <div className="relative">
         <table className="w-full text-left border-collapse">
-        <thead className="bg-gray-300 text-center">
-          <tr>
-            <th scope="col" className="py-3 px-2 border-b border-gray-300 w-8">Rank</th>
-            <th scope="col" className="py-3 px-2 border-b border-gray-300 w-40 ellipsis">Country</th>
-            <th scope="col" className="py-3 px-2 border-b border-gray-300 ellipsis">Type</th>
-            <th scope="col" className="py-3 px-2 border-b border-gray-300 min-w-[8rem] flex-grow ellipsis">Time</th>
-          </tr>
-        </thead>
+          <thead className="bg-gray-300 text-center">
+            <tr>
+              <th scope="col" className="py-3 px-2 border-b border-gray-300 w-8">Rank</th>
+              <th scope="col" className="py-3 px-2 border-b border-gray-300 w-40 ellipsis">Country</th>
+              <th scope="col" className="py-3 px-2 border-b border-gray-300 ellipsis">Type</th>
+              <th scope="col" className="py-3 px-2 border-b border-gray-300 min-w-[8rem] flex-grow ellipsis">Time</th>
+            </tr>
+          </thead>
           <tbody>
             {sortedDisasters.map((item, index) => (
               <>
-                <tr 
-                  key={item.dID} 
+                <tr
+                  key={item.dID}
                   onClick={() => handleRowClick(item.dID)}
-                  className={`cursor-pointer ${item.dStatus === 'real-time' ? 'text-blue-600 font-semibold' : 'text-gray-700'} hover:bg-gray-200 transition duration-150 ease-in-out border-b border-gray-300`}
+                  className={`cursor-pointer ${item.dStatus === 'real-time' ? 'text-blue-600' : 'text-gray-700'} hover:bg-gray-200 transition duration-150 ease-in-out border-b border-gray-300`}
                 >
-                  <td className="py-2 px-2 text-center">{getRank(index)}</td>
-                  <td className="py-2 px-2 text-center ">{item.dCountry}</td>
-                  <td className="py-2 px-2 text-center">{item.dType}</td>
-                  <td className="py-2 px-2 text-center">{formatDateTime(item.dDate)}</td>
+                  <td className="py-2 px-2 text-xs text-center">{getRank(index)}</td>
+                  <td className="py-2 px-2 text-xs text-center ">{item.dCountry}</td>
+                  <td className="py-2 px-2 text-xs text-center">{item.dType}</td>
+                  <td className="py-2 px-2 text-xs text-center">{formatDateTime(item.dDate)}</td>
                 </tr>
                 {selectedId === item.dID && (
                   <tr className="transition-all duration-300">
                     <td colSpan={4} className="p-3 bg-gray-100 border-b border-gray-300">
                       <div className="flex justify-between items-center">
                         <span>{item.dTitle || 'No Title'}</span>
-                        <button 
-                          className="inline-flex text-white bg-sky-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                        <button
+                          className="inline-flex text-white bg-[#023f56] border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                          style={{ marginLeft: '10px' }}
                           onClick={() => handleDetailView(item)}
                         >
                           View Details
@@ -107,8 +127,8 @@ export default function TenDisaster() {
                 )}
               </>
             ))}
-            </tbody>
-            </table>
+          </tbody>
+        </table>
       </div>
       <ReactPaginate
         previousLabel={'<'}

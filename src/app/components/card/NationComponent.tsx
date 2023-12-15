@@ -37,7 +37,9 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   if (!currentCountry) {
     return (<div className='card'>
       <div className='cardTitle'>Geographical Context</div>
-      <div className='cardContent'>Select a disaster from the world map.</div>
+      <div style={{ margin: '20px' }}>
+        <p>Please select a disaster from the world map.</p>
+      </div>
     </div>
     )
   }
@@ -56,10 +58,8 @@ const NationComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
 
   return (
     <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
-      <div className=' flex justify-between items-center'>
-        <div className='cardTitle'>
-          Geographical Context
-        </div>
+      <div className='cardTitle'>
+        Geographical Context
       </div>
       <div className='p-3 overflow-auto' style={{ maxHeight: expanded === 1 ? '300px' : expanded === 2 ? 'none' : '500px' }}>
         <table>

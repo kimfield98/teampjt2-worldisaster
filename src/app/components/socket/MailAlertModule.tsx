@@ -70,28 +70,28 @@ export const MailAlertModule = () => {
 
   useEffect(() => {
     const initializeScreen = () => {
-        // 필요한 초기화 작업을 여기에 구현합니다.
-        // 예를 들어, 입력 필드 초기화, 상태 초기화 등
-        setPlaceName('');
-        setAlertRange(100); // 기본 반경 값으로 초기화
-        setAlertLevelRed(false);
-        setAlertLevelOrange(false);
-        setAlertLevelGreen(false);
-        setInputKey(Date.now());      
+      // 필요한 초기화 작업을 여기에 구현합니다.
+      // 예를 들어, 입력 필드 초기화, 상태 초기화 등
+      setPlaceName('');
+      setAlertRange(100); // 기본 반경 값으로 초기화
+      setAlertLevelRed(false);
+      setAlertLevelOrange(false);
+      setAlertLevelGreen(false);
+      setInputKey(Date.now());
     }
-    
+
     // 위도 또는 경도가 변경될 때마다 화면 초기화 실행
     initializeScreen();
 
-    if (alertInfo.edit){
+    if (alertInfo.edit) {
       setPlaceName(`${alertInfo.alertDistrictName},${alertInfo.alertCountryName}`)
       setAlertRange(alertInfo.alertRadius)
       setAlertLevelRed(alertInfo.alertlevelRed)
       setAlertLevelOrange(alertInfo.alertlevelOrange)
       setAlertLevelGreen(alertInfo.alertlevelGreen)
     }
-  
-  }, [alertInfo.alertLatitude, alertInfo.alertLongitude]);  
+
+  }, [alertInfo.alertLatitude, alertInfo.alertLongitude]);
 
   const createHandeler = async () => {
     if (!confirm("Would you like to create a new alert subscription?"))
@@ -118,19 +118,15 @@ export const MailAlertModule = () => {
     } finally {
       getLocationName(String(alertInfo.alertLatitude), String(alertInfo.alertLongitude));
       setLeftSidebarOpen({ isOpen: true, activeIcon: 'none' });
-      setAlertInfo({ ...alertInfo, delete: true});
+      setAlertInfo({ ...alertInfo, delete: true });
     }
   };
 
   return (
     <>
-      <div className='card2 flex flex-col items-center'>
-        <p className='cardTitle'>🌐 Customized Alerts Subscription 🌐</p>
-        <div className='cardContent flex flex-col items-center'>
-          <p>Take a look at the interactive globe on the right.</p>
-          <p>Feel free to browse to a custom location.</p>
-          <p>A simple right-click will get you started on your journey.</p>
-        </div>
+      <div className='card2 flex-col'>
+        <div className="cardTitle">Existing Subscriptions</div>
+        <MailAlertList />
       </div>
       <div className=''>
         {alertInfo.open &&
@@ -152,7 +148,7 @@ export const MailAlertModule = () => {
             <div>
               <p className='font-bold my-3 ml-3'>Select an alert radius.</p>
               <div className="flex justify-center gap-6 flex-col items-center">
-                {alertInfo.edit? <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} value={alertInfo.alertRadius} disabled={true}/>:<input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} disabled={false}/>}
+                {alertInfo.edit ? <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} value={alertInfo.alertRadius} disabled={true} /> : <input className='w-[80%] ' type='range' min={100} max={2000} step={100} defaultValue={100} onChange={handleRange} key={inputKey} disabled={false} />}
                 <label>{alertrange}km</label>
               </div>
             </div>
@@ -174,12 +170,9 @@ export const MailAlertModule = () => {
               </div>
             </div>
             <div className="btnBox">
-              <button className="btn disabled:hidden" onClick={createHandeler} disabled={alertInfo.edit? true:false}>
+              <button className="btn disabled:hidden" onClick={createHandeler} disabled={alertInfo.edit ? true : false}>
                 Create
               </button>
-            </div>
-            <div className='mt-5'>
-              <MailAlertList />
             </div>
           </div>
         }
