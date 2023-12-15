@@ -378,19 +378,16 @@ const EarthCesium = () => {
   useEffect(() => {
     if (isDataLoaded)
     alertLoadData()
-  console.log(111)
   }, [isDataLoaded])
 
   useEffect(()=>{
     if (!custom || !viewerRef.current) return;
     applyAlertData()
-    console.log(222)
   }, [mailAlarmInfo, alertData])
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
     alertLoadData()
-    console.log(333)
   }, [mailAlarmInfo])
 
   useEffect(() => {

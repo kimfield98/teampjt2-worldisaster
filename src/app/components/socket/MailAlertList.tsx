@@ -23,7 +23,7 @@ export function MailAlertList() {
         console.log("alert sucess", response.data);
         setAlertData(response.data);
       } catch (error) {
-        console.log("error", error);
+        console.log("alert error", error);
       }
     }
     getAlertData();
