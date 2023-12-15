@@ -144,11 +144,12 @@ const ChatModule = () => {
   /* Component 반환값 CSS 적용 */
   const messageListStyle: React.CSSProperties = {
     flexGrow: 1,
+    overflowY: 'auto',
     margin: '20px 0',
   };
 
   const chatInputStyle: React.CSSProperties = {
-    position: 'absolute',
+    position: 'sticky',
     bottom: 0,
     width: '100%',
     backgroundColor: '#262626',
@@ -215,23 +216,23 @@ const ChatModule = () => {
         WorlDisasters Global Chat
       </div>
       <div className='chat'>
-      <div style={messageListStyle} className='min-h-[100%]'>
-        {messageListArray.length > 0 ? (
-          <MessageList
-            toBottomHeight={'100%'}
-            className='message-list'
-            referance={messageListRef}
-            dataSource={messageListArray}
-            lockable={true}
-            messageBoxStyles={{ backgroundColor: '#333333' }} // Darker boxes for each message
-            notchStyle={{ fill: '#333333' }}
-          />
-        ) : (
-          <div style={{ marginLeft: "20px" }}>
-            <p>No chats in the last 12 hours.</p>
-          </div>
-        )}
-      </div>
+        <div style={messageListStyle} className='min-h-[100%]'>
+          {messageListArray.length > 0 ? (
+            <MessageList
+              toBottomHeight={'100%'}
+              className='message-list'
+              referance={messageListRef}
+              dataSource={messageListArray}
+              lockable={true}
+              messageBoxStyles={{ backgroundColor: '#b9b9b9', maxWidth: '330px' }} // 각 메시지 CSS
+              notchStyle={{ fill: '#b9b9b9' }}
+            />
+          ) : (
+            <div style={{ marginLeft: "20px" }}>
+              <p>No chats in the last 12 hours.</p>
+            </div>
+          )}
+        </div>
         {user ? (
           <div style={chatInputStyle}>
             <Input
