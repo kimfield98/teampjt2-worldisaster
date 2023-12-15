@@ -206,6 +206,13 @@ export const selectedPinState = atom({
   default: null, // 기본값
 });
 
+// 알림 찍어둔거 삭제
+export const deletAlertPoint = atom({
+  key: "deletAlertPoint",
+  default: "none"
+})
+
 export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {
   return <RecoilRoot>{children}</RecoilRoot>;
 }
+

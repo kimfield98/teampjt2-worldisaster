@@ -2,18 +2,14 @@
 
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { leftSidebarState, chatState, darkModeState, userLoginState } from '../recoil/dataRecoil';
+import { leftSidebarState, chatState, darkModeState, userLoginState, deletAlertPoint } from '../recoil/dataRecoil';
 import Tooltip from './etc/Tooltip';
 
 const ThinSidebar: React.FC = () => {
   const [{ isOpen, activeIcon }, setLeftSidebar] = useRecoilState(leftSidebarState);
   const isDarkMode = useRecoilValue(darkModeState);
   const userLogin = useRecoilValue(userLoginState);
-
-  interface TooltipProps {
-    children: React.ReactNode;
-    text: string;
-  }
+  const [alertPointDelet, setAlertPointDelet] = useRecoilState<string>(deletAlertPoint)
 
   const handleIconClick = (iconType: string): void => {
     // 로그인하지 않은 사용자가 'detail' 아이콘을 제외한 아이콘을 클릭할 경우
@@ -21,6 +17,7 @@ const ThinSidebar: React.FC = () => {
       alert('Please log in to use our key features.');
       return;
     }
+    setAlertPointDelet(iconType)
 
     // 'detail' 아이콘이 이미 선택된 상태에서 다시 클릭할 경우 'none'으로 변경
     if (iconType === activeIcon) {

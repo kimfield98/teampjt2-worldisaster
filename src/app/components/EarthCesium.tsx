@@ -22,7 +22,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, countryState, leftSidebarState, selectedDisasterIdState } from '../recoil/dataRecoil';
+import { dataState, DataType, filterState, mailAlarmState, PostAlertInfo, rightSidebarState, userLoginState, countryState, leftSidebarState, selectedDisasterIdState, deletAlertPoint } from '../recoil/dataRecoil';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import AlertModule from './socket/AlertModule';
@@ -104,6 +104,7 @@ const EarthCesium = () => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useRecoilState(leftSidebarState);
   const setSelectedPinState = useSetRecoilState(selectedPinState);
   const [selectedEntity, setSelectedEntity] = useState<Entity|null>(null);
+  const [deletPoint, setDeletPoint] = useRecoilState(deletAlertPoint)
 
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
@@ -244,6 +245,8 @@ const EarthCesium = () => {
       console.log("Log: Alert data load success.");
     } catch (err) {
       console.log('Log: Alert data load failed.', err);
+    } finally {
+      applyAlertData()
     }
   }
 
@@ -377,7 +380,7 @@ const EarthCesium = () => {
   
   useEffect(() => {
     applyAlertData();
-  }, [alertData]); // alertData가 변경될 때마다 핀 추가
+  }, [mailAlarmInfo ,alertData]); // alertData가 변경될 때마다 핀 추가
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
@@ -668,7 +671,7 @@ const EarthCesium = () => {
             outline: true,
             outlineColor: new Color(255, 0, 0, 127),
           },
-          id: "SelectAlertPoint"
+          id: String(mailAlarmInfo.objectId)
         });
       }
     }, ScreenSpaceEventType.RIGHT_CLICK);
@@ -721,11 +724,9 @@ const EarthCesium = () => {
     if (selectedEntity && selectedEntity !== entity) {
       resetEntityColor(selectedEntity);
     }
-
+    
     changeEntityColor(entity);
     setSelectedEntity(entity);
-
-    
 
     const properties = entity.properties;
     if (properties._type && properties._type._value === "disaster") {
@@ -799,6 +800,17 @@ const EarthCesium = () => {
 
   }, [viewerRef.current]);
 
+  // 우클릭 포인터 삭제 로직
+  useEffect(()=>{
+    const viewer = viewerRef.current;
+    if (!viewer || !viewer.scene || !viewer.camera) {
+      return;
+    }
+    if (deletPoint !== "subscribe"){
+      viewer.entities.removeById(String(mailAlarmInfo.objectId))
+    }
+  },[deletPoint])
+
   // 클릭된 엔티티 변경 감지
   useEffect(() => {
     if (clickedEntity) {
@@ -810,8 +822,6 @@ const EarthCesium = () => {
       }
     }
   }, [clickedEntity]);
-
-  // 애니메이션 상태 업데이트
 
   // 카메라 이동마다 이벤트 관리
   useEffect(() => {

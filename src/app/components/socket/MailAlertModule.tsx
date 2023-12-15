@@ -69,6 +69,7 @@ export const MailAlertModule = () => {
     }
     updateLocationName();
   }, [alertInfo.alertLatitude, alertInfo.alertLongitude]);
+  
   const handleRange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAlertRange(Number(e.target.value));
     setAlertInfo({ ...alertInfo, alertRadius: Number(e.target.value) });

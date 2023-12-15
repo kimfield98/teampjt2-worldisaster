@@ -1,8 +1,8 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { leftSidebarState, selectedDisasterIdState, darkModeState, mailAlarmState } from '../recoil/dataRecoil';
+import { leftSidebarState, selectedDisasterIdState, darkModeState, mailAlarmState, deletAlertPoint } from '../recoil/dataRecoil';
 import NationComponent from './card/NationComponent';
 import DisasterComponent from './card/DisasterComponent';
 import Support from './etc/Suppot';
@@ -21,11 +21,16 @@ const LeftSidebar: React.FC<DetailProps> = ({ dID }) => {
   const selectedDisasterId = useRecoilValue(selectedDisasterIdState);
   const isDarkMode = useRecoilValue(darkModeState);
   const [alertInfo, setAlertInfo] = useRecoilState(mailAlarmState);
+  const [AlertPoint, setAlertPoint] = useRecoilState(deletAlertPoint)
   if (dID === null) return null;
 
   const handleUploadComplete = (videoUrl: string) => {
     console.log("Uploaded video URL:", videoUrl);
   };
+
+  useEffect(()=>{
+    setAlertPoint(leftSidebar.activeIcon)
+  },[leftSidebar.activeIcon])
 
   return (
     <div className={`w-full pt-20 md:pt-5 md:w-[500px] leftSidebar custom-scrollbar h-screen overflow-auto ${leftSidebar.isOpen ? 'block' : 'hidden'} ${isDarkMode ? 'darkMode' : ''}`}>
