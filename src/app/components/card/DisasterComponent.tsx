@@ -75,7 +75,9 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
                 </tbody>
               </table>
             ) : (
-              <p className='cardContent'>Select a disaster from the world map.</p>
+              <div style={{ margin: '20px' }}>
+                <p>Please select a disaster from the world map.</p>
+              </div>
             )}
           </div>
         }
@@ -89,7 +91,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
             <Video />
           </div>
         }
-        { activeTab === 4 && dID &&
+        {activeTab === 4 && dID &&
           <div className='tabContent flex items-center justify-center '>
             <Upload dID={dID} />
           </div>

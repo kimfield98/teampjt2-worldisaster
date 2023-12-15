@@ -80,10 +80,11 @@ const Support: React.FC = () => {
       );
       console.log('Log: Clicked the donation button', response);
       const approvalUrl = response.data.approvalUrl;
-      console.log(approvalUrl);
 
       if (approvalUrl) {
-        window.location.href = approvalUrl;
+        // window.location.href = approvalUrl;
+        window.open(approvalUrl, '_blank')?.focus();
+
       } else {
         console.error('Log: Approval URL is undefined!');
       }
@@ -145,17 +146,18 @@ const Support: React.FC = () => {
 
   return (
     <div>
+
       <div className="card">
-        <div className="cardTitle">Donations</div>
-        <div className="cardContent">
-          <p className="mb-3">Our team of expects have enabled a donation feature on specific disasters that need a helping hand. Please follow these steps to support those in need:</p>
-          <p>(1) Select a disaster that you want to donate to.</p>
-          <p>(2) Enter the currency and amount. Even the smallest donation helps.</p>
-          <p>(3) Upon clicking 'Donate', You will be redirected to Paypal to complete the transaction.</p>
+        <div className="cardTitle">Donations Guideline</div>
+        <div className="cardContent" style={{ margin: "10px 20px 10px", padding: "10px" }}>
+          <p>Please select a disaster you would like to donate to. Our team of experts have carefully curated a list of disasters that we can support with this feature. Remember that even the smallest donation means a lot to those affected.</p>
+          <br />
+          <p>Your donations will be handled with care, and upon request, our team will provide a receipt acknowledging your donation. In time, we can also provide detailed information on how/where the funds were routed.</p>
         </div>
       </div>
+
       <div className="card">
-        <div className="cardTitle">Form</div>
+        <div className="cardTitle">Donation Options</div>
         <div>
           <select
             id="1"
@@ -163,7 +165,7 @@ const Support: React.FC = () => {
             onChange={(event) => setSelecteddID(event.target.value)}
             className="select ml-[20px]"
           >
-            {selecteddID === "" ? <option>Select a disaster to donate to.</option> : null}
+            {selecteddID === "" ? <option>Select a disaster.</option> : null}
             {disasters.map((disaster, index) => (
               <option
                 key={index}
@@ -178,16 +180,29 @@ const Support: React.FC = () => {
             {!supportDetail ?
               <div className="card2">
                 <div className="cardContent">
-                  Select a disaster to donate to (Details shown here)
+                  Select a disaster to see an overview.
                 </div>
               </div>
               :
               <>
-                <div className="card2">
+                <div className="card2" style={{ backgroundColor: '#f5f7f9' }}>
                   <div className="cardContent">
-                    {supportDetail.dTitle} {'\n'}
-                    {supportDetail.dAlertLevel} {'\n'}
-                    {supportDetail.dStatus} {'\n'}
+                    <p>
+                      {supportDetail.dTitle}. {supportDetail.dDescription}
+                    </p> <br />
+                    {supportDetail.dUrl == null ? null :
+                      <button
+                        onClick={() => {
+                          if (supportDetail.dUrl) {
+                            window.open(supportDetail.dUrl, '_blank')?.focus();
+                          }
+                        }}
+                        style={{ color: 'blue', fontStyle: 'italic' }}
+                        className='hover:text-gray-500 active:text-gray-300'
+                      >
+                        Visit GDACS for more details.
+                      </button>
+                    }
                   </div>
                 </div>
               </>
@@ -208,12 +223,60 @@ const Support: React.FC = () => {
           </select>
         </div>
         <div className="btnBox">
-          <button className="btn" onClick={handleButtonClick}>Donate</button>
+          <button className="btn" onClick={handleButtonClick} style={{ padding: '10px' }}>Donate via Paypal</button>
         </div>
       </div>
 
       <div className="card">
-        <div className="cardTitle">History</div>
+        <div className="cardTitle">Your Donation History</div>
+        {donationHistory.length === 0 ? (
+          <div style={{ margin: "10px 20px 10px", padding: "10px" }}>
+            <p>
+              You have not made a donation through our platform in the past. If you believe this is an error,
+              please <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-800">contact us</a> immediately,
+              and we will resolve the issue promptly. </p> <br />
+            <p>Remember, whether you choose to donate through us or elsewhere,
+              your generosity is invaluable, and even the smallest contribution can make a significant difference.
+            </p>
+          </div>
+        ) : (
+          <div className="custom-scrollbar overflow-auto h-[150px]">
+            <table className="w-full text-left p-5">
+              <thead className="uppercase">
+                <tr>
+                  <th scope="col" className="py-1 pl-3">You are an invaluable member of our
+                    community. Your donations mean the world to those affected by the disaster. Thank you.</th>
+                </tr>
+              </thead>
+              <tbody className="p-3">
+                {donationHistory.map((donation, index) => (
+                  <>
+                    <tr
+                      key={index}
+                      onClick={() => handleDonationClick(donation.dID)}
+                      className="cursor-pointer"
+                    >
+                      <td className="card2 py-1 mx-5">{donation.dTitle}</td>
+                    </tr>
+                    {selectedDonationId === donation.dID && (
+                      <tr>
+                        <td colSpan={1} className="p-5 bg-gray-100">
+                          Amount: {donation.amount} {donation.currency} <br />
+                          Country: {donation.targetCountry} <br />
+                          Disaster Type: {donation.dType} <br />
+                          Alert Level: {donation.dAlertLevel}
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+      {/* <div className="card">
+        <div className="cardTitle">Donation History</div>
         <div className="custom-scrollbar overflow-auto h-[150px]">
           <table className="w-full text-left p-5">
             <thead className="uppercase">
@@ -246,7 +309,7 @@ const Support: React.FC = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
