@@ -88,11 +88,6 @@ export function MailAlertList() {
                   </button>
                 </td>
               </tr>
-              <tr>
-                <td colSpan={4} className="text-center p-2 text-sm text-gray-500 pl-3">
-                  No Data
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
