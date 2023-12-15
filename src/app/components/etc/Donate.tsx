@@ -156,7 +156,7 @@ const Support: React.FC = () => {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card2">
         <div className="cardTitle">Donation Options</div>
         <div>
           <select
@@ -227,7 +227,7 @@ const Support: React.FC = () => {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card2">
         <div className="cardTitle">Your Donation History</div>
         {donationHistory.length === 0 ? (
           <div style={{ margin: "10px 20px 10px", padding: "10px" }}>

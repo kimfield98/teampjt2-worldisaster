@@ -22,7 +22,7 @@ const DisasterComponent: React.FC<DisasterComponentProps> = ({ dID }) => {
   };
 
   return (
-    <div className={`card ${isDarkMode ? 'darkMode' : ''}`}>
+    <div className={`card2 ${isDarkMode ? 'darkMode' : ''}`}>
       <div className='cardTitle'>Disaster Information</div>
       <div className="tabList">
         <div className={`tab ${activeTab === 1 ? 'active tabActive' : ''}`} onClick={() => selectTab(1)}>Details</div>

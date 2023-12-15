@@ -6,6 +6,7 @@ import { MessageList, Input, Button, Popup } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 import { useRecoilValue } from 'recoil';
 import { userLoginState } from '@/app/recoil/dataRecoil';
+
 /* 채팅 메시지의 구조 */
 interface ChatMessage {
   chatSenderID: string;
@@ -14,12 +15,14 @@ interface ChatMessage {
   chatMessageID: number;
   createdAt: string;
 }
+
 /* 로그인 및 유저 정보 활용을 위한 구조 */
 interface User {
   email: string;
   name: string;
   provider: string;
 }
+
 /* 실제 모듈 */
 const ChatModule = () => {
   /* 유저 로그인상태 확인 */
@@ -58,6 +61,7 @@ const ChatModule = () => {
       }
     };
   }, []);
+
   /* 메시지 호출, 로딩, 그리고 실시간 처리 */
   useEffect(() => {
     if (socketRef.current) {
@@ -84,6 +88,7 @@ const ChatModule = () => {
       });
     }
   }, [user]);
+
   /* 채팅 스크롤 및 유저네임 클릭 기능 관리 (react에서 추천되는 방식은 아니나, 라이브러리 한계로 부득이하게 적용) */
   useEffect(() => {
     const messageList = document.querySelector('.message-list');
@@ -99,6 +104,7 @@ const ChatModule = () => {
       htmlTitle.style.pointerEvents = 'none';
     });
   }, [messageListArray]);
+
   /* API나 웹소켓으로 받은 채팅 메시지를 react-chat-element에서 해석 가능하도록 변환하는 함수 */
   const transformMessage = (msg: ChatMessage, currentUser: User | null) => {
     const currentUserHandle = currentUser?.email.split('@')[0].trim().toLowerCase();
@@ -113,6 +119,7 @@ const ChatModule = () => {
       dateString: new Date(msg.createdAt).toLocaleString(),
     };
   };
+
   /* 메시지를 서버로 전송하는 함수 */
   const onMessageSubmit = useCallback(() => {
     if (user && message && socketRef.current) {
