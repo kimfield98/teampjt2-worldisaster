@@ -96,11 +96,8 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID }) => {
   return (
     <>
       <div>
-        <div className="card2 flex flex-col items-center justify-center text-center">
-          <p>Become a reporter for worldisaster. 🎥</p>
-          <p>You can capture and upload the local situation.</p>
-          <p>Files are limited to a size of 10MB.</p>
-          <p>Drag or select the file, then press the upload button.</p>
+        <div style={{ margin: '20px' }}>
+          <p>Should you find yourself at the location of a disaster, or if you've acquired local footage <b>without breaching relevant copyright laws</b>, we encourage you to support our community by submitting any videos related to this specific event. Your submission will be reviewed then put on display.</p>
         </div>
         <div onDragOver={handleDragOver} onDrop={handleDrop}>
           {fileName ?
@@ -120,7 +117,7 @@ const Upload: React.FC<VideoUploaderProps> = ({ dID }) => {
                 <div className={`card2 ${isDarkMode ? 'darkMode' : ''} flex justify-center items-center text-red-400`}>{fileError}</div>
               ) : (
                 <div className={`card2 ${isDarkMode ? 'darkMode' : ''} flex justify-center items-center`}>
-                  <div className="cardContent ">Please drag a file here.</div>
+                  <div className="cardContent ">Please drag your file here (10MB limit).</div>
                 </div>
               )
             )
