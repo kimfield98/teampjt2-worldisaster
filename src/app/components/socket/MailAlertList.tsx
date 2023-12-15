@@ -29,7 +29,7 @@ export function MailAlertList() {
     getAlertData();
   }, [alertInfo]);
 
-  const handleMoveHere = (latitude:number, longitude:number) => {
+  const handleMoveHere = (latitude: number, longitude: number) => {
     // 경도와 위도를 사용하여 URL 생성
     // 예시 URL: /earth?lat=37.7749&lon=-122.4194
     const url = `/earth?lat=${latitude}&lon=${longitude}`;
@@ -49,8 +49,8 @@ export function MailAlertList() {
         ...prev,
         updated: new Date(),
       }));
-    // alertData 상태도 업데이트
-    setAlertData(prev => prev.filter(alert => alert.objectId !== objectId));
+      // alertData 상태도 업데이트
+      setAlertData(prev => prev.filter(alert => alert.objectId !== objectId));
       alert(`You no longer receive alerts from ${countryName}.`);
     } catch (error) {
       alert("Something went wrong. Please contact our administrators.")
@@ -125,7 +125,7 @@ export function MailAlertList() {
               Country
             </th>
             <th className="p-2 text-xs text-gray-500">
-              create at
+              Date Created
             </th>
             <th className="p-2 text-xs text-gray-500">
               Delete
@@ -134,7 +134,7 @@ export function MailAlertList() {
         </thead>
         <tbody>
           {alertData && alertData.length > 0 ? alertData.map((data, index) => (
-            <tr className="whitespace-nowrap" key={index}>
+            <tr className="whitespace-nowrap text-center" key={index}>
               <td className="p-2 text-sm text-gray-500 pl-3">
                 {index + 1}
               </td>
