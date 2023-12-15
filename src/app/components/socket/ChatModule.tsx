@@ -215,19 +215,23 @@ const ChatModule = () => {
         WorlDisasters Global Chat
       </div>
       <div className='chat'>
-        <div style={messageListStyle} className=' min-h-[100%] '>
-          <div className='min-h-[74vh]'>
-            <MessageList
-              toBottomHeight={'100%'}
-              className='message-list'
-              referance={messageListRef}
-              dataSource={messageListArray}
-              lockable={true}
-              messageBoxStyles={{ backgroundColor: '#333333' }} // Darker boxes for each message
-              notchStyle={{ fill: '#333333' }}
-            />
+      <div style={messageListStyle} className='min-h-[100%]'>
+        {messageListArray.length > 0 ? (
+          <MessageList
+            toBottomHeight={'100%'}
+            className='message-list'
+            referance={messageListRef}
+            dataSource={messageListArray}
+            lockable={true}
+            messageBoxStyles={{ backgroundColor: '#333333' }} // Darker boxes for each message
+            notchStyle={{ fill: '#333333' }}
+          />
+        ) : (
+          <div style={{ marginLeft: "20px" }}>
+            <p>No chats in the last 12 hours.</p>
           </div>
-        </div>
+        )}
+      </div>
         {user ? (
           <div style={chatInputStyle}>
             <Input

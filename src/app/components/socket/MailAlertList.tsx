@@ -4,10 +4,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useRecoilState } from 'recoil';
 import { mailAlarmState, PostAlertInfo } from '../../recoil/dataRecoil';
+import { useRouter } from 'next/navigation';
 
 export function MailAlertList() {
   const [alertInfo, setAlertInfo] = useRecoilState(mailAlarmState);
   const [alertData, setAlertData] = useState<PostAlertInfo[]>([]);
+  const router = useRouter()
 
   const token = Cookies.get('access-token');
 
@@ -26,6 +28,13 @@ export function MailAlertList() {
     }
     getAlertData();
   }, [alertInfo]);
+
+  const handleMoveHere = (latitude:number, longitude:number) => {
+    // 경도와 위도를 사용하여 URL 생성
+    // 예시 URL: /earth?lat=37.7749&lon=-122.4194
+    const url = `/earth?lat=${latitude}&lon=${longitude}`;
+    router.push(url);
+  }
 
   const deleteHandeler = async (objectId: string, countryName: string) => {
     if (!confirm("Would you like to remove a subscription?"))
@@ -116,9 +125,10 @@ export function MailAlertList() {
               Country
             </th>
             <th className="p-2 text-xs text-gray-500">
-              Latitude / Longitude
+              create at
             </th>
             <th className="p-2 text-xs text-gray-500">
+              Delete
             </th>
           </tr>
         </thead>
@@ -129,14 +139,16 @@ export function MailAlertList() {
                 {index + 1}
               </td>
               <td className="p-2 pl-3">
-                <div className="text-sm text-gray-900">
-                  {data.alertCountryName}
-                </div>
+                <button onClick={() => handleMoveHere(data.alertLatitude, data.alertLongitude)}>
+                  <div className="text-sm text-gray-900 text-center">
+                    {data.alertCountryName}
+                  </div>
+                </button>
               </td>
               <td className="p-2 text-sm text-gray-500 pl-3">
-                {data.alertLatitude.toFixed(4)} {'/'} {data.alertLongitude.toFixed(4)}
+                {data.createdAt.slice(0, 10)}
               </td>
-              <td className="p-2 pl-3">
+              <td className="p-2 pl-3 flex justify-center">
                 <button className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full" onClick={() => deleteHandeler(data.objectId, data.alertCountryName)}>
                   Delete
                 </button>

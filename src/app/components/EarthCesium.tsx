@@ -106,6 +106,7 @@ const EarthCesium = () => {
   const setSelectedPinState = useSetRecoilState(selectedPinState);
   const [selectedEntity, setSelectedEntity] = useState<Entity|null>(null);
   const [deletPoint, setDeletPoint] = useRecoilState(deletAlertPoint)
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // 재난 타입에 따른 색상 지정
   function getColorForDisasterType(type: any) {
@@ -244,10 +245,9 @@ const EarthCesium = () => {
         });
       setAlertData(response.data);
       console.log("Log: Alert data load success.");
+      setIsDataLoaded(true);
     } catch (err) {
       console.log('Log: Alert data load failed.', err);
-    } finally {
-      applyAlertData()
     }
   }
 
@@ -376,21 +376,24 @@ const EarthCesium = () => {
   }, []);
 
   useEffect(() => {
+    if (isDataLoaded)
     alertLoadData()
-  }, [])
+  }, [isDataLoaded])
 
-  useEffect(() => {
-    applyAlertData();
-  }, [mailAlarmInfo ,alertData]); // alertData가 변경될 때마다 핀 추가
+  useEffect(()=>{
+    if (!custom || !viewerRef.current) return;
+    if (alertData.length == 0) return;
+    applyAlertData()
+  }, [mailAlarmInfo,alertData])
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
     alertLoadData()
   }, [mailAlarmInfo, dataFilter])
 
-  useEffect(() => {
+  useEffect(()=>{
     alertLoadData()
-  }, [mailAlarmInfo, dataFilter])
+  },[alertData])
 
   useEffect(() => {
     if (!custom || !viewerRef.current) return;
