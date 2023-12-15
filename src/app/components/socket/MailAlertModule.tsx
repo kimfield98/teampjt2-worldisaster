@@ -37,7 +37,7 @@ export const MailAlertModule = () => {
         const city = address.city || address.town || address.village || ' ';
         const country = address.country || ' ';
         setCountryName(country)
-        if (city!==" ") {
+        if (city !== " ") {
           return `${city}, ${country}`;
         } else {
           return `${country}`
@@ -69,7 +69,7 @@ export const MailAlertModule = () => {
     }
     updateLocationName();
   }, [alertInfo.alertLatitude, alertInfo.alertLongitude]);
-  
+
   const handleRange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAlertRange(Number(e.target.value));
     setAlertInfo({ ...alertInfo, alertRadius: Number(e.target.value) });
@@ -124,15 +124,19 @@ export const MailAlertModule = () => {
       console.log("error", error);
     } finally {
       getLocationName(String(alertInfo.alertLatitude), String(alertInfo.alertLongitude));
-      setAlertInfo({ ...alertInfo, delete: true});
+      setAlertInfo({ ...alertInfo, delete: true });
     }
   };
 
   return (
     <>
-      <div className='card2 flex-col'>
-        <div className="cardTitle">Existing Subscriptions</div>
-        <MailAlertList />
+      <div className="card">
+        <div className="cardTitle">Alerts Subscription Guideline</div>
+        <div className="cardContent" style={{ margin: "10px 20px 10px", padding: "10px" }}>
+          <p>
+            On the globe to your right, feel free to browse to a custom location. <b>A simple right-click</b> anywhere on the map will get you started on your journey.
+          </p>
+        </div>
       </div>
       <div className=''>
         {alertInfo.open &&
@@ -183,7 +187,10 @@ export const MailAlertModule = () => {
           </div>
         }
       </div>
-
+      <div className='card2 flex-col'>
+        <div className="cardTitle">Existing Subscriptions</div>
+        <MailAlertList />
+      </div>
     </>
   );
 
