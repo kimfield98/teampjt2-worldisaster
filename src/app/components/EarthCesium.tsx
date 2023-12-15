@@ -246,8 +246,6 @@ const EarthCesium = () => {
       console.log("Log: Alert data load success.");
     } catch (err) {
       console.log('Log: Alert data load failed.', err);
-    } finally {
-      applyAlertData()
     }
   }
 
@@ -668,7 +666,7 @@ const EarthCesium = () => {
             outline: true,
             outlineColor: new Color(255, 0, 0, 127),
           },
-          id: String(mailAlarmInfo.objectId)
+          id: "SelectAlertPoint"
         });
       }
     }, ScreenSpaceEventType.RIGHT_CLICK);
