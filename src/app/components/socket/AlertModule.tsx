@@ -77,7 +77,7 @@ export const AlertModule = () => {
         };
 
         toast.warn(<CustomToastWithLink dType={result.dType} dCountry={result.dCountry} dAlertLevel={result.dAlertLevel} earthURL={earthURL} />, {
-          position: "top-right",
+          position: "top-center",
           autoClose: 20000, // "false", integer
           hideProgressBar: false,
           closeOnClick: true,
