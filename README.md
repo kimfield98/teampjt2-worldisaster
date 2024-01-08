@@ -63,3 +63,7 @@
 <p align="center">
 <img width="609" alt="스크린샷 2023-12-25 오전 2 51 32" src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/0a150dab-a835-4271-9aef-1158f3132aa0">
 </p>
+
+
+## 📌 포스터
+<img src="https://velog.velcdn.com/images/kimfield/post/81d58ff1-c85d-4c7e-a16a-5e3419af522f/image.png" width="400px"  />
