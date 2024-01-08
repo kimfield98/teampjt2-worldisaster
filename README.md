@@ -66,4 +66,4 @@
 
 
 ## 📌 포스터
-<img src="https://velog.velcdn.com/images/kimfield/post/81d58ff1-c85d-4c7e-a16a-5e3419af522f/image.png" width="400px"  />
+<img src="./public/WorlDisaster 포스터.png" width="400px"  />
