@@ -4,7 +4,7 @@
 <img width="800" alt="스크린샷 2023-12-25 오후 2 04 24" src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/5bf5bcec-21b2-4a8c-a03e-4eef608a7f78">
 
 ---
-# 🗓 **프로젝트 소개**
+# 🌍 **프로젝트 소개**
 
 **WorlDisaster**에 오신 것을 환영합니다. <br>
 이 서비스는 원하는 정보만을 빠르게 제공하여 재해 위험에 대비할 수 있도록 도와줍니다.
@@ -30,7 +30,7 @@
 <br>
 <br>
 
-## 📌 주요 기능
+## 📌 주요 서비스
 
 <div align="left">
   <table>
@@ -75,7 +75,7 @@
 <br>
 <br>
 
-## 📌 아키텍처
+## 🌎 아키텍처
 
 <p align="left">
 <img width="600" alt="스크린샷 2023-12-25 오전 2 51 32" src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/0a150dab-a835-4271-9aef-1158f3132aa0">
@@ -85,5 +85,5 @@
 <br>
 <br>
 
-## 📌 포스터
+## 🌏 포스터
 <img src="./public/WorlDisaster 포스터.png" width="600px"  />
