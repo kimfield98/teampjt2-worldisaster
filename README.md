@@ -1,36 +1,19 @@
-# **세계 재난재해 구독 알림 서비스 Worldisaster**
+# 세계 재난재해 구독 알림 서비스 Worldisaster 🌎
+[SW사관학교 정글 7기] final project
 ---
+기간 : 2023년 11월 14일 ~ 2023년 12월 14일 (30일)
 
-<img width="800" alt="스크린샷 2023-12-25 오후 2 04 24" src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/5bf5bcec-21b2-4a8c-a03e-4eef608a7f78">
+> 김지성(FE), 김초원(FE), 김기영(BE), 김호집(BE), 이유정(BE)
 
----
-# 🌍 **프로젝트 소개**
+실시간 재난에 대한 구독-알림 서비스와 아카이브를 지원하는 사이트
+- 지구 화면에서 알림 희망 지역을 우클릭하는 간편한 구독 방식으로 사용자 참여를 유도함
+- 미접속 시 이메일 알림, 접속 시 화면 알림을 통해 실시간 재난 상황을 파악할 수 있도록 함
+- 필터링 기능으로 원하는 정보를 쉽게 얻을 수 있고, 채팅이나 후원 등 연관 서비스가 포함됨 
 
-**WorlDisaster**에 오신 것을 환영합니다. <br>
-이 서비스는 원하는 정보만을 빠르게 제공하여 재해 위험에 대비할 수 있도록 도와줍니다.
+## 링크
+[월디재스터 서비스 링크](https://merry-worl-disaster.vercel.app/)
 
-<br>
-
-- 살고 있거나 관심 있는 지역의 원하는 범위와 규모를 설정하여, <br>오프라인 시 이메일로, 온라인 시 화면 알림으로 정보를 받을 수 있는 서비스입니다.
-- 3D 지구 모델과 핀을 활용한 동적인 UI로, 한 페이지 내에서 재난에 대한 모든 정보를 제공합니다.
-
-<br>
-<br>
-  
-**개발 기간**
-- 2023.11.14 - 2023.12.15 (기획 및 개발)
-- 2023.12.16 (최종 발표)
-
-<br>
-
-**팀원 소개**
-- 프론트엔드 : 김초원, 김지성
-- 백엔드 : 김호집(팀장), 김기영, 이유정
-
-<br>
-<br>
-
-## 📌 주요 서비스
+## 주요 웹 페이지
 
 <div align="left">
   <table>
@@ -57,11 +40,6 @@
   </table>
 </div>
 
-<br>
-<br>
-
-## 📌 추가 서비스
-
 <h2 align="left">영상 업로드 및 스트리밍 | 뉴스기사 | 채팅 | 후원 (Paypal)</h2>
 
 <p align="left">
@@ -72,11 +50,8 @@
   <img src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/aee37d33-f2fe-4788-beae-06d8159b57ec" alt="추가 기능" height="230px" />
 </p>
 
-<br>
-<br>
-
-## 🌎 아키텍처
+## 아키텍쳐
 
 <p align="left">
-<img width="600" alt="스크린샷 2023-12-25 오전 2 51 32" src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/0a150dab-a835-4271-9aef-1158f3132aa0">
+<img width="400" alt="스크린샷 2023-12-25 오전 2 51 32" src="https://github.com/Hojip-Kim/Worldisaster_Server/assets/101489057/0a150dab-a835-4271-9aef-1158f3132aa0">
 </p>
